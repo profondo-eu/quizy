@@ -43,7 +43,7 @@ Każdy quiz to samodzielny `index.html` — zero zależności między quizami.
 ### Aktualizacja po zmianach w repo
 
 ```bash
-ssh root@192.168.200.1 "pct exec 220 -- update-quizy.sh"
+ssh root@192.168.200.1 "pct exec 220 -- /usr/local/bin/update-quizy.sh"
 ```
 
 Skrypt `/usr/local/bin/update-quizy.sh` w kontenerze wykonuje `git pull --ff-only`.
