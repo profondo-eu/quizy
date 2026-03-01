@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizy edukacyjne</title>
+    <style>
+        :root {
+            --bg: #0f1b2d;
+            --card: #162033;
+            --card-hover: #1d2d4a;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #3b82f6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+        header p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 30px 60px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.18s, box-shadow 0.18s;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+            background: var(--card-hover);
+        }
+        .card-icon {
+            font-size: 3.5rem;
+            padding: 36px 24px 16px;
+            text-align: center;
+        }
+        .card-body {
+            padding: 0 24px 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .card-body p {
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+            flex: 1;
+        }
+        .card-tag {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            align-self: flex-start;
+        }
+        .tag-geo { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .tag-bio { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .tag-hist { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 0.82rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quizy edukacyjne</h1>
+        <p>Interaktywne quizy do nauki geografii, biologii, historii i nie tylko.</p>
+    </header>
+    <div class="grid">
+        <a class="card" href="geografia/stolice-europy/">
+            <div class="card-icon">🌍</div>
+            <div class="card-body">
+                <h2>Stolice Europy</h2>
+                <p>Wskaż na mapie stolice 46 państw europejskich. Każda stolica musi być poprawnie wskazana 3 razy z rzędu.</p>
+                <span class="card-tag tag-geo">Geografia</span>
+            </div>
+        </a>
+        <a class="card" href="biologia/budowa-komorki-jajowej/">
+            <div class="card-icon">🔬</div>
+            <div class="card-body">
+                <h2>Budowa komórki jajowej</h2>
+                <p>Rozpoznaj i wskaż elementy budowy komórki jajowej człowieka na diagramie.</p>
+                <span class="card-tag tag-bio">Biologia</span>
+            </div>
+        </a>
+        <a class="card" href="historia/rewolucja-przemyslowa/">
+            <div class="card-icon">⚙️</div>
+            <div class="card-body">
+                <h2>Rewolucja przemysłowa</h2>
+                <p>Dopasuj kluczowe wynalazki i wydarzenia rewolucji przemysłowej do ich dat i twórców.</p>
+                <span class="card-tag tag-hist">Historia</span>
+            </div>
+        </a>
+    </div>
+    <footer>profondo-eu/quizy</footer>
+</body>
+</html>

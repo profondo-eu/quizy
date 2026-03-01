@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Budowa komórki jajowej</title>
+    <style>
+        :root {
+            --bg-dark: #0f1b2d;
+            --bg-header: #1a2744;
+            --accent: #22c55e;
+            --success: #22c55e;
+            --error: #ef4444;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --dot-color: #22c55e;
+            --diagram-bg: #f8fafc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+        }
+        .screen { display: none; width: 100%; height: 100vh; }
+        .screen.active { display: flex; }
+
+        #start-screen {
+            flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #start-screen h1 { font-size: 2.6rem; font-weight: 800; }
+        #start-screen .subtitle {
+            font-size: 1.05rem; color: var(--text-muted); max-width: 480px;
+            text-align: center; line-height: 1.7;
+        }
+        .btn {
+            padding: 14px 44px; font-size: 1.15rem; border: none; border-radius: 10px;
+            cursor: pointer; font-weight: 700; transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .back-link {
+            display: inline-block; margin-top: 10px; color: var(--text-muted);
+            text-decoration: none; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--text); }
+
+        #game-screen { flex-direction: column; }
+        .game-header {
+            display: flex; align-items: center; padding: 0 20px;
+            background: var(--bg-header); border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 62px; gap: 16px; flex-shrink: 0;
+        }
+        .stats { display: flex; gap: 18px; }
+        .stat { text-align: center; min-width: 52px; }
+        .stat-label {
+            font-size: 0.62rem; text-transform: uppercase; color: var(--text-muted);
+            letter-spacing: 1.2px; margin-bottom: 2px;
+        }
+        .stat-value { font-size: 1.55rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+        .question-bar {
+            flex: 1; text-align: center; padding: 9px 24px;
+            background: rgba(255,255,255,0.06); border-radius: 8px;
+            font-size: 1.2rem; font-weight: 700;
+        }
+        .game-controls { display: flex; gap: 8px; align-items: center; }
+        .badge {
+            padding: 8px 14px; border-radius: 7px; font-weight: 700;
+            font-size: 0.95rem; font-variant-numeric: tabular-nums;
+        }
+        .badge-success { background: var(--success); color: #fff; }
+        .badge-timer { background: rgba(255,255,255,0.1); }
+        .btn-quit {
+            padding: 8px 18px; background: var(--error); color: #fff; border: none;
+            border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.95rem;
+        }
+        .btn-quit:hover { background: #dc2626; }
+
+        .diagram-container {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            background: #101c30; padding: 20px; overflow: hidden;
+        }
+        .diagram-container svg {
+            max-width: 100%; max-height: 100%;
+        }
+
+        .label-dot {
+            cursor: pointer; transition: filter 0.12s;
+        }
+        .label-dot:hover { filter: drop-shadow(0 0 6px rgba(34,197,94,0.7)); }
+        .label-hitarea { fill: transparent; cursor: pointer; }
+
+        #end-screen {
+            flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #end-screen h1 { font-size: 2.4rem; font-weight: 800; }
+        #end-screen .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+        .results { display: flex; gap: 20px; margin: 12px 0; flex-wrap: wrap; justify-content: center; }
+        .result-item {
+            text-align: center; padding: 16px 28px;
+            background: rgba(255,255,255,0.05); border-radius: 12px; min-width: 110px;
+        }
+        .result-label {
+            font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.8px; margin-bottom: 6px;
+        }
+        .result-value { font-size: 1.9rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body>
+
+<div id="start-screen" class="screen active">
+    <h1>Budowa komórki jajowej</h1>
+    <p class="subtitle">
+        Na diagramie oznaczone są elementy budowy komórki jajowej (oocytu) człowieka.
+        Wskaż poprawny element klikając odpowiedni punkt.<br>
+        Każdy element musi być wskazany <strong>3 razy z rzędu</strong>.
+    </p>
+    <button class="btn btn-primary" id="btn-start">Rozpocznij quiz</button>
+    <a class="back-link" href="../../">← Powrót do listy quizów</a>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-header">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Pozostało</div>
+                <div class="stat-value" id="stat-remaining">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Poprawne</div>
+                <div class="stat-value" style="color:var(--success)" id="stat-correct">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Błędne</div>
+                <div class="stat-value" style="color:var(--error)" id="stat-wrong">0</div>
+            </div>
+        </div>
+        <div class="question-bar" id="question">—</div>
+        <div class="game-controls">
+            <div class="badge badge-success" id="stat-pct">0%</div>
+            <div class="badge badge-timer" id="stat-timer">00:00.0</div>
+            <button class="btn-quit" id="btn-quit">Zakończ</button>
+        </div>
+    </div>
+    <div class="diagram-container" id="diagram-container"></div>
+</div>
+
+<div id="end-screen" class="screen">
+    <h1 id="end-title">Gratulacje!</h1>
+    <p class="subtitle" id="end-subtitle">Ukończyłeś quiz!</p>
+    <div class="results">
+        <div class="result-item">
+            <div class="result-label">Poprawne</div>
+            <div class="result-value" style="color:var(--success)" id="end-correct">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Błędne</div>
+            <div class="result-value" style="color:var(--error)" id="end-wrong">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Skuteczność</div>
+            <div class="result-value" id="end-pct">0%</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Czas</div>
+            <div class="result-value" id="end-time">00:00</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" id="btn-restart">Zagraj ponownie</button>
+    <a class="back-link" href="../../">← Powrót do listy quizów</a>
+</div>
+
+<script>
+const PARTS = [
+    { id: 0, name: "Jądro komórkowe (pronukleus)",  cx: 400, cy: 300, desc: "Zawiera materiał genetyczny (haploidalny zestaw chromosomów)" },
+    { id: 1, name: "Jąderko",                        cx: 415, cy: 285, desc: "Miejsce syntezy rRNA" },
+    { id: 2, name: "Cytoplazma (ooplazma)",          cx: 320, cy: 370, desc: "Wypełnia wnętrze komórki, zawiera żółtko i organella" },
+    { id: 3, name: "Błona komórkowa",                cx: 400, cy: 190, desc: "Otacza cytoplazmę, reguluje transport substancji" },
+    { id: 4, name: "Osłonka przejrzysta (zona pellucida)", cx: 400, cy: 155, desc: "Glikoproteinowa warstwa ochronna wokół oocytu" },
+    { id: 5, name: "Osłonka promienista (corona radiata)", cx: 400, cy: 110, desc: "Zewnętrzna warstwa komórek pęcherzykowych" },
+    { id: 6, name: "Ciałko kierunkowe",              cx: 480, cy: 195, desc: "Mała komórka powstająca podczas podziału mejotycznego" },
+    { id: 7, name: "Ziarnistości korowe",             cx: 340, cy: 230, desc: "Pęcherzyki zapobiegające polispermii po zapłodnieniu" },
+    { id: 8, name: "Przestrzeń okołożółtkowa",        cx: 460, cy: 170, desc: "Przestrzeń między błoną komórkową a osłonką przejrzystą" },
+    { id: 9, name: "Mitochondria",                    cx: 310, cy: 280, desc: "Odpowiadają za produkcję energii (ATP)" },
+    { id: 10, name: "Ziarnistości żółtkowe",          cx: 440, cy: 380, desc: "Zapas substancji odżywczych dla rozwijającego się zarodka" },
+    { id: 11, name: "Aparat Golgiego",                cx: 350, cy: 330, desc: "Modyfikacja i transport białek" },
+];
+
+const STREAK_TO_MASTER = 3;
+const FEEDBACK_CORRECT = 500;
+const FEEDBACK_WRONG = 1500;
+const FEEDBACK_MASTERED = 900;
+
+const SVG_W = 800, SVG_H = 600;
+const CELL_CX = 400, CELL_CY = 300, CELL_R = 130;
+const ZONA_R = 155, CORONA_R = 185;
+
+let state = null, svg = null;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function formatTime(ms) {
+    const s = ms / 1000, m = Math.floor(s / 60), sec = s % 60;
+    return String(m).padStart(2, '0') + ':' + sec.toFixed(1).padStart(4, '0');
+}
+
+function updateStats() {
+    document.getElementById('stat-remaining').textContent = state.remaining;
+    document.getElementById('stat-correct').textContent = state.correct;
+    document.getElementById('stat-wrong').textContent = state.wrong;
+    const t = state.correct + state.wrong;
+    document.getElementById('stat-pct').textContent = (t > 0 ? Math.round(state.correct / t * 100) : 0) + '%';
+}
+
+function renderDiagram() {
+    const container = document.getElementById('diagram-container');
+    container.innerHTML = '';
+
+    const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svgEl.setAttribute('viewBox', `0 0 ${SVG_W} ${SVG_H}`);
+    svgEl.setAttribute('width', '100%');
+    svgEl.setAttribute('height', '100%');
+    container.appendChild(svgEl);
+    svg = svgEl;
+
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    defs.innerHTML = `
+        <radialGradient id="cellGrad" cx="40%" cy="40%">
+            <stop offset="0%" stop-color="#fef3c7"/>
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.6"/>
+        </radialGradient>
+        <radialGradient id="nucleusGrad" cx="40%" cy="40%">
+            <stop offset="0%" stop-color="#c084fc"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+        </radialGradient>
+    `;
+    svg.appendChild(defs);
+
+    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    bg.setAttribute('width', SVG_W); bg.setAttribute('height', SVG_H);
+    bg.setAttribute('fill', '#f0f4f8'); bg.setAttribute('rx', '12');
+    svg.appendChild(bg);
+
+    drawCoronaRadiata();
+
+    addCircle(CELL_CX, CELL_CY, ZONA_R, 'none', '#d97706', 3, 0.7);
+    addCircle(CELL_CX, CELL_CY, CELL_R, 'url(#cellGrad)', '#b45309', 2, 1);
+
+    const granules = [[355,215],[370,225],[385,210],[415,205],[430,215],[445,225],[350,240],[455,235]];
+    granules.forEach(([gx,gy]) => addCircle(gx, gy, 3, '#f97316', '#ea580c', 1, 0.8));
+
+    addCircle(CELL_CX, CELL_CY + 5, 55, 'url(#nucleusGrad)', '#6d28d9', 2, 0.9);
+    addCircle(415, 285, 15, '#a78bfa', '#7c3aed', 1.5, 0.9);
+
+    const mitos = [[305,275],[315,290],[300,265]];
+    mitos.forEach(([mx,my]) => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        el.setAttribute('cx', mx); el.setAttribute('cy', my);
+        el.setAttribute('rx', 8); el.setAttribute('ry', 5);
+        el.setAttribute('fill', '#f87171'); el.setAttribute('stroke', '#dc2626');
+        el.setAttribute('stroke-width', 1); el.setAttribute('opacity', 0.8);
+        svg.appendChild(el);
+    });
+
+    const golgi = [[345,325],[350,335],[355,345]];
+    golgi.forEach(([gx,gy],i) => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        el.setAttribute('cx', gx); el.setAttribute('cy', gy);
+        el.setAttribute('rx', 18 - i*3); el.setAttribute('ry', 4);
+        el.setAttribute('fill', 'none'); el.setAttribute('stroke', '#0ea5e9');
+        el.setAttribute('stroke-width', 2); el.setAttribute('opacity', 0.7);
+        svg.appendChild(el);
+    });
+
+    const yolkPositions = [[420,360],[450,375],[430,395],[460,390],[415,385]];
+    yolkPositions.forEach(([yx,yy]) => addCircle(yx, yy, 6, '#fcd34d', '#f59e0b', 1, 0.6));
+
+    addCircle(480, 195, 10, '#e9d5ff', '#a855f7', 1.5, 0.9);
+
+    const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    title.setAttribute('x', SVG_W / 2); title.setAttribute('y', 30);
+    title.setAttribute('text-anchor', 'middle');
+    title.setAttribute('font-size', '18'); title.setAttribute('font-weight', '700');
+    title.setAttribute('fill', '#334155');
+    title.textContent = 'Komórka jajowa (oocyt) człowieka';
+    svg.appendChild(title);
+
+    renderDots();
+}
+
+function drawCoronaRadiata() {
+    const count = 28;
+    for (let i = 0; i < count; i++) {
+        const angle = (i / count) * Math.PI * 2;
+        const r = CORONA_R + (i % 3) * 6;
+        const x = CELL_CX + Math.cos(angle) * r;
+        const y = CELL_CY + Math.sin(angle) * r;
+        addCircle(x, y, 7 + (i % 2) * 2, '#fed7aa', '#fb923c', 1, 0.5);
+    }
+}
+
+function addCircle(cx, cy, r, fill, stroke, sw, opacity) {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+    c.setAttribute('fill', fill); c.setAttribute('stroke', stroke);
+    c.setAttribute('stroke-width', sw); c.setAttribute('opacity', opacity);
+    svg.appendChild(c);
+    return c;
+}
+
+function renderDots() {
+    svg.querySelectorAll('.dot-group').forEach(el => el.remove());
+
+    state.parts.forEach(part => {
+        if (part.mastered) return;
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.classList.add('dot-group');
+        g.dataset.id = part.id;
+
+        const hit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        hit.setAttribute('cx', part.cx); hit.setAttribute('cy', part.cy); hit.setAttribute('r', 16);
+        hit.classList.add('label-hitarea');
+        hit.addEventListener('click', () => handleClick(part));
+        g.appendChild(hit);
+
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', part.cx); dot.setAttribute('cy', part.cy); dot.setAttribute('r', 8);
+        dot.setAttribute('fill', '#22c55e'); dot.setAttribute('stroke', '#166534');
+        dot.setAttribute('stroke-width', '2');
+        dot.classList.add('label-dot');
+        dot.addEventListener('click', () => handleClick(part));
+        g.appendChild(dot);
+
+        if (part.streak > 0) {
+            const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            txt.setAttribute('x', part.cx); txt.setAttribute('y', part.cy);
+            txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('dominant-baseline', 'central');
+            txt.setAttribute('font-size', '10'); txt.setAttribute('font-weight', '800');
+            txt.setAttribute('fill', '#fff'); txt.setAttribute('pointer-events', 'none');
+            txt.textContent = part.streak;
+            g.appendChild(txt);
+        }
+
+        svg.appendChild(g);
+    });
+}
+
+function nextQuestion() {
+    const avail = state.parts.filter(p => !p.mastered);
+    if (avail.length === 0) { endGame(); return; }
+    let next;
+    if (avail.length > 1 && state.current) {
+        do { next = avail[Math.floor(Math.random() * avail.length)]; } while (next.id === state.current.id);
+    } else { next = avail[0]; }
+    state.current = next;
+    document.getElementById('question').textContent = `Wskaż: ${state.current.name}`;
+}
+
+function handleClick(part) {
+    if (state.animating || !state.current) return;
+    state.animating = true;
+
+    const clickedDot = svg.querySelector(`.dot-group[data-id="${part.id}"] .label-dot`);
+    const correctDot = svg.querySelector(`.dot-group[data-id="${state.current.id}"] .label-dot`);
+
+    if (part.id === state.current.id) {
+        state.correct++;
+        part.streak++;
+        updateStats();
+        if (part.streak >= STREAK_TO_MASTER) {
+            part.mastered = true;
+            state.remaining--;
+            updateStats();
+            clickedDot.style.fill = '#22c55e';
+            clickedDot.style.stroke = '#22c55e';
+            clickedDot.setAttribute('r', '14');
+            setTimeout(() => { clickedDot.setAttribute('r', '0'); clickedDot.style.opacity = '0'; }, 200);
+            setTimeout(() => { state.animating = false; renderDots(); nextQuestion(); }, FEEDBACK_MASTERED);
+        } else {
+            renderDots();
+            const newDot = svg.querySelector(`.dot-group[data-id="${part.id}"] .label-dot`);
+            if (newDot) { newDot.style.fill = '#22c55e'; newDot.style.stroke = '#16a34a'; }
+            setTimeout(() => { state.animating = false; renderDots(); nextQuestion(); }, FEEDBACK_CORRECT);
+        }
+    } else {
+        state.wrong++;
+        state.current.streak = 0;
+        updateStats();
+        renderDots();
+        const newClicked = svg.querySelector(`.dot-group[data-id="${part.id}"] .label-dot`);
+        const newCorrect = svg.querySelector(`.dot-group[data-id="${state.current.id}"] .label-dot`);
+        if (newClicked) { newClicked.style.fill = '#ef4444'; newClicked.style.stroke = '#ef4444'; }
+        if (newCorrect) {
+            newCorrect.style.fill = '#facc15'; newCorrect.style.stroke = '#eab308';
+            newCorrect.setAttribute('r', '12');
+        }
+        setTimeout(() => { state.animating = false; renderDots(); nextQuestion(); }, FEEDBACK_WRONG);
+    }
+}
+
+function startGame() {
+    state = {
+        parts: PARTS.map(p => ({ ...p, streak: 0, mastered: false })),
+        current: null, remaining: PARTS.length,
+        correct: 0, wrong: 0, elapsed: 0,
+        timerStart: 0, timerInterval: null, animating: false,
+    };
+    showScreen('game-screen');
+    requestAnimationFrame(() => {
+        renderDiagram();
+        updateStats();
+        state.timerStart = Date.now();
+        state.timerInterval = setInterval(() => {
+            state.elapsed = Date.now() - state.timerStart;
+            document.getElementById('stat-timer').textContent = formatTime(state.elapsed);
+        }, 100);
+        nextQuestion();
+    });
+}
+
+function endGame() {
+    if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+    const t = state.correct + state.wrong;
+    const pct = t > 0 ? Math.round(state.correct / t * 100) : 0;
+    document.getElementById('end-correct').textContent = state.correct;
+    document.getElementById('end-wrong').textContent = state.wrong;
+    document.getElementById('end-pct').textContent = pct + '%';
+    document.getElementById('end-time').textContent = formatTime(state.elapsed);
+    document.getElementById('end-title').textContent = state.remaining === 0 ? 'Gratulacje!' : 'Koniec gry';
+    document.getElementById('end-subtitle').textContent = state.remaining === 0
+        ? 'Rozpoznałeś wszystkie elementy!' : `Pozostało ${state.remaining} elementów.`;
+    showScreen('end-screen');
+}
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-quit').addEventListener('click', () => { if (state.timerInterval) clearInterval(state.timerInterval); endGame(); });
+document.getElementById('btn-restart').addEventListener('click', startGame);
+</script>
+</body>
+</html>

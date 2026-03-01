@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Rewolucja przemysłowa</title>
+    <style>
+        :root {
+            --bg-dark: #0f1b2d;
+            --bg-header: #1a2744;
+            --bg-card: #162033;
+            --bg-card-hover: #1d2d4a;
+            --accent: #fbbf24;
+            --success: #22c55e;
+            --error: #ef4444;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            user-select: none;
+        }
+        .screen { display: none; width: 100%; min-height: 100vh; }
+        .screen.active { display: flex; }
+
+        #start-screen {
+            flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #start-screen h1 { font-size: 2.6rem; font-weight: 800; }
+        #start-screen .subtitle {
+            font-size: 1.05rem; color: var(--text-muted); max-width: 520px;
+            text-align: center; line-height: 1.7;
+        }
+        .btn {
+            padding: 14px 44px; font-size: 1.15rem; border: none; border-radius: 10px;
+            cursor: pointer; font-weight: 700; transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary { background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1a2e; }
+        .back-link {
+            display: inline-block; margin-top: 10px; color: var(--text-muted);
+            text-decoration: none; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--text); }
+
+        #game-screen { flex-direction: column; height: 100vh; }
+        .game-header {
+            display: flex; align-items: center; padding: 0 20px;
+            background: var(--bg-header); border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 62px; gap: 16px; flex-shrink: 0;
+        }
+        .stats { display: flex; gap: 18px; }
+        .stat { text-align: center; min-width: 52px; }
+        .stat-label {
+            font-size: 0.62rem; text-transform: uppercase; color: var(--text-muted);
+            letter-spacing: 1.2px; margin-bottom: 2px;
+        }
+        .stat-value { font-size: 1.55rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+        .question-bar {
+            flex: 1; text-align: center; padding: 9px 24px;
+            background: rgba(255,255,255,0.06); border-radius: 8px;
+            font-size: 1.15rem; font-weight: 700;
+        }
+        .game-controls { display: flex; gap: 8px; align-items: center; }
+        .badge {
+            padding: 8px 14px; border-radius: 7px; font-weight: 700;
+            font-size: 0.95rem; font-variant-numeric: tabular-nums;
+        }
+        .badge-accent { background: var(--accent); color: #1a1a2e; }
+        .badge-timer { background: rgba(255,255,255,0.1); }
+        .btn-quit {
+            padding: 8px 18px; background: var(--error); color: #fff; border: none;
+            border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.95rem;
+        }
+
+        .game-area {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 30px; overflow-y: auto;
+        }
+        .options-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px; max-width: 900px; width: 100%;
+        }
+        .option-card {
+            background: var(--bg-card); border: 2px solid transparent;
+            border-radius: 12px; padding: 20px; cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s, background 0.15s;
+        }
+        .option-card:hover {
+            background: var(--bg-card-hover); transform: translateY(-2px);
+            border-color: rgba(251,191,36,0.3);
+        }
+        .option-card.correct {
+            border-color: var(--success); background: rgba(34,197,94,0.1);
+        }
+        .option-card.wrong {
+            border-color: var(--error); background: rgba(239,68,68,0.1);
+        }
+        .option-card.disabled { pointer-events: none; opacity: 0.7; }
+        .option-card.mastered { display: none; }
+        .option-year {
+            font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 6px;
+        }
+        .option-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .option-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+        .option-streak {
+            display: inline-block; margin-top: 8px; padding: 2px 8px;
+            background: rgba(255,255,255,0.08); border-radius: 4px;
+            font-size: 0.72rem; color: var(--text-muted); font-weight: 700;
+        }
+
+        #end-screen {
+            flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #end-screen h1 { font-size: 2.4rem; font-weight: 800; }
+        #end-screen .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+        .results { display: flex; gap: 20px; margin: 12px 0; flex-wrap: wrap; justify-content: center; }
+        .result-item {
+            text-align: center; padding: 16px 28px;
+            background: rgba(255,255,255,0.05); border-radius: 12px; min-width: 110px;
+        }
+        .result-label {
+            font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.8px; margin-bottom: 6px;
+        }
+        .result-value { font-size: 1.9rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body>
+
+<div id="start-screen" class="screen active">
+    <h1>Rewolucja przemysłowa</h1>
+    <p class="subtitle">
+        Dopasuj kluczowe wynalazki i wydarzenia rewolucji przemysłowej do ich dat.
+        Przeczytaj pytanie i wybierz poprawną odpowiedź spośród kafelków.<br>
+        Każde pytanie musi być odpowiedziane poprawnie <strong>3 razy z rzędu</strong>.
+    </p>
+    <button class="btn btn-primary" id="btn-start">Rozpocznij quiz</button>
+    <a class="back-link" href="../../">← Powrót do listy quizów</a>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-header">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Pozostało</div>
+                <div class="stat-value" id="stat-remaining">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Poprawne</div>
+                <div class="stat-value" style="color:var(--success)" id="stat-correct">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Błędne</div>
+                <div class="stat-value" style="color:var(--error)" id="stat-wrong">0</div>
+            </div>
+        </div>
+        <div class="question-bar" id="question">—</div>
+        <div class="game-controls">
+            <div class="badge badge-accent" id="stat-pct">0%</div>
+            <div class="badge badge-timer" id="stat-timer">00:00.0</div>
+            <button class="btn-quit" id="btn-quit">Zakończ</button>
+        </div>
+    </div>
+    <div class="game-area">
+        <div class="options-grid" id="options-grid"></div>
+    </div>
+</div>
+
+<div id="end-screen" class="screen">
+    <h1 id="end-title">Gratulacje!</h1>
+    <p class="subtitle" id="end-subtitle">Ukończyłeś quiz!</p>
+    <div class="results">
+        <div class="result-item">
+            <div class="result-label">Poprawne</div>
+            <div class="result-value" style="color:var(--success)" id="end-correct">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Błędne</div>
+            <div class="result-value" style="color:var(--error)" id="end-wrong">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Skuteczność</div>
+            <div class="result-value" id="end-pct">0%</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Czas</div>
+            <div class="result-value" id="end-time">00:00</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" id="btn-restart">Zagraj ponownie</button>
+    <a class="back-link" href="../../">← Powrót do listy quizów</a>
+</div>
+
+<script>
+const EVENTS = [
+    { id: 0,  question: "Kiedy James Watt opatentował ulepszoną maszynę parową?",
+              year: "1769", title: "Maszyna parowa Watta", desc: "Ulepszenie maszyny Newcomena o oddzielny skraplacz" },
+    { id: 1,  question: "Kiedy James Hargreaves wynalazł spinning jenny?",
+              year: "1764", title: "Spinning Jenny", desc: "Wielowrzecionowa przędzarka ręczna" },
+    { id: 2,  question: "Kiedy Richard Arkwright opatentował water frame?",
+              year: "1769", title: "Water Frame", desc: "Przędzarka napędzana kołem wodnym" },
+    { id: 3,  question: "Kiedy Edmund Cartwright wynalazł mechaniczny krosno?",
+              year: "1785", title: "Krosno mechaniczne", desc: "Zmechanizowanie tkactwa, napęd parowy" },
+    { id: 4,  question: "Kiedy uruchomiono pierwszą publiczną linię kolejową (Stockton–Darlington)?",
+              year: "1825", title: "Pierwsza kolej publiczna", desc: "Linia Stockton–Darlington, lokomotywa Stephensona" },
+    { id: 5,  question: "Kiedy otwarto linię kolejową Liverpool–Manchester?",
+              year: "1830", title: "Liverpool–Manchester", desc: "Pierwsza kolej międzymiastowa z regularnym ruchem" },
+    { id: 6,  question: "Kiedy Abraham Darby po raz pierwszy wytopił żelazo z użyciem koksu?",
+              year: "1709", title: "Wytop żelaza koksem", desc: "Przełom w metalurgii, zastąpienie węgla drzewnego" },
+    { id: 7,  question: "Kiedy Henry Bessemer opatentował konwertor do masowej produkcji stali?",
+              year: "1856", title: "Konwertor Bessemera", desc: "Tania masowa produkcja stali" },
+    { id: 8,  question: "Kiedy Eli Whitney opatentował odziarniarkę do bawełny (cotton gin)?",
+              year: "1794", title: "Cotton Gin", desc: "Mechaniczne oddzielanie nasion od włókien bawełny" },
+    { id: 9,  question: "Kiedy Robert Fulton uruchomił pierwszy komercyjny statek parowy?",
+              year: "1807", title: "Statek parowy Fultona", desc: "SS Clermont na rzece Hudson" },
+    { id: 10, question: "Kiedy Samuel Morse wysłał pierwszy telegram?",
+              year: "1844", title: "Pierwszy telegram", desc: "\"What hath God wrought\" — Baltimore–Waszyngton" },
+    { id: 11, question: "Kiedy Michael Faraday zbudował pierwszy generator elektryczny?",
+              year: "1831", title: "Generator Faradaya", desc: "Odkrycie indukcji elektromagnetycznej" },
+];
+
+const STREAK_TO_MASTER = 3;
+const FEEDBACK_CORRECT = 600;
+const FEEDBACK_WRONG = 1500;
+
+let state = null;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function formatTime(ms) {
+    const s = ms / 1000, m = Math.floor(s / 60), sec = s % 60;
+    return String(m).padStart(2, '0') + ':' + sec.toFixed(1).padStart(4, '0');
+}
+
+function updateStats() {
+    document.getElementById('stat-remaining').textContent = state.remaining;
+    document.getElementById('stat-correct').textContent = state.correct;
+    document.getElementById('stat-wrong').textContent = state.wrong;
+    const t = state.correct + state.wrong;
+    document.getElementById('stat-pct').textContent = (t > 0 ? Math.round(state.correct / t * 100) : 0) + '%';
+}
+
+function renderOptions() {
+    const grid = document.getElementById('options-grid');
+    grid.innerHTML = '';
+    state.events.forEach(ev => {
+        if (ev.mastered) return;
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        card.dataset.id = ev.id;
+        card.innerHTML = `
+            <div class="option-year">${ev.year}</div>
+            <div class="option-title">${ev.title}</div>
+            <div class="option-desc">${ev.desc}</div>
+            ${ev.streak > 0 ? `<span class="option-streak">${ev.streak}/${STREAK_TO_MASTER}</span>` : ''}
+        `;
+        card.addEventListener('click', () => handleClick(ev));
+        grid.appendChild(card);
+    });
+}
+
+function nextQuestion() {
+    const avail = state.events.filter(e => !e.mastered);
+    if (avail.length === 0) { endGame(); return; }
+    let next;
+    if (avail.length > 1 && state.current) {
+        do { next = avail[Math.floor(Math.random() * avail.length)]; } while (next.id === state.current.id);
+    } else { next = avail[0]; }
+    state.current = next;
+    document.getElementById('question').textContent = state.current.question;
+}
+
+function handleClick(ev) {
+    if (state.animating || !state.current) return;
+    state.animating = true;
+
+    const allCards = document.querySelectorAll('.option-card');
+    allCards.forEach(c => c.classList.add('disabled'));
+
+    const clickedCard = document.querySelector(`.option-card[data-id="${ev.id}"]`);
+    const correctCard = document.querySelector(`.option-card[data-id="${state.current.id}"]`);
+
+    if (ev.id === state.current.id) {
+        state.correct++;
+        ev.streak++;
+        updateStats();
+        clickedCard.classList.add('correct');
+        if (ev.streak >= STREAK_TO_MASTER) {
+            ev.mastered = true;
+            state.remaining--;
+            updateStats();
+        }
+        setTimeout(() => {
+            state.animating = false;
+            renderOptions();
+            nextQuestion();
+        }, FEEDBACK_CORRECT);
+    } else {
+        state.wrong++;
+        state.current.streak = 0;
+        updateStats();
+        clickedCard.classList.add('wrong');
+        if (correctCard) correctCard.classList.add('correct');
+        setTimeout(() => {
+            state.animating = false;
+            renderOptions();
+            nextQuestion();
+        }, FEEDBACK_WRONG);
+    }
+}
+
+function startGame() {
+    state = {
+        events: EVENTS.map(e => ({ ...e, streak: 0, mastered: false })),
+        current: null, remaining: EVENTS.length,
+        correct: 0, wrong: 0, elapsed: 0,
+        timerStart: 0, timerInterval: null, animating: false,
+    };
+    showScreen('game-screen');
+    renderOptions();
+    updateStats();
+    state.timerStart = Date.now();
+    state.timerInterval = setInterval(() => {
+        state.elapsed = Date.now() - state.timerStart;
+        document.getElementById('stat-timer').textContent = formatTime(state.elapsed);
+    }, 100);
+    nextQuestion();
+}
+
+function endGame() {
+    if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+    const t = state.correct + state.wrong;
+    const pct = t > 0 ? Math.round(state.correct / t * 100) : 0;
+    document.getElementById('end-correct').textContent = state.correct;
+    document.getElementById('end-wrong').textContent = state.wrong;
+    document.getElementById('end-pct').textContent = pct + '%';
+    document.getElementById('end-time').textContent = formatTime(state.elapsed);
+    document.getElementById('end-title').textContent = state.remaining === 0 ? 'Gratulacje!' : 'Koniec gry';
+    document.getElementById('end-subtitle').textContent = state.remaining === 0
+        ? 'Odpowiedziałeś na wszystkie pytania!' : `Pozostało ${state.remaining} pytań.`;
+    showScreen('end-screen');
+}
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-quit').addEventListener('click', () => { if (state.timerInterval) clearInterval(state.timerInterval); endGame(); });
+document.getElementById('btn-restart').addEventListener('click', startGame);
+</script>
+</body>
+</html>

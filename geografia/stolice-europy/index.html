@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Stolice Europy</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+    <style>
+        :root {
+            --bg-dark: #0f1b2d;
+            --bg-panel: #162033;
+            --bg-header: #1a2744;
+            --accent: #3b82f6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --dot-color: #3b82f6;
+            --ocean: #172a42;
+            --land: #d9e2ec;
+            --border: #8a9bb5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100vh;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        /* ── Start screen ── */
+        #start-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #start-screen h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        #start-screen .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 480px;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .btn {
+            padding: 14px 44px;
+            font-size: 1.15rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        }
+        .btn:active { transform: translateY(0); }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+        }
+
+        /* ── Game screen ── */
+        #game-screen {
+            flex-direction: column;
+        }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            background: var(--bg-header);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 62px;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .stats {
+            display: flex;
+            gap: 18px;
+        }
+        .stat { text-align: center; min-width: 52px; }
+        .stat-label {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1.2px;
+            margin-bottom: 2px;
+        }
+        .stat-value {
+            font-size: 1.55rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .question-bar {
+            flex: 1;
+            text-align: center;
+            padding: 9px 24px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .badge {
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .badge-success { background: var(--success); color: #fff; }
+        .badge-timer { background: rgba(255,255,255,0.1); }
+
+        .btn-quit {
+            padding: 8px 18px;
+            background: var(--error);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: background 0.15s;
+        }
+        .btn-quit:hover { background: #dc2626; }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--ocean);
+        }
+        .map-container svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .capital-dot {
+            cursor: pointer;
+            fill: var(--dot-color);
+            stroke: #1e3a8a;
+            stroke-width: 1.5;
+            transition: filter 0.12s;
+            pointer-events: all;
+        }
+        .capital-dot:hover {
+            filter: drop-shadow(0 0 5px rgba(30,58,138,0.6));
+        }
+
+        .dot-hitarea {
+            fill: transparent;
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .streak-badge {
+            font-size: 9px;
+            font-weight: 800;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+        }
+
+        /* ── End screen ── */
+        #end-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #end-screen h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+        }
+        #end-screen .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .results {
+            display: flex;
+            gap: 20px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .result-item {
+            text-align: center;
+            padding: 16px 28px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            min-width: 110px;
+        }
+        .result-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+        .result-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── Loading ── */
+        #loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            gap: 18px;
+        }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid rgba(255,255,255,0.12);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { color: var(--text-muted); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+<div id="loading-screen">
+    <div class="spinner"></div>
+    <p class="loading-text">Ładowanie mapy…</p>
+</div>
+
+<div id="start-screen" class="screen">
+    <h1>Stolice Europy</h1>
+    <p class="subtitle">
+        Na mapie wyświetlone są stolice państw europejskich.
+        Wskaż poprawną stolicę klikając odpowiednią kropkę.<br>
+        Każda stolica musi być poprawnie wskazana <strong>3 razy z rzędu</strong>, aby zniknąć z mapy.
+    </p>
+    <button class="btn btn-primary" id="btn-start">Rozpocznij quiz</button>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-header">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Pozostało</div>
+                <div class="stat-value" id="stat-remaining">46</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Poprawne</div>
+                <div class="stat-value" style="color:var(--success)" id="stat-correct">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Błędne</div>
+                <div class="stat-value" style="color:var(--error)" id="stat-wrong">0</div>
+            </div>
+        </div>
+        <div class="question-bar" id="question">—</div>
+        <div class="game-controls">
+            <div class="badge badge-success" id="stat-pct">0%</div>
+            <div class="badge badge-timer" id="stat-timer">00:00.0</div>
+            <button class="btn-quit" id="btn-quit">Zakończ</button>
+        </div>
+    </div>
+    <div class="map-container" id="map-container">
+        <svg id="map"></svg>
+    </div>
+</div>
+
+<div id="end-screen" class="screen">
+    <h1 id="end-title">Gratulacje!</h1>
+    <p class="subtitle" id="end-subtitle">Ukończyłeś quiz!</p>
+    <div class="results">
+        <div class="result-item">
+            <div class="result-label">Poprawne</div>
+            <div class="result-value" style="color:var(--success)" id="end-correct">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Błędne</div>
+            <div class="result-value" style="color:var(--error)" id="end-wrong">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Skuteczność</div>
+            <div class="result-value" id="end-pct">0%</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Czas</div>
+            <div class="result-value" id="end-time">00:00</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" id="btn-restart">Zagraj ponownie</button>
+</div>
+
+<script>
+const CAPITALS = [
+    { country: "Albania",                  capital: "Tirana",          lat: 41.33, lng: 19.82 },
+    { country: "Andora",                   capital: "Andora la Vella", lat: 42.51, lng: 1.52  },
+    { country: "Austria",                  capital: "Wiedeń",          lat: 48.21, lng: 16.37 },
+    { country: "Belgia",                   capital: "Bruksela",        lat: 50.85, lng: 4.35  },
+    { country: "Białoruś",                 capital: "Mińsk",           lat: 53.90, lng: 27.57 },
+    { country: "Bośnia i Hercegowina",     capital: "Sarajewo",        lat: 43.86, lng: 18.41 },
+    { country: "Bułgaria",                 capital: "Sofia",           lat: 42.70, lng: 23.32 },
+    { country: "Chorwacja",                capital: "Zagrzeb",         lat: 45.81, lng: 15.98 },
+    { country: "Cypr",                     capital: "Nikozja",         lat: 35.19, lng: 33.38 },
+    { country: "Czarnogóra",               capital: "Podgorica",       lat: 42.44, lng: 19.26 },
+    { country: "Czechy",                   capital: "Praga",           lat: 50.08, lng: 14.42 },
+    { country: "Dania",                    capital: "Kopenhaga",       lat: 55.68, lng: 12.57 },
+    { country: "Estonia",                  capital: "Tallinn",         lat: 59.44, lng: 24.75 },
+    { country: "Finlandia",                capital: "Helsinki",        lat: 60.17, lng: 24.94 },
+    { country: "Francja",                  capital: "Paryż",           lat: 48.86, lng: 2.35  },
+    { country: "Grecja",                   capital: "Ateny",           lat: 37.98, lng: 23.73 },
+    { country: "Hiszpania",                capital: "Madryt",          lat: 40.42, lng: -3.70 },
+    { country: "Holandia",                 capital: "Amsterdam",       lat: 52.37, lng: 4.90  },
+    { country: "Irlandia",                 capital: "Dublin",          lat: 53.35, lng: -6.27 },
+    { country: "Islandia",                 capital: "Reykjavik",       lat: 64.15, lng: -21.90},
+    { country: "Kazachstan",               capital: "Astana",          lat: 51.13, lng: 51.13 },
+    { country: "Kosowo",                   capital: "Prisztina",       lat: 42.67, lng: 21.17 },
+    { country: "Liechtenstein",            capital: "Vaduz",           lat: 47.14, lng: 9.52  },
+    { country: "Litwa",                    capital: "Wilno",           lat: 54.69, lng: 25.28 },
+    { country: "Łotwa",                    capital: "Ryga",            lat: 56.95, lng: 24.11 },
+    { country: "Luksemburg",               capital: "Luksemburg",      lat: 49.61, lng: 6.13  },
+    { country: "Macedonia Północna",       capital: "Skopje",          lat: 42.00, lng: 21.43 },
+    { country: "Malta",                    capital: "Valletta",        lat: 35.90, lng: 14.51 },
+    { country: "Mołdawia",                 capital: "Kiszyniów",       lat: 47.01, lng: 28.84 },
+    { country: "Monako",                   capital: "Monako",          lat: 43.73, lng: 7.42  },
+    { country: "Niemcy",                   capital: "Berlin",          lat: 52.52, lng: 13.41 },
+    { country: "Norwegia",                 capital: "Oslo",            lat: 59.91, lng: 10.75 },
+    { country: "Polska",                   capital: "Warszawa",        lat: 52.23, lng: 21.01 },
+    { country: "Portugalia",               capital: "Lizbona",         lat: 38.72, lng: -9.14 },
+    { country: "Rosja",                    capital: "Moskwa",          lat: 55.76, lng: 37.62 },
+    { country: "Rumunia",                  capital: "Bukareszt",       lat: 44.43, lng: 26.10 },
+    { country: "Serbia",                   capital: "Belgrad",         lat: 44.82, lng: 20.46 },
+    { country: "Słowacja",                 capital: "Bratysława",      lat: 48.15, lng: 17.11 },
+    { country: "Słowenia",                 capital: "Lublana",         lat: 46.05, lng: 14.51 },
+    { country: "Szwajcaria",               capital: "Berno",           lat: 46.95, lng: 7.45  },
+    { country: "Szwecja",                  capital: "Sztokholm",       lat: 59.33, lng: 18.07 },
+    { country: "Turcja",                   capital: "Ankara",          lat: 39.93, lng: 32.87 },
+    { country: "Ukraina",                  capital: "Kijów",           lat: 50.45, lng: 30.52 },
+    { country: "Węgry",                    capital: "Budapeszt",       lat: 47.50, lng: 19.04 },
+    { country: "Wielka Brytania",          capital: "Londyn",          lat: 51.51, lng: -0.13 },
+    { country: "Włochy",                   capital: "Rzym",            lat: 41.90, lng: 12.50 },
+];
+
+const STREAK_TO_MASTER = 3;
+const FEEDBACK_DELAY_CORRECT = 500;
+const FEEDBACK_DELAY_WRONG = 1500;
+const FEEDBACK_DELAY_MASTERED = 900;
+
+let state = null;
+let projection, pathGen, svg, gCountries, gDots;
+let worldData = null;
+
+/* ─── Screens ─── */
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+    document.getElementById('loading-screen').style.display = 'none';
+}
+
+/* ─── Timer ─── */
+
+function formatTime(ms) {
+    const totalSec = ms / 1000;
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return String(min).padStart(2, '0') + ':' + sec.toFixed(1).padStart(4, '0');
+}
+
+function startTimer() {
+    state.timerStart = Date.now();
+    state.timerInterval = setInterval(() => {
+        state.elapsed = Date.now() - state.timerStart;
+        document.getElementById('stat-timer').textContent = formatTime(state.elapsed);
+    }, 100);
+}
+
+function stopTimer() {
+    if (state && state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+    }
+}
+
+/* ─── Stats ─── */
+
+function updateStats() {
+    document.getElementById('stat-remaining').textContent = state.remaining;
+    document.getElementById('stat-correct').textContent = state.correct;
+    document.getElementById('stat-wrong').textContent = state.wrong;
+    const total = state.correct + state.wrong;
+    const pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
+    document.getElementById('stat-pct').textContent = pct + '%';
+}
+
+/* ─── Map rendering ─── */
+
+function renderMap() {
+    const container = document.getElementById('map-container');
+    const W = container.clientWidth;
+    const H = container.clientHeight;
+
+    svg = d3.select('#map')
+        .attr('viewBox', `0 0 ${W} ${H}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet');
+
+    svg.selectAll('*').remove();
+
+    const paddedPoints = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: {
+                type: 'MultiPoint',
+                coordinates: CAPITALS.map(c => [c.lng, c.lat])
+            }
+        }]
+    };
+
+    projection = d3.geoMercator()
+        .fitExtent([[40, 40], [W - 40, H - 40]], paddedPoints);
+
+    pathGen = d3.geoPath().projection(projection);
+
+    svg.append('rect')
+        .attr('width', W)
+        .attr('height', H)
+        .attr('fill', 'var(--ocean)');
+
+    if (worldData) {
+        const land = topojson.feature(worldData, worldData.objects.land);
+        const borders = topojson.mesh(worldData, worldData.objects.countries, (a, b) => a !== b);
+
+        gCountries = svg.append('g').attr('class', 'countries');
+
+        gCountries.append('path')
+            .datum(land)
+            .attr('d', pathGen)
+            .attr('fill', 'var(--land)')
+            .attr('stroke', '#8a9bb5')
+            .attr('stroke-width', 0.6);
+
+        gCountries.append('path')
+            .datum(borders)
+            .attr('d', pathGen)
+            .attr('fill', 'none')
+            .attr('stroke', 'var(--border)')
+            .attr('stroke-width', 1)
+            .attr('stroke-linejoin', 'round');
+    }
+
+    gDots = svg.append('g').attr('class', 'dots');
+}
+
+function renderDots() {
+    gDots.selectAll('*').remove();
+
+    state.capitals.forEach(cap => {
+        if (cap.mastered) return;
+        const [x, y] = projection([cap.lng, cap.lat]);
+        const g = gDots.append('g')
+            .attr('data-id', cap.id)
+            .attr('transform', `translate(${x},${y})`);
+
+        g.append('circle')
+            .attr('class', 'dot-hitarea')
+            .attr('r', 14)
+            .on('click', () => handleDotClick(cap));
+
+        g.append('circle')
+            .attr('class', 'capital-dot')
+            .attr('r', 7)
+            .on('click', () => handleDotClick(cap));
+
+        if (cap.streak > 0) {
+            g.append('text')
+                .attr('class', 'streak-badge')
+                .text(cap.streak);
+        }
+    });
+}
+
+/* ─── Game logic ─── */
+
+function nextQuestion() {
+    const available = state.capitals.filter(c => !c.mastered);
+    if (available.length === 0) {
+        endGame();
+        return;
+    }
+
+    let next;
+    if (available.length > 1 && state.current) {
+        do {
+            next = available[Math.floor(Math.random() * available.length)];
+        } while (next.id === state.current.id);
+    } else {
+        next = available[Math.floor(Math.random() * available.length)];
+    }
+
+    state.current = next;
+    document.getElementById('question').textContent =
+        `${state.current.country}  →  ${state.current.capital}`;
+}
+
+function handleDotClick(cap) {
+    if (state.animating || !state.current) return;
+    state.animating = true;
+
+    if (cap.id === state.current.id) {
+        state.correct++;
+        cap.streak++;
+        updateStats();
+
+        if (cap.streak >= STREAK_TO_MASTER) {
+            cap.mastered = true;
+            state.remaining--;
+            updateStats();
+
+            const dotGroup = gDots.select(`g[data-id="${cap.id}"]`);
+            dotGroup.select('.capital-dot')
+                .style('fill', '#22c55e').style('stroke', '#22c55e')
+                .transition().duration(200)
+                .attr('r', 14)
+                .transition().duration(400)
+                .attr('r', 0).style('opacity', 0);
+
+            setTimeout(() => {
+                state.animating = false;
+                renderDots();
+                nextQuestion();
+            }, FEEDBACK_DELAY_MASTERED);
+        } else {
+            renderDots();
+            const dotGroup = gDots.select(`g[data-id="${cap.id}"]`);
+            dotGroup.select('.capital-dot')
+                .style('fill', '#22c55e').style('stroke', '#22c55e');
+
+            setTimeout(() => {
+                state.animating = false;
+                renderDots();
+                nextQuestion();
+            }, FEEDBACK_DELAY_CORRECT);
+        }
+    } else {
+        state.wrong++;
+        state.current.streak = 0;
+        updateStats();
+
+        renderDots();
+        const clickedGroup = gDots.select(`g[data-id="${cap.id}"]`);
+        const correctGroup = gDots.select(`g[data-id="${state.current.id}"]`);
+
+        clickedGroup.select('.capital-dot')
+            .style('fill', '#ef4444').style('stroke', '#ef4444');
+
+        correctGroup.select('.capital-dot')
+            .style('fill', '#22c55e').style('stroke', '#22c55e')
+            .transition().duration(200)
+            .attr('r', 11);
+
+        correctGroup.append('circle')
+            .attr('r', 8)
+            .attr('fill', 'none')
+            .attr('stroke', '#22c55e')
+            .attr('stroke-width', 2.5)
+            .attr('opacity', 1)
+            .transition().duration(700).ease(d3.easeQuadOut)
+            .attr('r', 24)
+            .attr('stroke-width', 0.5)
+            .attr('opacity', 0)
+            .remove();
+
+        setTimeout(() => {
+            state.animating = false;
+            renderDots();
+            nextQuestion();
+        }, FEEDBACK_DELAY_WRONG);
+    }
+}
+
+function startGame() {
+    state = {
+        capitals: CAPITALS.map((c, i) => ({
+            ...c,
+            id: i,
+            streak: 0,
+            mastered: false,
+        })),
+        current: null,
+        remaining: CAPITALS.length,
+        correct: 0,
+        wrong: 0,
+        elapsed: 0,
+        timerStart: 0,
+        timerInterval: null,
+        animating: false,
+    };
+
+    showScreen('game-screen');
+
+    requestAnimationFrame(() => {
+        renderMap();
+        renderDots();
+        updateStats();
+        startTimer();
+        nextQuestion();
+    });
+}
+
+function endGame() {
+    stopTimer();
+    const total = state.correct + state.wrong;
+    const pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
+
+    document.getElementById('end-correct').textContent = state.correct;
+    document.getElementById('end-wrong').textContent = state.wrong;
+    document.getElementById('end-pct').textContent = pct + '%';
+    document.getElementById('end-time').textContent = formatTime(state.elapsed);
+
+    if (state.remaining === 0) {
+        document.getElementById('end-title').textContent = 'Gratulacje!';
+        document.getElementById('end-subtitle').textContent = 'Wskazałeś wszystkie stolice!';
+    } else {
+        document.getElementById('end-title').textContent = 'Koniec gry';
+        document.getElementById('end-subtitle').textContent =
+            `Pozostało ${state.remaining} stolic do opanowania.`;
+    }
+
+    showScreen('end-screen');
+}
+
+function quitGame() {
+    stopTimer();
+    endGame();
+}
+
+function restartGame() {
+    startGame();
+}
+
+/* ─── Init ─── */
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-quit').addEventListener('click', quitGame);
+document.getElementById('btn-restart').addEventListener('click', restartGame);
+
+async function init() {
+    try {
+        const res = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+        worldData = await res.json();
+    } catch (e) {
+        console.warn('Nie udało się załadować mapy świata, kontynuuję bez obrysu krajów.', e);
+    }
+    showScreen('start-screen');
+}
+
+init();
+</script>
+</body>
+</html>
