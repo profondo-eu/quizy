@@ -7,6 +7,7 @@ Interaktywne quizy edukacyjne hostowane lokalnie na kontenerze LXC (Proxmox VE).
 | Quiz | Ścieżka | Typ |
 |------|---------|-----|
 | Stolice Europy | `/geografia/stolice-europy/` | Mapa + klikanie (D3.js) |
+| Stolice Europy (tekstowy) | `/geografia/stolice-europy-tekstowy/` | Wpisywanie stolic |
 | Budowa komórki jajowej | `/biologia/budowa-komorki-jajowej/` | Diagram SVG + klikanie |
 | Rewolucja przemysłowa | `/historia/rewolucja-przemyslowa/` | Dopasowywanie dat/wydarzeń |
 
@@ -16,6 +17,7 @@ Interaktywne quizy edukacyjne hostowane lokalnie na kontenerze LXC (Proxmox VE).
 quizy/
   index.html                                    # Landing page
   geografia/stolice-europy/index.html           # 46 stolic Europy na mapie
+  geografia/stolice-europy-tekstowy/index.html  # 46 stolic Europy — wersja tekstowa
   biologia/budowa-komorki-jajowej/index.html    # Elementy komórki jajowej
   historia/rewolucja-przemyslowa/index.html     # Wydarzenia rewolucji przemysłowej
 ```

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Stolice Europy (tekstowy)</title>
+    <style>
+        :root {
+            --bg-dark: #0f1b2d;
+            --bg-panel: #162033;
+            --bg-header: #1a2744;
+            --accent: #3b82f6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100vh;
+        }
+        .screen.active { display: flex; }
+
+        /* ── Start screen ── */
+        #start-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #start-screen h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        #start-screen .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 520px;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .btn {
+            padding: 14px 44px;
+            font-size: 1.15rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        }
+        .btn:active { transform: translateY(0); }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+        }
+
+        /* ── Game screen ── */
+        #game-screen { flex-direction: column; }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            background: var(--bg-header);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 62px;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .stats { display: flex; gap: 18px; }
+        .stat { text-align: center; min-width: 52px; }
+        .stat-label {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1.2px;
+            margin-bottom: 2px;
+        }
+        .stat-value {
+            font-size: 1.55rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .header-spacer { flex: 1; }
+
+        .game-controls { display: flex; gap: 8px; align-items: center; }
+        .badge {
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .badge-success { background: var(--success); color: #fff; }
+        .badge-timer { background: rgba(255,255,255,0.1); }
+
+        .btn-quit {
+            padding: 8px 18px;
+            background: var(--error);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: background 0.15s;
+        }
+        .btn-quit:hover { background: #dc2626; }
+
+        /* ── Quiz area ── */
+        .quiz-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            padding: 40px 20px;
+        }
+
+        .country-name {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .streak-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .streak-dots {
+            display: inline-flex;
+            gap: 6px;
+            margin-left: 8px;
+        }
+        .streak-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            transition: background 0.2s;
+        }
+        .streak-dot.filled { background: var(--success); }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 460px;
+        }
+
+        #answer-input {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 1.2rem;
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            background: var(--bg-panel);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        #answer-input:focus {
+            border-color: var(--accent);
+        }
+        #answer-input.correct {
+            border-color: var(--success);
+            background: rgba(34,197,94,0.08);
+        }
+        #answer-input.wrong {
+            border-color: var(--error);
+            background: rgba(239,68,68,0.08);
+        }
+        #answer-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .btn-submit {
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            transition: transform 0.15s, box-shadow 0.15s;
+            white-space: nowrap;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback {
+            font-size: 1.15rem;
+            font-weight: 700;
+            min-height: 1.5em;
+            text-align: center;
+        }
+        .feedback.correct { color: var(--success); }
+        .feedback.wrong { color: var(--error); }
+
+        /* ── End screen ── */
+        #end-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            background: radial-gradient(ellipse at 50% 40%, #1a2744 0%, var(--bg-dark) 70%);
+        }
+        #end-screen h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+        }
+        #end-screen .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .results {
+            display: flex;
+            gap: 20px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .result-item {
+            text-align: center;
+            padding: 16px 28px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            min-width: 110px;
+        }
+        .result-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+        .result-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+
+<div id="start-screen" class="screen active">
+    <h1>Stolice Europy</h1>
+    <p class="subtitle">
+        Wyświetlona zostanie nazwa państwa europejskiego.
+        Wpisz poprawną nazwę jego stolicy.<br>
+        Każda stolica musi być poprawnie wpisana <strong>3 razy z rzędu</strong>, aby zostać zaliczona.
+    </p>
+    <button class="btn btn-primary" id="btn-start">Rozpocznij quiz</button>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-header">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Pozostało</div>
+                <div class="stat-value" id="stat-remaining">46</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Poprawne</div>
+                <div class="stat-value" style="color:var(--success)" id="stat-correct">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Błędne</div>
+                <div class="stat-value" style="color:var(--error)" id="stat-wrong">0</div>
+            </div>
+        </div>
+        <div class="header-spacer"></div>
+        <div class="game-controls">
+            <div class="badge badge-success" id="stat-pct">0%</div>
+            <div class="badge badge-timer" id="stat-timer">00:00.0</div>
+            <button class="btn-quit" id="btn-quit">Zakończ</button>
+        </div>
+    </div>
+    <div class="quiz-area">
+        <div class="country-name" id="country-name">—</div>
+        <div class="streak-info">
+            Seria: <span class="streak-dots" id="streak-dots">
+                <span class="streak-dot"></span>
+                <span class="streak-dot"></span>
+                <span class="streak-dot"></span>
+            </span>
+        </div>
+        <div class="input-row">
+            <input type="text" id="answer-input" placeholder="Wpisz nazwę stolicy…" autocomplete="off" spellcheck="false">
+            <button class="btn-submit" id="btn-submit">Sprawdź</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+</div>
+
+<div id="end-screen" class="screen">
+    <h1 id="end-title">Gratulacje!</h1>
+    <p class="subtitle" id="end-subtitle">Ukończyłeś quiz!</p>
+    <div class="results">
+        <div class="result-item">
+            <div class="result-label">Poprawne</div>
+            <div class="result-value" style="color:var(--success)" id="end-correct">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Błędne</div>
+            <div class="result-value" style="color:var(--error)" id="end-wrong">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Skuteczność</div>
+            <div class="result-value" id="end-pct">0%</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">Czas</div>
+            <div class="result-value" id="end-time">00:00</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" id="btn-restart">Zagraj ponownie</button>
+</div>
+
+<script>
+const CAPITALS = [
+    { country: "Albania",              capital: "Tirana"          },
+    { country: "Andora",               capital: "Andora la Vella" },
+    { country: "Austria",              capital: "Wiedeń"          },
+    { country: "Belgia",               capital: "Bruksela"        },
+    { country: "Białoruś",             capital: "Mińsk"           },
+    { country: "Bośnia i Hercegowina", capital: "Sarajewo"        },
+    { country: "Bułgaria",             capital: "Sofia"           },
+    { country: "Chorwacja",            capital: "Zagrzeb"         },
+    { country: "Cypr",                 capital: "Nikozja"         },
+    { country: "Czarnogóra",           capital: "Podgorica"       },
+    { country: "Czechy",               capital: "Praga"           },
+    { country: "Dania",                capital: "Kopenhaga"       },
+    { country: "Estonia",              capital: "Tallinn"         },
+    { country: "Finlandia",            capital: "Helsinki"        },
+    { country: "Francja",              capital: "Paryż"           },
+    { country: "Grecja",               capital: "Ateny"           },
+    { country: "Hiszpania",            capital: "Madryt"          },
+    { country: "Holandia",             capital: "Amsterdam"       },
+    { country: "Irlandia",             capital: "Dublin"          },
+    { country: "Islandia",             capital: "Reykjavik"       },
+    { country: "Kazachstan",           capital: "Astana"          },
+    { country: "Kosowo",               capital: "Prisztina"       },
+    { country: "Liechtenstein",        capital: "Vaduz"           },
+    { country: "Litwa",                capital: "Wilno"           },
+    { country: "Łotwa",                capital: "Ryga"            },
+    { country: "Luksemburg",           capital: "Luksemburg"      },
+    { country: "Macedonia Północna",   capital: "Skopje"          },
+    { country: "Malta",                capital: "Valletta"        },
+    { country: "Mołdawia",             capital: "Kiszyniów"       },
+    { country: "Monako",               capital: "Monako"          },
+    { country: "Niemcy",               capital: "Berlin"          },
+    { country: "Norwegia",             capital: "Oslo"            },
+    { country: "Polska",               capital: "Warszawa"        },
+    { country: "Portugalia",           capital: "Lizbona"         },
+    { country: "Rosja",                capital: "Moskwa"          },
+    { country: "Rumunia",              capital: "Bukareszt"       },
+    { country: "Serbia",               capital: "Belgrad"         },
+    { country: "Słowacja",             capital: "Bratysława"      },
+    { country: "Słowenia",             capital: "Lublana"         },
+    { country: "Szwajcaria",           capital: "Berno"           },
+    { country: "Szwecja",              capital: "Sztokholm"       },
+    { country: "Turcja",               capital: "Ankara"          },
+    { country: "Ukraina",              capital: "Kijów"           },
+    { country: "Węgry",                capital: "Budapeszt"       },
+    { country: "Wielka Brytania",      capital: "Londyn"          },
+    { country: "Włochy",               capital: "Rzym"            },
+];
+
+const STREAK_TO_MASTER = 3;
+const FEEDBACK_DELAY_CORRECT = 600;
+const FEEDBACK_DELAY_WRONG = 1800;
+const FEEDBACK_DELAY_MASTERED = 1000;
+
+let state = null;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function formatTime(ms) {
+    const totalSec = ms / 1000;
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return String(min).padStart(2, '0') + ':' + sec.toFixed(1).padStart(4, '0');
+}
+
+function startTimer() {
+    state.timerStart = Date.now();
+    state.timerInterval = setInterval(() => {
+        state.elapsed = Date.now() - state.timerStart;
+        document.getElementById('stat-timer').textContent = formatTime(state.elapsed);
+    }, 100);
+}
+
+function stopTimer() {
+    if (state && state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+    }
+}
+
+function updateStats() {
+    document.getElementById('stat-remaining').textContent = state.remaining;
+    document.getElementById('stat-correct').textContent = state.correct;
+    document.getElementById('stat-wrong').textContent = state.wrong;
+    const total = state.correct + state.wrong;
+    const pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
+    document.getElementById('stat-pct').textContent = pct + '%';
+}
+
+function updateStreakDots(streak) {
+    const dots = document.querySelectorAll('#streak-dots .streak-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('filled', i < streak);
+    });
+}
+
+function normalize(str) {
+    return str.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function nextQuestion() {
+    const available = state.capitals.filter(c => !c.mastered);
+    if (available.length === 0) {
+        endGame();
+        return;
+    }
+
+    let next;
+    if (available.length > 1 && state.current) {
+        do {
+            next = available[Math.floor(Math.random() * available.length)];
+        } while (next.id === state.current.id);
+    } else {
+        next = available[Math.floor(Math.random() * available.length)];
+    }
+
+    state.current = next;
+    document.getElementById('country-name').textContent = state.current.country;
+    updateStreakDots(state.current.streak);
+
+    const input = document.getElementById('answer-input');
+    input.value = '';
+    input.className = '';
+    input.disabled = false;
+    input.focus();
+    document.getElementById('btn-submit').disabled = false;
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('feedback').className = 'feedback';
+}
+
+function handleSubmit() {
+    if (state.locked || !state.current) return;
+
+    const input = document.getElementById('answer-input');
+    const answer = input.value.trim();
+    if (!answer) return;
+
+    state.locked = true;
+    input.disabled = true;
+    document.getElementById('btn-submit').disabled = true;
+
+    const feedback = document.getElementById('feedback');
+    const isCorrect = normalize(answer) === normalize(state.current.capital);
+
+    if (isCorrect) {
+        state.correct++;
+        state.current.streak++;
+        updateStats();
+        input.classList.add('correct');
+
+        if (state.current.streak >= STREAK_TO_MASTER) {
+            state.current.mastered = true;
+            state.remaining--;
+            updateStats();
+            updateStreakDots(state.current.streak);
+            feedback.textContent = '✓ Zaliczone! Stolica opanowana.';
+            feedback.className = 'feedback correct';
+
+            setTimeout(() => {
+                state.locked = false;
+                nextQuestion();
+            }, FEEDBACK_DELAY_MASTERED);
+        } else {
+            updateStreakDots(state.current.streak);
+            feedback.textContent = `✓ Dobrze! (seria: ${state.current.streak}/${STREAK_TO_MASTER})`;
+            feedback.className = 'feedback correct';
+
+            setTimeout(() => {
+                state.locked = false;
+                nextQuestion();
+            }, FEEDBACK_DELAY_CORRECT);
+        }
+    } else {
+        state.wrong++;
+        state.current.streak = 0;
+        updateStats();
+        updateStreakDots(0);
+        input.classList.add('wrong');
+        feedback.textContent = `✗ Źle — poprawna odpowiedź: ${state.current.capital}`;
+        feedback.className = 'feedback wrong';
+
+        setTimeout(() => {
+            state.locked = false;
+            nextQuestion();
+        }, FEEDBACK_DELAY_WRONG);
+    }
+}
+
+function startGame() {
+    state = {
+        capitals: CAPITALS.map((c, i) => ({
+            ...c,
+            id: i,
+            streak: 0,
+            mastered: false,
+        })),
+        current: null,
+        remaining: CAPITALS.length,
+        correct: 0,
+        wrong: 0,
+        elapsed: 0,
+        timerStart: 0,
+        timerInterval: null,
+        locked: false,
+    };
+
+    showScreen('game-screen');
+    updateStats();
+    startTimer();
+    nextQuestion();
+}
+
+function endGame() {
+    stopTimer();
+    const total = state.correct + state.wrong;
+    const pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
+
+    document.getElementById('end-correct').textContent = state.correct;
+    document.getElementById('end-wrong').textContent = state.wrong;
+    document.getElementById('end-pct').textContent = pct + '%';
+    document.getElementById('end-time').textContent = formatTime(state.elapsed);
+
+    if (state.remaining === 0) {
+        document.getElementById('end-title').textContent = 'Gratulacje!';
+        document.getElementById('end-subtitle').textContent = 'Wpisałeś poprawnie wszystkie stolice!';
+    } else {
+        document.getElementById('end-title').textContent = 'Koniec gry';
+        document.getElementById('end-subtitle').textContent =
+            `Pozostało ${state.remaining} stolic do opanowania.`;
+    }
+
+    showScreen('end-screen');
+}
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-quit').addEventListener('click', () => { stopTimer(); endGame(); });
+document.getElementById('btn-restart').addEventListener('click', startGame);
+document.getElementById('btn-submit').addEventListener('click', handleSubmit);
+document.getElementById('answer-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubmit();
+});
+</script>
+</body>
+</html>
