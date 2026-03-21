@@ -1162,8 +1162,8 @@ function renderMapSvg(mapVariant) {
             <path d="${map.paths.crown}" fill="${MAP_COLORS.crown}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
     } else if (hasLithuania) {
         pathsHtml = `
-            <path d="${map.paths.lithuania}" fill="${MAP_COLORS.unified}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="${map.paths.crown}" fill="${MAP_COLORS.unified}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
+            <path d="${map.paths.lithuania}" fill="${MAP_COLORS.unified}" stroke="none"/>
+            <path d="${map.paths.crown}" fill="${MAP_COLORS.unified}" stroke="none"/>`;
     } else {
         pathsHtml = `
             <path d="${map.paths.crown}" fill="${MAP_COLORS.crown}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
@@ -1196,6 +1196,7 @@ function renderMapSvg(mapVariant) {
             </svg>
             ${legendHtml}
             <div class="card-map-info">${map.label} (ok. ${map.fromYear}–${map.toYear})</div>
+            ${map.historicalNote ? `<div class="card-map-info" style="font-style:italic">${map.historicalNote}</div>` : ''}
         </div>`;
 }
 
