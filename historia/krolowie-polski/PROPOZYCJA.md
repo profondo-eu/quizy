@@ -72,6 +72,8 @@ Aby budować skojarzenia (elaborative encoding), każdy władca ma przypisane po
   coronationFull: "4 marca 1386",
   place:         "Kraków",
   dynasty:       "Jagiellonowie",
+  eraLabel:      "Polska i Litwa w unii",
+  mapVariant:    "crown-lithuania-union",
   predecessor:   "Jadwiga Andegaweńska",
   successor:     "Władysław III Warneńczyk",
   keyAssociation: "Bitwa pod Grunwaldem (1410) — klęska Krzyżaków",
@@ -94,6 +96,7 @@ Aby budować skojarzenia (elaborative encoding), każdy władca ma przypisane po
 │  ✓ Dobrze!  Władysław II Jagiełło — 1386     │
 │                                               │
 │  Dynastia:    Jagiellonowie                   │
+│  Epoka:       Polska i Litwa w unii           │
 │  Skojarzenie: Bitwa pod Grunwaldem (1410)     │
 │                                               │
 │             [Dalej]    [Więcej ▼]             │
@@ -103,6 +106,7 @@ Aby budować skojarzenia (elaborative encoding), każdy władca ma przypisane po
 Zawartość minimalna:
 - poprawna odpowiedź (rok)
 - dynastia
+- **badge epoki** — tekstowy label stanu politycznego (np. „Korona Polska", „Polska i Litwa w unii", „Rzeczpospolita Obojga Narodów")
 - **jedno** najmocniejsze skojarzenie (`keyAssociation`)
 
 **Warstwa rozszerzona** (po kliknięciu „Więcej"):
@@ -169,16 +173,44 @@ Wyświetlamy rok koronacji. Uczeń wybiera właściwego króla spośród 4 propo
 
 ```
 ┌─────────────────────────────────────┐
-│    Koronacja: 1025 rok              │
+│    Koronacja: 1574 rok              │
 │                                     │
 │    ○ Władysław Łokietek             │
-│    ○ Bolesław I Chrobry             │
-│    ○ Mieszko II Lambert             │
-│    ○ Kazimierz III Wielki           │
+│    ○ Henryk Walezy                  │
+│    ○ Stefan Batory                  │
+│    ○ Zygmunt III Waza               │
 └─────────────────────────────────────┘
 ```
 
-Dystraktory dobierane inteligentnie — z tej samej dynastii lub bliskich dat.
+#### Adaptacyjny disambiguation dla niejednoznacznych lat
+
+Dwa lata mają po dwóch poprawnych władców: **1025** (Chrobry + Mieszko II) i **1576** (Anna Jagiellonka + Stefan Batory). Zamiast stałego drugiego cue dla wszystkich pytań, stosujemy zasadę: **dodatkowy cue tylko wtedy, gdy rok jest niejednoznaczny** — i dobierany jest minimalny cue rozstrzygający konflikt.
+
+Hierarchia disambiguation:
+
+1. Rok unikalny → pokazujemy **tylko rok** (większość pytań)
+2. Rok niejednoznaczny, dynastia rozstrzyga → rok + **dynastia**
+3. Rok niejednoznaczny, dynastia nie wystarcza → rok + **cue relacyjny**
+4. Nadal brak jednoznaczności → karta nie trafia do Trybu 2
+
+Konkretne przypadki:
+
+| Rok | Problem | Rozwiązanie | Cue |
+|-----|---------|-------------|-----|
+| 1576 | Anna Jagiellonka + Stefan Batory | Dynastia rozstrzyga | `1576 · Jagiellonowie` → Anna; `1576 · Zápolya` → Batory |
+| 1025 | Chrobry + Mieszko II, obaj Piastowie | Cue relacyjny | `1025 · Pierwszy koronowany król Polski` → Chrobry; `1025 · Syn Bolesława Chrobrego` → Mieszko II |
+
+#### Zasady doboru dystraktorów
+
+Dystraktory dobierane adaptacyjnie — trudność rośnie z postępem ucznia:
+
+| Etap nauki | Dobór dystraktorów |
+|------------|-------------------|
+| Początek | Odległe epoki (Piast vs. elekcyjny) — łatwe rozróżnienie |
+| Środek | Ta sama dynastia, ale różne wieki |
+| Zaawansowany | Bliskie daty lub ta sama epoka — wymaga precyzji |
+
+Specjalna obsługa: jeśli rok jest niejednoznaczny (1025, 1576), drugi władca z tego roku **nie** pojawia się jako dystraktor — to byłoby mylące.
 
 ### Tryb 3: Oś czasu (przeciągnij i upuść)
 
@@ -231,7 +263,7 @@ Typy wskazówek (mieszane losowo):
 |----------|---------------------|
 | **Elaborative encoding** | Karta wiedzy z kontekstem po każdej odpowiedzi — uczeń powiązuje rok z wydarzeniem i dynastią |
 | **Mastery loop** (utrwalanie w sesji) | Streak 3× z rzędu; błędna odpowiedź resetuje serię |
-| **Intra-session spacing** | Pytania błędne wracają po 3–5 innych pytaniach; trudne (błędne ≥2×) po 8–12; opanowane rzadziej |
+| **Intra-session spacing** | Pytania najtrudniejsze (błędne ≥2×) wracają najszybciej (po 2–4 pytaniach); błędne 1× po 5–7; opanowane nie wracają |
 | **Interleaving** | Miks trybów — ale dopiero po opanowaniu podstaw (patrz: Progresja) |
 | **Retrieval practice** | Uczeń aktywnie przypomina sobie odpowiedź; prompt nie zawiera podpowiedzi zdradzającej rok |
 | **Dual coding** | Oś czasu (wizualna) + tekst; karta wiedzy łączy fakty z narracją |
@@ -272,18 +304,18 @@ Kluczowa zmiana vs. pierwotny plan: **quiz nie zaczyna od najtrudniejszego trybu
 | 6 | **Kolejna paczka** | Następna dynastia | Powrót do etapu 1 z nowym materiałem |
 | 7 | **Powtórka całości** | Wszyscy (28) | Konsolidacja; tryb zaawansowany |
 
-> Uczeń może pominąć etapy i od razu wybrać dowolny tryb / zakres — progresja to **sugerowana ścieżka**, nie blokada.
+> Uczeń może pominąć etapy i od razu wybrać dowolny tryb / zakres — progresja to **sugerowana ścieżka**, nie blokada. Implementacyjnie: system prowadzi (np. podświetla sugerowany następny krok), ale nie karze za chęć eksploracji i nigdy nie ukrywa dostępnych trybów za sztucznym gatekeepingiem.
 
 ### Intra-session spacing (powroty trudnych pytań)
 
-Zamiast czysto losowego doboru pytań, pytania wracają z częstotliwością zależną od wyniku:
+Zamiast czysto losowego doboru pytań, pytania wracają z częstotliwością zależną od wyniku. **Im trudniejsze pytanie, tym szybciej wraca** — żeby wzmacniać najsłabsze ślady pamięciowe:
 
-| Status pytania | Powraca po… |
-|----------------|-------------|
-| Błędne (1. raz) | 3–5 innych pytaniach |
-| Błędne (≥2 razy) | 8–12 innych pytaniach |
-| Poprawne (seria < 3) | losowo, w normalnej rotacji |
-| Opanowane (seria = 3) | nie wraca w tej sesji |
+| Status pytania | Powraca po… | Logika |
+|----------------|-------------|--------|
+| Błędne (≥2 razy) | 2–4 innych pytaniach | Najtrudniejsze → najszybszy powrót |
+| Błędne (1. raz) | 5–7 innych pytaniach | Wymaga powtórki, ale mniej pilnie |
+| Poprawne (seria < 3) | losowo, w normalnej rotacji | W drodze do opanowania |
+| Opanowane (seria = 3) | nie wraca w tej sesji | Zaliczone |
 
 ---
 
@@ -309,54 +341,75 @@ Oprócz standardowych statystyk (poprawne, błędne, %, czas) — lista **najtru
 
 ---
 
-## Mapy historycznych granic Polski
+## Mapy historycznych granic Polski (rozszerzenie)
 
-Na karcie wiedzy (po odpowiedzi) wyświetlana jest schematyczna mapa granic Polski z epoki danego króla. Mapy są graficznie jednolite — ten sam bounding box, skala, kolory, grubość linii.
+> **Priorytet:** mapy to **opcjonalny enrichment**, nie część rdzenia quizu. Implementacja dopiero po dojrzałych trybach 1–4 i pętli uczenia. Mapa działa jako silny cue pamięciowy — błędne uproszczenie może szkodzić bardziej niż brak mapy.
+
+### Umiejscowienie w UI
+
+- **Warstwa podstawowa karty wiedzy:** tylko tekstowy **badge epoki**, np. `Korona Polska`, `Polska i Litwa w unii`, `Rzeczpospolita Obojga Narodów` — lekki, nie przeciąża głównego flow
+- **Warstwa rozszerzona** (po kliknięciu „Więcej"): pełna schematyczna **mapa SVG** z granicami
+
+Dzięki temu główna ścieżka nauki pozostaje lekka, a mapa jest realnym elementem dydaktycznym dla chętnych.
 
 ### Źródło danych
 
-[aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) — licencja CC-BY-SA.
+[aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) — licencja CC-BY-SA. GeoJSON z granicami państw świata. Lekkie wielokąty (60–220 punktów). Służy jako **baza wyjściowa** do ręcznej kuracji wariantów map.
 
-GeoJSON z granicami państw świata w 14 punktach czasowych pokrywających Polskę. Lekkie wielokąty (60–220 punktów na obrys) — idealne pod mapę schematyczną. Nie wymagają upraszczania.
+### Podejście: ręcznie kuratorowane warianty map
 
-### Podejście: ery graniczne
+Zamiast automatycznego generatora — **12–14 ręcznie zweryfikowanych wariantów map** przypisanych do precyzyjnie rozbitych okresów. Kluczowa zasada: **nie scalać epok, w których natura państwa zmienia się jakościowo**.
 
-Zamiast osobnej mapy na każdego króla — **11 er**, w których granice Polski były w przybliżeniu stabilne. Wielu królów dzieli tę samą mapę, z etykietą „Polska ok. 1320–1370".
+Każdy wariant mapy:
 
-| Era | Etykieta | Źródło GeoJSON | Królowie |
-|-----|----------|----------------|----------|
-| 1 | ok. 1000–1038 | `world_1000` | Bolesław I Chrobry, Mieszko II Lambert |
-| 2 | ok. 1058–1079 | `world_1100` | Bolesław II Śmiały |
-| 3 | ok. 1295–1300 | `world_1279` | Przemysł II, Wacław II Czeski |
-| 4 | ok. 1320–1370 | `world_1300` | Władysław I Łokietek, Kazimierz III Wielki |
-| 5 | ok. 1370–1434 | `world_1400` | Ludwik Węgierski, Jadwiga, Władysław II Jagiełło |
-| 6 | ok. 1434–1492 | `world_1492` | Władysław III Warneńczyk, Kazimierz IV Jagiellończyk |
-| 7 | ok. 1492–1569 | `world_1530` | Jan I Olbracht, Aleksander, Zygmunt I Stary, Zygmunt II August |
-| 8 | ok. 1569–1648 | `world_1600` | Henryk Walezy, Anna Jagiellonka, Stefan Batory, Zygmunt III Waza |
-| 9 | ok. 1648–1700 | `world_1650` | Władysław IV Waza, Jan II Kazimierz, Michał Korybut Wiśniowiecki, Jan III Sobieski |
-| 10 | ok. 1697–1736 | `world_1715` | August II Mocny, Stanisław I Leszczyński, August III Sas |
-| 11 | ok. 1736–1795 | `world_1783` | Stanisław August Poniatowski |
+```
+{
+  id:             "crown-lithuania-union",
+  label:          "Polska i Litwa w unii",
+  fromYear:       1386,
+  toYear:         1569,
+  paths:          { crown: "M...", lithuania: "M..." },
+  legend:         ["Korona", "Wielkie Księstwo Litewskie"],
+  historicalNote: "Unia personalna — wspólny władca, odrębne struktury",
+  sourceRef:      "aourednik/historical-basemaps world_1400, world_1492"
+}
+```
+
+#### Warianty map i przypisanie do królów
+
+| # | Etykieta | Okres | Charakter | Królowie | Źródło bazowe |
+|---|----------|-------|-----------|----------|---------------|
+| 1 | Państwo Piastów u szczytu | ~1000–1038 | Korona | Chrobry, Mieszko II | `world_1000` |
+| 2 | Odbudowane państwo Piastów | ~1058–1079 | Korona | Bolesław II Śmiały | `world_1100` |
+| 3 | Zjednoczona Wielkopolska i Małopolska | ~1295–1300 | Korona | Przemysł II, Wacław II | `world_1279` |
+| 4 | Zjednoczone Królestwo | ~1320–1370 | Korona | Łokietek, Kazimierz III Wielki | `world_1300` |
+| 5 | Korona Polska (Andegawenowie) | ~1370–1384 | Tylko Korona | Ludwik Węgierski, Jadwiga | `world_1400` (Korona) |
+| 6 | Polska i Litwa w unii personalnej | ~1386–1434 | Korona + Litwa | Władysław II Jagiełło | `world_1400` |
+| 7 | Korona i Litwa (Jagiellonowie) | ~1434–1492 | Korona + Litwa | Warneńczyk, Kazimierz IV | `world_1492` |
+| 8 | Korona i Litwa przed Unią Lubelską | ~1492–1569 | Korona + Litwa | Olbracht, Aleksander, Zygmunt I, Zygmunt II | `world_1530` |
+| 9 | Rzeczpospolita Obojga Narodów | ~1569–1648 | RON | Walezy, Anna, Batory, Zygmunt III | `world_1600` |
+| 10 | Rzeczpospolita po stratach Potopu | ~1648–1700 | RON (mniejsza) | Władysław IV, Jan Kazimierz, Wiśniowiecki, Sobieski | `world_1650` |
+| 11 | Późna Rzeczpospolita | ~1697–1736 | RON | August II, Leszczyński, August III | `world_1715` |
+| 12 | Rzeczpospolita przed rozbiorami | ~1736–1795 | RON | Stanisław August Poniatowski | `world_1783` |
+
+> **Kluczowe rozdzielenie:** era 5 (1370–1384, sama Korona za Andegawenów) ≠ era 6 (1386+, Korona i Litwa w unii za Jagiełły). Wrzucenie ich do jednego wariantu budowałoby fałszywe skojarzenie.
 
 ### Rendering: Korona vs. Wielkie Księstwo Litewskie
 
-Od ery 5 (1385+) mapa pokazuje **całą Rzeczpospolitą** z wizualnym rozróżnieniem:
+Od ery 6 (1386+) mapa pokazuje **całą Rzeczpospolitą** z wizualnym rozróżnieniem:
 
 - **Korona Polska** — ciemniejszy fill (np. `#3b82f6`, accent z projektu)
 - **Wielkie Księstwo Litewskie** — jaśniejszy fill (np. `#93c5fd`)
 - Wspólna obwódka (stroke)
 - Legenda: „Korona" / „Litwa"
 
-Do ery 4: tylko Polska, jednolity fill.
-
-Podział geometryczny Korona/Litwa: w danych od 1400 r. Polska i Litwa tworzą jeden wielokąt. Rozdzielenie przybliżoną linią graniczną (shapely `intersection`/`difference`) na etapie ekstrakcji danych.
+Ery 1–5: tylko Polska, jednolity fill.
 
 ```
+Warstwa rozszerzona karty wiedzy:
+
 ┌───────────────────────────────────────────────────────┐
-│  ✓ Dobrze!  Władysław II Jagiełło — 1386             │
-│                                                       │
-│  Dynastia:    Jagiellonowie                           │
-│  Skojarzenie: Bitwa pod Grunwaldem (1410)             │
-│                                                       │
+│  (...)                                                │
 │  ┌───────────────────────────┐                        │
 │  │          ░░░░░░░░░        │                        │
 │  │       ░░░ Litwa ░░░       │                        │
@@ -366,21 +419,22 @@ Podział geometryczny Korona/Litwa: w danych od 1400 r. Polska i Litwa tworzą j
 │  │   ▓▓▓▓▓▓▓▓▓░░░░          │                        │
 │  │     ▓▓▓▓▓▓▓               │                        │
 │  │                           │                        │
-│  │   Polska ok. 1370–1434    │                        │
+│  │  Polska i Litwa w unii    │                        │
+│  │  ok. 1386–1434            │                        │
 │  └───────────────────────────┘                        │
-│                                                       │
-│             [Dalej]    [Więcej ▼]                     │
+│                    [Dalej]                             │
 └───────────────────────────────────────────────────────┘
 ```
 
-### Pipeline ekstrakcji danych
+### Przygotowanie danych (offline, jednorazowe)
 
-Skrypt `scripts/extract_borders.py` (Python, venv via `uv`):
+Skrypt `scripts/extract_borders.py` (Python, venv via `uv`) służy **tylko** jako punkt wyjścia:
 
-1. Pobranie GeoJSON z aourednik dla 11 lat źródłowych
+1. Pobranie GeoJSON z aourednik dla 12 lat źródłowych
 2. Wyodrębnienie wielokąta Polski z każdego pliku
-3. Dla lat 1400+: rozdzielenie Korona/Litwa przybliżoną linią graniczną (shapely)
-4. Zapis jako `borders_data.json` — lekki plik z koordynatami per era
+3. Wstępne rozdzielenie Korona/Litwa (shapely)
+4. **Ręczna weryfikacja i korekta** — czy wariant mapy uczciwie oddaje stan polityczny epoki
+5. Zapis jako `maps_data.json` — statyczny plik z SVG pathami per wariant
 
 ```bash
 uv venv
@@ -388,11 +442,11 @@ uv pip install shapely requests
 python scripts/extract_borders.py
 ```
 
-Wynikowy `borders_data.json` zostaje wcommitowany do repo — quiz ładuje go bez potrzeby uruchamiania Pythona.
+Wynikowy `maps_data.json` commitowany do repo. **W runtime żadnej geometrii** — quiz renderuje gotowe statyczne SVG.
 
 ### Wytyczne graficzne
 
-- **Bounding box:** stały dla wszystkich er (~14°E–34°E, ~49°N–57°N) — Europa Środkowo-Wschodnia
+- **Bounding box:** stały dla wszystkich wariantów (~14°E–34°E, ~49°N–57°N)
 - **Projekcja:** prosta latlon → px (wystarczająca przy tym zakresie)
 - **Rozmiar mapy:** ~280 × 200 px (wpasowana w kartę wiedzy)
 - **Fill Korona:** `#3b82f6` (accent)
@@ -400,7 +454,7 @@ Wynikowy `borders_data.json` zostaje wcommitowany do repo — quiz ładuje go be
 - **Stroke:** `#1e3a8a`, 1.5 px
 - **Tło:** przezroczyste (dziedziczy tło karty)
 - **Etykieta:** pod mapą, `font-size: 0.75rem`, kolor `--text-muted`
-- **Rendering:** `<svg>` z `<path>` — lekkie, skalowalne
+- **Rendering:** `<svg>` z `<path>` — statyczne, lekkie, skalowalne
 
 ---
 
@@ -409,41 +463,42 @@ Wynikowy `borders_data.json` zostaje wcommitowany do repo — quiz ładuje go be
 - Samodzielny `index.html` (jak wszystkie quizy w projekcie)
 - Zero zewnętrznych zależności w runtimie (czysty HTML/CSS/JS)
 - Dane wszystkich 28 królów jako tablica JS w pliku
-- Dane granic jako osobny `borders_data.json` (ładowany fetch) lub inline
 - Drag & drop (tryb osi czasu) — natywne HTML5 Drag and Drop API
 - Responsywny — działa na tablecie (typowe urządzenie w klasie)
-- Pipeline ekstrakcji: Python + uv (shapely, requests) — jednorazowy, wynik commitowany
+- Mapy (opcjonalne rozszerzenie): `maps_data.json` ze statycznymi SVG pathami; pipeline ekstrakcji offline (Python + uv + shapely) → ręczna kuracja → commitowany plik
 
 ---
 
 ## Kolejność implementacji
 
 1. **Faza 1 — MVP dydaktyczne**
-   - Tryb 2 (rok → wybierz króla z 4 opcji) — prostszy tryb na start
-   - Karta wiedzy (warstwa podstawowa: rok + dynastia + 1 skojarzenie)
+   - Tryb 2 (rok → wybierz króla z 4 opcji) z adaptacyjnym disambiguation
+   - Karta wiedzy (warstwa podstawowa: rok + dynastia + 1 skojarzenie + badge epoki)
    - Filtrowanie po dynastii (domyślnie: Piastowie)
-   - Intra-session spacing (trudne pytania wracają częściej)
+   - Intra-session spacing (najtrudniejsze pytania wracają najszybciej)
+   - Adaptacyjne dystraktory (łatwiejsze na start, trudniejsze z postępem)
 
 2. **Faza 2 — Aktywne przypominanie**
    - Tryb 1 (król → wpisz rok) — bez panowania w prompt
    - Przełącznik „Pokaż wskazówki" (scaffolding: dynastia)
    - Warstwa rozszerzona karty wiedzy („Więcej")
 
-3. **Faza 3 — Mapy historycznych granic**
-   - Pipeline ekstrakcji (`scripts/extract_borders.py`, uv + shapely)
-   - `borders_data.json` — 11 er z koordynatami Korona/Litwa
-   - Rendering SVG na karcie wiedzy
-   - Pole `borderEra` w danych każdego króla
-
-4. **Faza 4 — Budowanie relacji**
+3. **Faza 3 — Budowanie relacji**
    - Tryb 3 (oś czasu / drag & drop, 4–6 postaci)
    - Presetowe paczki po 5–7 postaci
 
-5. **Faza 5 — Utrwalanie przez kontekst**
+4. **Faza 4 — Utrwalanie przez kontekst**
    - Tryb 4 (kontekst → król) z różnorodnymi typami wskazówek
    - Miks trybów (interleaving po opanowaniu paczki)
 
-6. **Faza 6 — Podsumowanie i integracja**
+5. **Faza 5 — Podsumowanie i integracja**
    - Ekran końcowy z listą najtrudniejszych
    - Sugerowana ścieżka progresji na ekranie startowym
    - Kafelek na landing page
+
+6. **Faza 6 — Mapy historycznych granic (rozszerzenie)**
+   - Pipeline ekstrakcji offline (`scripts/extract_borders.py`, uv + shapely)
+   - Ręczna kuracja i weryfikacja 12 wariantów map
+   - `maps_data.json` ze statycznymi SVG pathami
+   - Rendering SVG w warstwie rozszerzonej karty wiedzy
+   - Pole `mapVariant` w danych każdego króla
