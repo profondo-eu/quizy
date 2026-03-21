@@ -765,15 +765,21 @@ function getDifficultyLevel() {
 function selectDistractors(correctKing, count) {
     const difficulty = getDifficultyLevel();
 
-    const subset = state.kings.filter(k =>
-        k.name !== correctKing.name && k.coronationYear !== correctKing.coronationYear
-    );
-    const allFallback = state.allKingsRef.filter(k =>
-        k.name !== correctKing.name && k.coronationYear !== correctKing.coronationYear
-    );
+    const forced = [];
+    if (correctKing.disambiguationCue) {
+        const rival = state.allKingsRef.find(k =>
+            k.name !== correctKing.name && k.coronationYear === correctKing.coronationYear
+        );
+        if (rival) forced.push(rival);
+    }
+    const remaining = count - forced.length;
+
+    const exclude = new Set([correctKing.name, ...forced.map(f => f.name)]);
+    const subset = state.kings.filter(k => !exclude.has(k.name));
+    const allFallback = state.allKingsRef.filter(k => !exclude.has(k.name));
 
     let pool;
-    const candidates = subset.length >= count ? subset : allFallback;
+    const candidates = subset.length >= remaining ? subset : allFallback;
 
     if (difficulty === 'easy') {
         pool = candidates.filter(k => k.dynasty !== correctKing.dynasty);
@@ -785,10 +791,10 @@ function selectDistractors(correctKing, count) {
         pool = candidates.filter(k => Math.abs(k.coronationYear - correctKing.coronationYear) <= 80);
     }
 
-    if (pool.length < count) pool = candidates.length >= count ? candidates : allFallback;
+    if (pool.length < remaining) pool = candidates.length >= remaining ? candidates : allFallback;
 
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+    return [...forced, ...shuffled.slice(0, remaining)];
 }
 
 /* ── Question routing ── */
