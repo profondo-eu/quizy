@@ -338,6 +338,29 @@
             font-weight: 600; text-align: center; margin-top: 4px;
         }
 
+        .card-map {
+            margin: 16px 0 8px; text-align: center;
+        }
+        .card-map svg {
+            width: 100%; max-width: 280px; height: auto;
+            border-radius: 8px;
+        }
+        .card-map-legend {
+            display: flex; gap: 14px; justify-content: center;
+            margin-top: 8px; font-size: 0.75rem; color: var(--text-muted);
+        }
+        .card-map-legend-item {
+            display: flex; align-items: center; gap: 5px;
+        }
+        .card-map-legend-swatch {
+            width: 12px; height: 12px; border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .card-map-info {
+            font-size: 0.75rem; color: var(--text-muted);
+            text-align: center; margin-top: 6px; line-height: 1.4;
+        }
+
         .card-extended { display: none; }
         .card-extended.visible { display: block; }
 
@@ -563,13 +586,19 @@ const MODES = [
 ];
 
 let ALL_KINGS = [];
+let MAPS_DATA = {};
 let state = null;
 
 /* ── Data loading ── */
 
 async function loadData() {
-    const res = await fetch('kings_data.json');
-    ALL_KINGS = await res.json();
+    const [kingsRes, mapsRes] = await Promise.all([
+        fetch('kings_data.json'),
+        fetch('maps_data.json'),
+    ]);
+    ALL_KINGS = await kingsRes.json();
+    const mapsArr = await mapsRes.json();
+    MAPS_DATA = Object.fromEntries(mapsArr.map(m => [m.id, m]));
     buildStartScreen();
     showScreen('start-screen');
 }
@@ -1110,6 +1139,66 @@ function processAnswer(king, isCorrect, clickedBtn, optionsGrid, feedbackId, str
     }
 }
 
+/* ── Map rendering ── */
+
+const MAP_COLORS = {
+    crown: '#3b82f6',
+    lithuania: '#93c5fd',
+    unified: '#3b82f6',
+    stroke: '#1e3a8a',
+};
+
+function renderMapSvg(mapVariant) {
+    const map = MAPS_DATA[mapVariant];
+    if (!map || !map.paths?.crown) return '';
+
+    const hasLithuania = !!map.paths.lithuania;
+    const showSplit = hasLithuania && map.splitVerified;
+
+    let pathsHtml;
+    if (showSplit) {
+        pathsHtml = `
+            <path d="${map.paths.lithuania}" fill="${MAP_COLORS.lithuania}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="${map.paths.crown}" fill="${MAP_COLORS.crown}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    } else if (hasLithuania) {
+        pathsHtml = `
+            <path d="${map.paths.lithuania}" fill="${MAP_COLORS.unified}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="${map.paths.crown}" fill="${MAP_COLORS.unified}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    } else {
+        pathsHtml = `
+            <path d="${map.paths.crown}" fill="${MAP_COLORS.crown}" stroke="${MAP_COLORS.stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    }
+
+    const legendHtml = showSplit
+        ? `<div class="card-map-legend">
+            <div class="card-map-legend-item">
+                <span class="card-map-legend-swatch" style="background:${MAP_COLORS.crown}"></span> ${map.legend[0]}
+            </div>
+            <div class="card-map-legend-item">
+                <span class="card-map-legend-swatch" style="background:${MAP_COLORS.lithuania}"></span> ${map.legend[1]}
+            </div>
+           </div>`
+        : (map.legend.length === 1
+            ? `<div class="card-map-legend">
+                <div class="card-map-legend-item">
+                    <span class="card-map-legend-swatch" style="background:${MAP_COLORS.crown}"></span> ${map.legend[0]}
+                </div>
+               </div>`
+            : `<div class="card-map-legend">
+                <div class="card-map-legend-item">
+                    <span class="card-map-legend-swatch" style="background:${MAP_COLORS.unified}"></span> ${map.legend.join(' i ')}
+                </div>
+               </div>`);
+
+    return `
+        <div class="card-map">
+            <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">${pathsHtml}
+            </svg>
+            ${legendHtml}
+            <div class="card-map-info">${map.label} (ok. ${map.fromYear}–${map.toYear})</div>
+        </div>`;
+}
+
 /* ── Knowledge Card ── */
 
 function showKnowledgeCard(king, wasCorrect) {
@@ -1157,6 +1246,7 @@ function showKnowledgeCard(king, wasCorrect) {
                     <span class="card-field-value">${king.successor || '—'}</span>
                 </div>` : ''}
             </div>
+            ${renderMapSvg(king.mapVariant)}
             <ul class="card-events">
                 ${king.keyEvents.map(e => `<li>${e}</li>`).join('')}
             </ul>
