@@ -652,7 +652,7 @@ kings = [
         "mnemonic": "Leszczyński 1705 = dwukrotnie wybrany, dwukrotnie usunięty",
         "contextHints": [
             {"type": "description", "text": "Dwukrotnie wybrany na króla i dwukrotnie usunięty z tronu. Koronowany w Warszawie, nie w Krakowie."},
-            {"type": "event", "text": "Koronacja w Warszawie (1705) — pierwsza koronacja królewska poza Krakowem."},
+            {"type": "event", "text": "Koronacja w Warszawie (1705) — pierwsza koronacja w Warszawie."},
             {"type": "relation", "text": "Rywał Augusta II Mocnego. Teść króla Francji Ludwika XV."},
         ],
         "disambiguationCue": None,
