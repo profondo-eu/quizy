@@ -189,15 +189,14 @@ Dwa lata mają po dwóch poprawnych władców: **1025** (Chrobry + Mieszko II) i
 Hierarchia disambiguation:
 
 1. Rok unikalny → pokazujemy **tylko rok** (większość pytań)
-2. Rok niejednoznaczny, dynastia rozstrzyga → rok + **dynastia**
-3. Rok niejednoznaczny, dynastia nie wystarcza → rok + **cue relacyjny**
-4. Nadal brak jednoznaczności → karta nie trafia do Trybu 2
+2. Rok niejednoznaczny → rok + **najlżejszy cue rozstrzygający konflikt** (relacyjny, dynastyczny lub opisowy — dobierany pod poziom ucznia klasy 6, nie akademicko)
+3. Nadal brak jednoznaczności → karta nie trafia do Trybu 2
 
 Konkretne przypadki:
 
 | Rok | Problem | Rozwiązanie | Cue |
 |-----|---------|-------------|-----|
-| 1576 | Anna Jagiellonka + Stefan Batory | Dynastia rozstrzyga | `1576 · Jagiellonowie` → Anna; `1576 · Zápolya` → Batory |
+| 1576 | Anna Jagiellonka + Stefan Batory | Cue szkolny, relacyjny | `1576 · Królowa z rodu Jagiellonów` → Anna; `1576 · Słynny wódz, zwycięzca w wojnach z Moskwą` → Batory |
 | 1025 | Chrobry + Mieszko II, obaj Piastowie | Cue relacyjny | `1025 · Pierwszy koronowany król Polski` → Chrobry; `1025 · Syn Bolesława Chrobrego` → Mieszko II |
 
 #### Zasady doboru dystraktorów
@@ -387,12 +386,14 @@ Każdy wariant mapy:
 | 6 | Polska i Litwa w unii personalnej | ~1386–1434 | Korona + Litwa | Władysław II Jagiełło | `world_1400` |
 | 7 | Korona i Litwa (Jagiellonowie) | ~1434–1492 | Korona + Litwa | Warneńczyk, Kazimierz IV | `world_1492` |
 | 8 | Korona i Litwa przed Unią Lubelską | ~1492–1569 | Korona + Litwa | Olbracht, Aleksander, Zygmunt I, Zygmunt II | `world_1530` |
-| 9 | Rzeczpospolita Obojga Narodów | ~1569–1648 | RON | Walezy, Anna, Batory, Zygmunt III | `world_1600` |
-| 10 | Rzeczpospolita po stratach Potopu | ~1648–1700 | RON (mniejsza) | Władysław IV, Jan Kazimierz, Wiśniowiecki, Sobieski | `world_1650` |
+| 9 | Rzeczpospolita Obojga Narodów | ~1569–1648 | RON | Walezy, Anna, Batory, Zygmunt III, Władysław IV | `world_1600` |
+| 10 | Rzeczpospolita po stratach Potopu | ~1655–1700 | RON (mniejsza) | Jan Kazimierz, Wiśniowiecki, Sobieski | `world_1650` |
 | 11 | Późna Rzeczpospolita | ~1697–1736 | RON | August II, Leszczyński, August III | `world_1715` |
 | 12 | Rzeczpospolita przed rozbiorami | ~1736–1795 | RON | Stanisław August Poniatowski | `world_1783` |
 
-> **Kluczowe rozdzielenie:** era 5 (1370–1384, sama Korona za Andegawenów) ≠ era 6 (1386+, Korona i Litwa w unii za Jagiełły). Wrzucenie ich do jednego wariantu budowałoby fałszywe skojarzenie.
+> **Kluczowe rozdzielenia:**
+> - Era 5 (1370–1384, sama Korona za Andegawenów) ≠ era 6 (1386+, Korona i Litwa w unii za Jagiełły). Wrzucenie ich do jednego wariantu budowałoby fałszywe skojarzenie.
+> - Władysław IV Waza (koronacja 1633) → era 9 (RON przed Potopem), **nie** era 10 (po Potopie). Potop zaczął się w 1655 — mapa z era 10 nie odpowiada stanowi granic w momencie koronacji Władysława IV.
 
 ### Rendering: Korona vs. Wielkie Księstwo Litewskie
 
