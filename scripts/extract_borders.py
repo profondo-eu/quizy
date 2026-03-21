@@ -275,13 +275,15 @@ def geom_to_svg_path(geom) -> str:
     return "".join(parts)
 
 
-def process_variant(variant: dict, cache: dict) -> dict:
+def process_variant(variant: dict, cache: dict, existing_sources: list) -> dict:
     year = variant["sourceYear"]
     if year not in cache:
         cache[year] = download_geojson(year)
 
     geojson = cache[year]
     feature = find_feature(geojson, variant["searchNames"])
+
+    sources = existing_sources
 
     if feature is None:
         print(f"  WARNING: No feature found for {variant['id']} (year {year}, names {variant['searchNames']})")
@@ -292,6 +294,7 @@ def process_variant(variant: dict, cache: dict) -> dict:
             "toYear": variant["toYear"],
             "paths": {"crown": "", "lithuania": ""},
             "splitVerified": variant.get("splitVerified", False),
+            "curationSources": sources,
             "legend": variant["legend"],
             "historicalNote": variant["historicalNote"],
             "sourceRef": variant["sourceRef"],
@@ -318,20 +321,54 @@ def process_variant(variant: dict, cache: dict) -> dict:
         "toYear": variant["toYear"],
         "paths": paths,
         "splitVerified": variant.get("splitVerified", False),
+        "curationSources": sources,
         "legend": variant["legend"],
         "historicalNote": variant["historicalNote"],
         "sourceRef": variant["sourceRef"],
     }
 
 
+def load_existing_variants(path: pathlib.Path) -> dict[str, dict]:
+    """Load existing maps_data.json entries, keyed by variant id."""
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return {entry["id"]: entry for entry in data}
+    except (json.JSONDecodeError, KeyError):
+        return {}
+
+
 def main():
+    force = "--force" in sys.argv
     print("Extracting historical borders of Poland...")
+    if force:
+        print("  --force: all variants will be regenerated from baseline")
+
+    out_path = pathlib.Path("historia/krolowie-polski/maps_data.json")
+    existing = load_existing_variants(out_path)
+    curated_ids = set() if force else {
+        vid for vid, entry in existing.items()
+        if entry.get("curationSources")
+    }
+    if curated_ids:
+        print(f"  {len(curated_ids)} curated variant(s) will be preserved: "
+              + ", ".join(sorted(curated_ids)))
+
     cache = {}
     results = []
 
     for variant in MAP_VARIANTS:
-        print(f"\nProcessing: {variant['id']} ({variant['label']})")
-        result = process_variant(variant, cache)
+        vid = variant["id"]
+        print(f"\nProcessing: {vid} ({variant['label']})")
+
+        if vid in curated_ids:
+            print("  SKIP regeneration — curated variant preserved as-is")
+            results.append(existing[vid])
+            continue
+
+        sources = existing.get(vid, {}).get("curationSources", [])
+        result = process_variant(variant, cache, sources)
         crown_len = len(result["paths"].get("crown", ""))
         lith_len = len(result["paths"].get("lithuania", ""))
         print(f"  Crown SVG path: {crown_len} chars")
@@ -339,7 +376,6 @@ def main():
             print(f"  Lithuania SVG path: {lith_len} chars")
         results.append(result)
 
-    out_path = pathlib.Path("historia/krolowie-polski/maps_data.json")
     out_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nWrote {len(results)} map variants to {out_path}")
     print("\nIMPORTANT: Crown/Lithuania split uses a rough longitude heuristic.")
