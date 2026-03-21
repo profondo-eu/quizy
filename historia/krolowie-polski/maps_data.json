@@ -121,7 +121,7 @@
     "id": "commonwealth",
     "label": "Rzeczpospolita Obojga Narodów",
     "fromYear": 1569,
-    "toYear": 1648,
+    "toYear": 1654,
     "paths": {
       "crown": "M123.5 85.9L117.5 74.1L123.2 56.5L111.5 49.2L97.2 23.3L110.7 16.2L124.0 16.9L130.2 1.4L133.0 2.9L133.0 192.0L108.8 185.2L102.4 178.4L93.5 183.7L84.2 179.9L82.5 188.2L75.3 179.9L69.0 184.5L65.0 158.9L49.7 133.6L40.0 133.6L35.1 120.5L35.1 124.9L24.7 118.4L33.8 86.9L30.9 82.3L37.2 78.6L39.3 88.4L37.6 74.0L52.5 64.2L51.2 57.9L59.9 56.9L66.6 61.6L61.1 58.3L65.3 68.5L60.8 75.8L68.4 85.4L67.1 92.2L82.3 93.8L88.7 100.6L123.5 85.9Z",
       "lithuania": "M133.0 2.9L235.1 0.0L240.3 6.7L246.7 0.0L253.1 5.7L250.0 25.2L240.9 31.7L245.2 36.0L248.2 51.2L244.0 52.3L245.8 67.5L254.9 64.2L258.6 97.8L243.4 93.5L242.8 151.9L268.4 139.3L278.3 146.9L280.0 200.0L142.1 200.0L133.0 192.0L133.0 2.9Z"
@@ -130,12 +130,12 @@
       "Korona",
       "Wielkie Księstwo Litewskie"
     ],
-    "historicalNote": "Po Unii Lubelskiej — jedno państwo, dwa narody",
+    "historicalNote": "Po Unii Lubelskiej — jedno państwo, dwa narody; przed Potopem szwedzkim",
     "sourceRef": "aourednik/historical-basemaps world_1600"
   },
   {
     "id": "commonwealth-post-deluge",
-    "label": "Rzeczpospolita po stratach Potopu",
+    "label": "Rzeczpospolita w II poł. XVII w.",
     "fromYear": 1655,
     "toYear": 1700,
     "paths": {
@@ -146,7 +146,7 @@
       "Korona",
       "Wielkie Księstwo Litewskie"
     ],
-    "historicalNote": "Po potopie szwedzkim — straty terytorialne, osłabienie",
+    "historicalNote": "Źródło bazowe: world_1650 (tuż przed Potopem). Granice przybliżone — rzeczywiste straty terytorialne po 1660 nie są w pełni odzwierciedlone.",
     "sourceRef": "aourednik/historical-basemaps world_1650"
   },
   {

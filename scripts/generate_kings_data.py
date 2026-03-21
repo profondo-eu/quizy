@@ -439,7 +439,8 @@ kings = [
         "eraLabel": "Rzeczpospolita Obojga Narodów",
         "mapVariant": "commonwealth",
         "predecessor": "Henryk Walezy",
-        "successor": "Stefan Batory",
+        "successor": "Zygmunt III Waza",
+        "coRuler": "Stefan Batory",
         "keyAssociation": "Ostatnia z Jagiellonów — koronowana wspólnie ze Stefanem Batorym",
         "keyEvents": [
             "Koronacja wspólna ze Stefanem Batorym (1576)",
@@ -463,8 +464,9 @@ kings = [
         "dynasty": "— (Zápolya)",
         "eraLabel": "Rzeczpospolita Obojga Narodów",
         "mapVariant": "commonwealth",
-        "predecessor": "Anna Jagiellonka",
+        "predecessor": "Henryk Walezy",
         "successor": "Zygmunt III Waza",
+        "coRuler": "Anna Jagiellonka",
         "keyAssociation": "Zwycięskie wojny z Moskwą — odzyskanie Inflant i Połocka",
         "keyEvents": [
             "Trzy kampanie inflanckie (1579–1581) — pokonanie Iwana Groźnego",
