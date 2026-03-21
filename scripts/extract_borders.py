@@ -328,41 +328,52 @@ def process_variant(variant: dict, cache: dict, existing_sources: list) -> dict:
     }
 
 
-def load_existing_curation_sources(path: pathlib.Path) -> dict[str, list]:
-    """Load curationSources from existing maps_data.json, keyed by variant id."""
+def load_existing_variants(path: pathlib.Path) -> dict[str, dict]:
+    """Load existing maps_data.json entries, keyed by variant id."""
     if not path.exists():
         return {}
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-        return {entry["id"]: entry.get("curationSources", []) for entry in data}
+        return {entry["id"]: entry for entry in data}
     except (json.JSONDecodeError, KeyError):
         return {}
 
 
 def main():
+    force = "--force" in sys.argv
     print("Extracting historical borders of Poland...")
+    if force:
+        print("  --force: all variants will be regenerated from baseline")
 
     out_path = pathlib.Path("historia/krolowie-polski/maps_data.json")
-    existing = load_existing_curation_sources(out_path)
-    if existing:
-        populated = [vid for vid, src in existing.items() if src]
-        print(f"  Preserving curationSources for {len(populated)} variant(s)" if populated
-              else "  Existing maps_data.json found (no curationSources to preserve)")
+    existing = load_existing_variants(out_path)
+    curated_ids = set() if force else {
+        vid for vid, entry in existing.items()
+        if entry.get("curationSources")
+    }
+    if curated_ids:
+        print(f"  {len(curated_ids)} curated variant(s) will be preserved: "
+              + ", ".join(sorted(curated_ids)))
 
     cache = {}
     results = []
 
     for variant in MAP_VARIANTS:
-        print(f"\nProcessing: {variant['id']} ({variant['label']})")
-        sources = existing.get(variant["id"], [])
+        vid = variant["id"]
+        print(f"\nProcessing: {vid} ({variant['label']})")
+
+        if vid in curated_ids:
+            print("  SKIP regeneration — curated variant preserved as-is")
+            results.append(existing[vid])
+            continue
+
+        sources = existing.get(vid, {}).get("curationSources", [])
         result = process_variant(variant, cache, sources)
         crown_len = len(result["paths"].get("crown", ""))
         lith_len = len(result["paths"].get("lithuania", ""))
         print(f"  Crown SVG path: {crown_len} chars")
         if lith_len:
             print(f"  Lithuania SVG path: {lith_len} chars")
-        if result["curationSources"]:
-            print(f"  curationSources: {len(result['curationSources'])} preserved")
         results.append(result)
 
     out_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")

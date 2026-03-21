@@ -105,7 +105,13 @@ Pole `sourceRef` zachowane jako wskaźnik na baseline. `curationSources` dodawan
 
 ### Trwałość danych przy rerunie skryptu
 
-`extract_borders.py` przy każdym uruchomieniu **odczytuje istniejący `maps_data.json`** i zachowuje wypełnione `curationSources` per wariant. Dzięki temu rerun skryptu (np. po zmianie parametrów geometrii) nie nadpisuje ręcznie dodanych metadanych źródeł. Skrypt emituje pustą tablicę `curationSources: []` tylko dla wariantów, które jeszcze nie mają żadnych wpisów.
+`extract_borders.py` przy każdym uruchomieniu **odczytuje istniejący `maps_data.json`** i sprawdza, które warianty mają niepuste `curationSources`. Takie warianty traktowane są jako **już kuratorowane** i pomijane przy regeneracji — zachowywane są w całości (`paths`, `splitVerified`, `curationSources`, wszystkie inne pola).
+
+Warianty bez `curationSources` (lub z pustą tablicą) są regenerowane od nowa z baseline.
+
+**Flaga `--force`:** `python scripts/extract_borders.py --force` wymusza regenerację wszystkich wariantów z baseline, ignorując kurację. Przydatne gdy zmieni się upstream (nowa wersja `aourednik/historical-basemaps`) i chcemy nowy punkt wyjścia. Użycie `--force` **kasuje wyniki ręcznej kuracji** — stosować świadomie.
+
+Dzięki temu `maps_data.json` pełni rolę zarówno pliku generowanego (dla niekuratorowanych wariantów) jak i trwałego wyniku kuracji (dla wariantów z wypełnionym `curationSources`).
 
 ---
 
