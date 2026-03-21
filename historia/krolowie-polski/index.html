@@ -764,22 +764,28 @@ function getDifficultyLevel() {
 
 function selectDistractors(correctKing, count) {
     const difficulty = getDifficultyLevel();
-    const allCandidates = state.allKingsRef.filter(k =>
+
+    const subset = state.kings.filter(k =>
+        k.name !== correctKing.name && k.coronationYear !== correctKing.coronationYear
+    );
+    const allFallback = state.allKingsRef.filter(k =>
         k.name !== correctKing.name && k.coronationYear !== correctKing.coronationYear
     );
 
     let pool;
+    const candidates = subset.length >= count ? subset : allFallback;
+
     if (difficulty === 'easy') {
-        pool = allCandidates.filter(k => k.dynasty !== correctKing.dynasty);
+        pool = candidates.filter(k => k.dynasty !== correctKing.dynasty);
     } else if (difficulty === 'medium') {
-        pool = allCandidates.filter(k =>
+        pool = candidates.filter(k =>
             k.dynasty === correctKing.dynasty || Math.abs(k.coronationYear - correctKing.coronationYear) <= 100
         );
     } else {
-        pool = allCandidates.filter(k => Math.abs(k.coronationYear - correctKing.coronationYear) <= 80);
+        pool = candidates.filter(k => Math.abs(k.coronationYear - correctKing.coronationYear) <= 80);
     }
 
-    if (pool.length < count) pool = allCandidates;
+    if (pool.length < count) pool = candidates.length >= count ? candidates : allFallback;
 
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
@@ -1026,7 +1032,13 @@ function checkTimeline() {
         feedback.className = 'feedback correct';
     } else {
         state.wrong++;
-        wrongCount = state.timelinePlaced.filter((k, i) => k.name !== correctOrder[i].name).length;
+        state.timelinePlaced.forEach((k, i) => {
+            if (k.name !== correctOrder[i].name) {
+                k.streak = 0;
+                k.errorCount++;
+                wrongCount++;
+            }
+        });
         feedback.textContent = '✗ Nieprawidłowa kolejność. Poprawna pokazana wyżej.';
         feedback.className = 'feedback wrong';
     }
