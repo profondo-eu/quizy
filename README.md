@@ -10,6 +10,7 @@ Interaktywne quizy edukacyjne hostowane lokalnie na kontenerze LXC (Proxmox VE).
 | Stolice Europy (tekstowy) | `/geografia/stolice-europy-tekstowy/` | Wpisywanie stolic |
 | Budowa komórki jajowej | `/biologia/budowa-komorki-jajowej/` | Diagram SVG + klikanie |
 | Rewolucja przemysłowa | `/historia/rewolucja-przemyslowa/` | Dopasowywanie dat/wydarzeń |
+| Królowie Polski | `/historia/krolowie-polski/` | 4 tryby: wpisywanie, wybór, oś czasu, kontekst |
 
 ## Struktura
 
@@ -20,6 +21,7 @@ quizy/
   geografia/stolice-europy-tekstowy/index.html  # 46 stolic Europy — wersja tekstowa
   biologia/budowa-komorki-jajowej/index.html    # Elementy komórki jajowej
   historia/rewolucja-przemyslowa/index.html     # Wydarzenia rewolucji przemysłowej
+  historia/krolowie-polski/index.html           # 28 królów Polski — koronacje
 ```
 
 Każdy quiz to samodzielny `index.html` — zero zależności między quizami.
