@@ -309,13 +309,110 @@ Oprócz standardowych statystyk (poprawne, błędne, %, czas) — lista **najtru
 
 ---
 
+## Mapy historycznych granic Polski
+
+Na karcie wiedzy (po odpowiedzi) wyświetlana jest schematyczna mapa granic Polski z epoki danego króla. Mapy są graficznie jednolite — ten sam bounding box, skala, kolory, grubość linii.
+
+### Źródło danych
+
+[aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) — licencja CC-BY-SA.
+
+GeoJSON z granicami państw świata w 14 punktach czasowych pokrywających Polskę. Lekkie wielokąty (60–220 punktów na obrys) — idealne pod mapę schematyczną. Nie wymagają upraszczania.
+
+### Podejście: ery graniczne
+
+Zamiast osobnej mapy na każdego króla — **11 er**, w których granice Polski były w przybliżeniu stabilne. Wielu królów dzieli tę samą mapę, z etykietą „Polska ok. 1320–1370".
+
+| Era | Etykieta | Źródło GeoJSON | Królowie |
+|-----|----------|----------------|----------|
+| 1 | ok. 1000–1038 | `world_1000` | Bolesław I Chrobry, Mieszko II Lambert |
+| 2 | ok. 1058–1079 | `world_1100` | Bolesław II Śmiały |
+| 3 | ok. 1295–1300 | `world_1279` | Przemysł II, Wacław II Czeski |
+| 4 | ok. 1320–1370 | `world_1300` | Władysław I Łokietek, Kazimierz III Wielki |
+| 5 | ok. 1370–1434 | `world_1400` | Ludwik Węgierski, Jadwiga, Władysław II Jagiełło |
+| 6 | ok. 1434–1492 | `world_1492` | Władysław III Warneńczyk, Kazimierz IV Jagiellończyk |
+| 7 | ok. 1492–1569 | `world_1530` | Jan I Olbracht, Aleksander, Zygmunt I Stary, Zygmunt II August |
+| 8 | ok. 1569–1648 | `world_1600` | Henryk Walezy, Anna Jagiellonka, Stefan Batory, Zygmunt III Waza |
+| 9 | ok. 1648–1700 | `world_1650` | Władysław IV Waza, Jan II Kazimierz, Michał Korybut Wiśniowiecki, Jan III Sobieski |
+| 10 | ok. 1697–1736 | `world_1715` | August II Mocny, Stanisław I Leszczyński, August III Sas |
+| 11 | ok. 1736–1795 | `world_1783` | Stanisław August Poniatowski |
+
+### Rendering: Korona vs. Wielkie Księstwo Litewskie
+
+Od ery 5 (1385+) mapa pokazuje **całą Rzeczpospolitą** z wizualnym rozróżnieniem:
+
+- **Korona Polska** — ciemniejszy fill (np. `#3b82f6`, accent z projektu)
+- **Wielkie Księstwo Litewskie** — jaśniejszy fill (np. `#93c5fd`)
+- Wspólna obwódka (stroke)
+- Legenda: „Korona" / „Litwa"
+
+Do ery 4: tylko Polska, jednolity fill.
+
+Podział geometryczny Korona/Litwa: w danych od 1400 r. Polska i Litwa tworzą jeden wielokąt. Rozdzielenie przybliżoną linią graniczną (shapely `intersection`/`difference`) na etapie ekstrakcji danych.
+
+```
+┌───────────────────────────────────────────────────────┐
+│  ✓ Dobrze!  Władysław II Jagiełło — 1386             │
+│                                                       │
+│  Dynastia:    Jagiellonowie                           │
+│  Skojarzenie: Bitwa pod Grunwaldem (1410)             │
+│                                                       │
+│  ┌───────────────────────────┐                        │
+│  │          ░░░░░░░░░        │                        │
+│  │       ░░░ Litwa ░░░       │                        │
+│  │     ░░░░░░░░░░░░░░░░      │                        │
+│  │   ▓▓▓▓▓▓░░░░░░░░░░░      │                        │
+│  │   ▓ Korona ▓░░░░░░░       │                        │
+│  │   ▓▓▓▓▓▓▓▓▓░░░░          │                        │
+│  │     ▓▓▓▓▓▓▓               │                        │
+│  │                           │                        │
+│  │   Polska ok. 1370–1434    │                        │
+│  └───────────────────────────┘                        │
+│                                                       │
+│             [Dalej]    [Więcej ▼]                     │
+└───────────────────────────────────────────────────────┘
+```
+
+### Pipeline ekstrakcji danych
+
+Skrypt `scripts/extract_borders.py` (Python, venv via `uv`):
+
+1. Pobranie GeoJSON z aourednik dla 11 lat źródłowych
+2. Wyodrębnienie wielokąta Polski z każdego pliku
+3. Dla lat 1400+: rozdzielenie Korona/Litwa przybliżoną linią graniczną (shapely)
+4. Zapis jako `borders_data.json` — lekki plik z koordynatami per era
+
+```bash
+uv venv
+uv pip install shapely requests
+python scripts/extract_borders.py
+```
+
+Wynikowy `borders_data.json` zostaje wcommitowany do repo — quiz ładuje go bez potrzeby uruchamiania Pythona.
+
+### Wytyczne graficzne
+
+- **Bounding box:** stały dla wszystkich er (~14°E–34°E, ~49°N–57°N) — Europa Środkowo-Wschodnia
+- **Projekcja:** prosta latlon → px (wystarczająca przy tym zakresie)
+- **Rozmiar mapy:** ~280 × 200 px (wpasowana w kartę wiedzy)
+- **Fill Korona:** `#3b82f6` (accent)
+- **Fill Litwa:** `#93c5fd` (lighter)
+- **Stroke:** `#1e3a8a`, 1.5 px
+- **Tło:** przezroczyste (dziedziczy tło karty)
+- **Etykieta:** pod mapą, `font-size: 0.75rem`, kolor `--text-muted`
+- **Rendering:** `<svg>` z `<path>` — lekkie, skalowalne
+
+---
+
 ## Technologia
 
 - Samodzielny `index.html` (jak wszystkie quizy w projekcie)
-- Zero zewnętrznych zależności (czysty HTML/CSS/JS)
+- Zero zewnętrznych zależności w runtimie (czysty HTML/CSS/JS)
 - Dane wszystkich 28 królów jako tablica JS w pliku
+- Dane granic jako osobny `borders_data.json` (ładowany fetch) lub inline
 - Drag & drop (tryb osi czasu) — natywne HTML5 Drag and Drop API
 - Responsywny — działa na tablecie (typowe urządzenie w klasie)
+- Pipeline ekstrakcji: Python + uv (shapely, requests) — jednorazowy, wynik commitowany
 
 ---
 
@@ -332,15 +429,21 @@ Oprócz standardowych statystyk (poprawne, błędne, %, czas) — lista **najtru
    - Przełącznik „Pokaż wskazówki" (scaffolding: dynastia)
    - Warstwa rozszerzona karty wiedzy („Więcej")
 
-3. **Faza 3 — Budowanie relacji**
+3. **Faza 3 — Mapy historycznych granic**
+   - Pipeline ekstrakcji (`scripts/extract_borders.py`, uv + shapely)
+   - `borders_data.json` — 11 er z koordynatami Korona/Litwa
+   - Rendering SVG na karcie wiedzy
+   - Pole `borderEra` w danych każdego króla
+
+4. **Faza 4 — Budowanie relacji**
    - Tryb 3 (oś czasu / drag & drop, 4–6 postaci)
    - Presetowe paczki po 5–7 postaci
 
-4. **Faza 4 — Utrwalanie przez kontekst**
+5. **Faza 5 — Utrwalanie przez kontekst**
    - Tryb 4 (kontekst → król) z różnorodnymi typami wskazówek
    - Miks trybów (interleaving po opanowaniu paczki)
 
-5. **Faza 5 — Podsumowanie i integracja**
+6. **Faza 6 — Podsumowanie i integracja**
    - Ekran końcowy z listą najtrudniejszych
    - Sugerowana ścieżka progresji na ekranie startowym
    - Kafelek na landing page
