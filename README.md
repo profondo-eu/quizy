@@ -24,6 +24,22 @@ quizy/
 
 Każdy quiz to samodzielny `index.html` — zero zależności między quizami.
 
+## Uruchomienie lokalne
+
+Wystarczy dowolny serwer HTTP w katalogu głównym:
+
+```bash
+# Python (wbudowany)
+python3 -m http.server 8000
+
+# Node.js (npx, bez instalacji)
+npx serve .
+```
+
+Otwórz `http://localhost:8000/` w przeglądarce.
+
+> **Uwaga:** Otwieranie `index.html` bezpośrednio z dysku (`file://`) nie zadziała poprawnie w quizach korzystających z `fetch()` lub D3.js — potrzebny jest serwer HTTP.
+
 ## Dodawanie nowego quizu
 
 1. Utwórz katalog: `<przedmiot>/<nazwa-quizu>/`

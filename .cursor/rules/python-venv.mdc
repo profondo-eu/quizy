@@ -1,0 +1,21 @@
+---
+description: Python virtual environment and package management conventions
+globs: "**/*.py"
+alwaysApply: true
+---
+
+# Python Environment
+
+- Always use `uv` instead of `pip` for package management
+- Always create a **local** virtual environment (`uv venv`) before installing packages
+- Never install packages globally
+- Activate with `source .venv/bin/activate` or run via `uv run`
+
+```bash
+# Setting up a new Python environment
+uv venv
+uv pip install <package>
+
+# Running scripts
+uv run python script.py
+```
