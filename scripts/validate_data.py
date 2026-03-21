@@ -97,20 +97,46 @@ def validate() -> list[str]:
             )
 
     # --- predecessor/successor chain (co-ruler aware) ---
-    kings_by_name = {k["name"]: k for k in kings}
+    last = len(kings) - 1
     for i, k in enumerate(kings):
+        # predecessor checks
         if i == 0:
             if k["predecessor"] is not None:
                 errors.append(f"{k['name']}: first king should have predecessor=null")
-            continue
-        prev = kings[i - 1]
-        if k.get("coRuler") == prev["name"] or prev.get("coRuler") == k["name"]:
-            continue
-        if k["predecessor"] != prev["name"]:
-            errors.append(
-                f"{k['name']}: predecessor is '{k['predecessor']}' "
-                f"but previous entry is '{prev['name']}'"
+        else:
+            prev = kings[i - 1]
+            is_co = (
+                k.get("coRuler") == prev["name"]
+                or prev.get("coRuler") == k["name"]
             )
+            if not is_co and k["predecessor"] != prev["name"]:
+                errors.append(
+                    f"{k['name']}: predecessor is '{k['predecessor']}' "
+                    f"but previous entry is '{prev['name']}'"
+                )
+
+        # successor checks
+        if i == last:
+            if k["successor"] is not None:
+                errors.append(f"{k['name']}: last king should have successor=null")
+        else:
+            nxt = kings[i + 1]
+            is_co = (
+                k.get("coRuler") == nxt["name"]
+                or nxt.get("coRuler") == k["name"]
+            )
+            if is_co:
+                expected = kings[i + 2]["name"] if i + 2 <= last else None
+                if k["successor"] != expected:
+                    errors.append(
+                        f"{k['name']}: successor is '{k['successor']}' "
+                        f"but expected '{expected}' (next is co-ruler)"
+                    )
+            elif k["successor"] != nxt["name"]:
+                errors.append(
+                    f"{k['name']}: successor is '{k['successor']}' "
+                    f"but next entry is '{nxt['name']}'"
+                )
 
     # --- every mapVariant referenced by kings exists in maps_data ---
     used_variants = {k["mapVariant"] for k in kings}
