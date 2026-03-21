@@ -1014,6 +1014,7 @@ function checkTimeline() {
         `;
     });
 
+    let wrongCount = 0;
     if (allCorrect) {
         state.correct++;
         state.timelineKings.forEach(k => {
@@ -1025,6 +1026,7 @@ function checkTimeline() {
         feedback.className = 'feedback correct';
     } else {
         state.wrong++;
+        wrongCount = state.timelinePlaced.filter((k, i) => k.name !== correctOrder[i].name).length;
         feedback.textContent = '✗ Nieprawidłowa kolejność. Poprawna pokazana wyżej.';
         feedback.className = 'feedback wrong';
     }
@@ -1035,10 +1037,11 @@ function checkTimeline() {
     document.getElementById('btn-timeline-undo').disabled = true;
     document.getElementById('btn-timeline-check').disabled = true;
 
+    const delay = allCorrect ? DELAY_CORRECT : 3000 + wrongCount * 1000;
     setTimeout(() => {
         state.locked = false;
         nextQuestion();
-    }, allCorrect ? DELAY_CORRECT : DELAY_WRONG);
+    }, delay);
 }
 
 /* ── Answer processing (Modes 1, 2, 4) ── */
