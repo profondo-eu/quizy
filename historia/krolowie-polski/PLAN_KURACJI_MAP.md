@@ -103,9 +103,9 @@ Każdy wariant w `maps_data.json` otrzymuje tablicę `curationSources` śledząc
 
 Pole `sourceRef` zachowane jako wskaźnik na baseline. `curationSources` dodawane przyrostowo — puste = jeszcze nie kuratorowane.
 
-### Zmiana w `extract_borders.py`
+### Trwałość danych przy rerunie skryptu
 
-Skrypt generujący rozszerzony o emisję pustej tablicy `curationSources: []` dla każdego wariantu. Wypełnianie ręczne.
+`extract_borders.py` przy każdym uruchomieniu **odczytuje istniejący `maps_data.json`** i zachowuje wypełnione `curationSources` per wariant. Dzięki temu rerun skryptu (np. po zmianie parametrów geometrii) nie nadpisuje ręcznie dodanych metadanych źródeł. Skrypt emituje pustą tablicę `curationSources: []` tylko dla wariantów, które jeszcze nie mają żadnych wpisów.
 
 ---
 

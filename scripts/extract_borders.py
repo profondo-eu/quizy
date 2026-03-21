@@ -275,7 +275,7 @@ def geom_to_svg_path(geom) -> str:
     return "".join(parts)
 
 
-def process_variant(variant: dict, cache: dict) -> dict:
+def process_variant(variant: dict, cache: dict, existing_sources: list) -> dict:
     year = variant["sourceYear"]
     if year not in cache:
         cache[year] = download_geojson(year)
@@ -283,20 +283,22 @@ def process_variant(variant: dict, cache: dict) -> dict:
     geojson = cache[year]
     feature = find_feature(geojson, variant["searchNames"])
 
+    sources = existing_sources
+
     if feature is None:
         print(f"  WARNING: No feature found for {variant['id']} (year {year}, names {variant['searchNames']})")
-    return {
-        "id": variant["id"],
-        "label": variant["label"],
-        "fromYear": variant["fromYear"],
-        "toYear": variant["toYear"],
-        "paths": {"crown": "", "lithuania": ""},
-        "splitVerified": variant.get("splitVerified", False),
-        "curationSources": [],
-        "legend": variant["legend"],
-        "historicalNote": variant["historicalNote"],
-        "sourceRef": variant["sourceRef"],
-    }
+        return {
+            "id": variant["id"],
+            "label": variant["label"],
+            "fromYear": variant["fromYear"],
+            "toYear": variant["toYear"],
+            "paths": {"crown": "", "lithuania": ""},
+            "splitVerified": variant.get("splitVerified", False),
+            "curationSources": sources,
+            "legend": variant["legend"],
+            "historicalNote": variant["historicalNote"],
+            "sourceRef": variant["sourceRef"],
+        }
 
     clipped = clip_to_bbox(feature)
 
@@ -319,29 +321,50 @@ def process_variant(variant: dict, cache: dict) -> dict:
         "toYear": variant["toYear"],
         "paths": paths,
         "splitVerified": variant.get("splitVerified", False),
-        "curationSources": [],
+        "curationSources": sources,
         "legend": variant["legend"],
         "historicalNote": variant["historicalNote"],
         "sourceRef": variant["sourceRef"],
     }
 
 
+def load_existing_curation_sources(path: pathlib.Path) -> dict[str, list]:
+    """Load curationSources from existing maps_data.json, keyed by variant id."""
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return {entry["id"]: entry.get("curationSources", []) for entry in data}
+    except (json.JSONDecodeError, KeyError):
+        return {}
+
+
 def main():
     print("Extracting historical borders of Poland...")
+
+    out_path = pathlib.Path("historia/krolowie-polski/maps_data.json")
+    existing = load_existing_curation_sources(out_path)
+    if existing:
+        populated = [vid for vid, src in existing.items() if src]
+        print(f"  Preserving curationSources for {len(populated)} variant(s)" if populated
+              else "  Existing maps_data.json found (no curationSources to preserve)")
+
     cache = {}
     results = []
 
     for variant in MAP_VARIANTS:
         print(f"\nProcessing: {variant['id']} ({variant['label']})")
-        result = process_variant(variant, cache)
+        sources = existing.get(variant["id"], [])
+        result = process_variant(variant, cache, sources)
         crown_len = len(result["paths"].get("crown", ""))
         lith_len = len(result["paths"].get("lithuania", ""))
         print(f"  Crown SVG path: {crown_len} chars")
         if lith_len:
             print(f"  Lithuania SVG path: {lith_len} chars")
+        if result["curationSources"]:
+            print(f"  curationSources: {len(result['curationSources'])} preserved")
         results.append(result)
 
-    out_path = pathlib.Path("historia/krolowie-polski/maps_data.json")
     out_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nWrote {len(results)} map variants to {out_path}")
     print("\nIMPORTANT: Crown/Lithuania split uses a rough longitude heuristic.")
