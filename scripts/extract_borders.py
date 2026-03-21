@@ -285,17 +285,18 @@ def process_variant(variant: dict, cache: dict) -> dict:
 
     if feature is None:
         print(f"  WARNING: No feature found for {variant['id']} (year {year}, names {variant['searchNames']})")
-        return {
-            "id": variant["id"],
-            "label": variant["label"],
-            "fromYear": variant["fromYear"],
-            "toYear": variant["toYear"],
-            "paths": {"crown": "", "lithuania": ""},
-            "splitVerified": variant.get("splitVerified", False),
-            "legend": variant["legend"],
-            "historicalNote": variant["historicalNote"],
-            "sourceRef": variant["sourceRef"],
-        }
+    return {
+        "id": variant["id"],
+        "label": variant["label"],
+        "fromYear": variant["fromYear"],
+        "toYear": variant["toYear"],
+        "paths": {"crown": "", "lithuania": ""},
+        "splitVerified": variant.get("splitVerified", False),
+        "curationSources": [],
+        "legend": variant["legend"],
+        "historicalNote": variant["historicalNote"],
+        "sourceRef": variant["sourceRef"],
+    }
 
     clipped = clip_to_bbox(feature)
 
@@ -318,6 +319,7 @@ def process_variant(variant: dict, cache: dict) -> dict:
         "toYear": variant["toYear"],
         "paths": paths,
         "splitVerified": variant.get("splitVerified", False),
+        "curationSources": [],
         "legend": variant["legend"],
         "historicalNote": variant["historicalNote"],
         "sourceRef": variant["sourceRef"],
