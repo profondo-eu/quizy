@@ -12,7 +12,8 @@
       "Korona Polska"
     ],
     "historicalNote": "Państwo Bolesława Chrobrego — od Łaby po Bug",
-    "sourceRef": "aourednik/historical-basemaps world_1000"
+    "sourceRef": "aourednik/historical-basemaps world_1000",
+    "curationSources": []
   },
   {
     "id": "piast-rebuilt",
@@ -27,7 +28,8 @@
       "Korona Polska"
     ],
     "historicalNote": "Odbudowa po kryzysie lat 30. XI w., mniejsze terytorium niż za Chrobrego",
-    "sourceRef": "aourednik/historical-basemaps world_1100"
+    "sourceRef": "aourednik/historical-basemaps world_1100",
+    "curationSources": []
   },
   {
     "id": "piast-reunited-early",
@@ -42,7 +44,8 @@
       "Korona Polska"
     ],
     "historicalNote": "Zjednoczenie po rozbiciu dzielnicowym — Przemysł II i Wacław II",
-    "sourceRef": "aourednik/historical-basemaps world_1279"
+    "sourceRef": "aourednik/historical-basemaps world_1279",
+    "curationSources": []
   },
   {
     "id": "piast-reunited",
@@ -57,7 +60,8 @@
       "Korona Polska"
     ],
     "historicalNote": "Królestwo Łokietka i Kazimierza Wielkiego — stabilne, zjednoczone",
-    "sourceRef": "aourednik/historical-basemaps world_1300"
+    "sourceRef": "aourednik/historical-basemaps world_1300",
+    "curationSources": []
   },
   {
     "id": "crown-angevin",
@@ -72,7 +76,8 @@
       "Korona Polska"
     ],
     "historicalNote": "Sama Korona pod rządami Andegawenów — Litwa jeszcze osobna",
-    "sourceRef": "aourednik/historical-basemaps world_1400 (Crown only)"
+    "sourceRef": "aourednik/historical-basemaps world_1400 (Crown only)",
+    "curationSources": []
   },
   {
     "id": "crown-lithuania-union",
@@ -89,7 +94,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Unia personalna — wspólny władca, odrębne struktury",
-    "sourceRef": "aourednik/historical-basemaps world_1400"
+    "sourceRef": "aourednik/historical-basemaps world_1400",
+    "curationSources": []
   },
   {
     "id": "crown-lithuania-jagiello",
@@ -106,7 +112,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Polska i Litwa w unii pod Jagiellonami — ekspansja terytorialna",
-    "sourceRef": "aourednik/historical-basemaps world_1492"
+    "sourceRef": "aourednik/historical-basemaps world_1492",
+    "curationSources": []
   },
   {
     "id": "crown-lithuania-pre-lublin",
@@ -123,7 +130,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Ostatnie dekady unii personalnej przed unią realną (Lublin 1569)",
-    "sourceRef": "aourednik/historical-basemaps world_1530"
+    "sourceRef": "aourednik/historical-basemaps world_1530",
+    "curationSources": []
   },
   {
     "id": "commonwealth",
@@ -140,7 +148,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Po Unii Lubelskiej — jedno państwo, dwa narody; przed Potopem szwedzkim",
-    "sourceRef": "aourednik/historical-basemaps world_1600"
+    "sourceRef": "aourednik/historical-basemaps world_1600",
+    "curationSources": []
   },
   {
     "id": "commonwealth-post-deluge",
@@ -157,7 +166,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Źródło bazowe: world_1650 (tuż przed Potopem). Granice przybliżone — rzeczywiste straty terytorialne po 1660 nie są w pełni odzwierciedlone.",
-    "sourceRef": "aourednik/historical-basemaps world_1650"
+    "sourceRef": "aourednik/historical-basemaps world_1650",
+    "curationSources": []
   },
   {
     "id": "commonwealth-late",
@@ -174,7 +184,8 @@
       "Wielkie Księstwo Litewskie"
     ],
     "historicalNote": "Era saskich królów — rosnąca zależność od Rosji",
-    "sourceRef": "aourednik/historical-basemaps world_1715"
+    "sourceRef": "aourednik/historical-basemaps world_1715",
+    "curationSources": []
   },
   {
     "id": "commonwealth-pre-partitions",
@@ -189,6 +200,7 @@
       "Rzeczpospolita Obojga Narodów"
     ],
     "historicalNote": "Ostatnie lata Rzeczypospolitej — Poniatowski, Konstytucja 3 Maja, rozbiory",
-    "sourceRef": "aourednik/historical-basemaps world_1783"
+    "sourceRef": "aourednik/historical-basemaps world_1783",
+    "curationSources": []
   }
 ]
