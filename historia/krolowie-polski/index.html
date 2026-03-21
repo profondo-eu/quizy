@@ -1008,20 +1008,21 @@ function checkTimeline() {
     state.locked = true;
 
     const correctOrder = [...state.timelineKings].sort((a, b) => a.coronationYear - b.coronationYear);
-    const allCorrect = state.timelinePlaced.every((k, i) => k.name === correctOrder[i].name);
+    const allCorrect = state.timelinePlaced.every((k, i) =>
+        k.coronationYear === correctOrder[i].coronationYear
+    );
 
     const slots = document.querySelectorAll('#m3-placed .timeline-slot');
     const feedback = document.getElementById('m3-feedback');
 
     slots.forEach((slot, i) => {
-        const isRight = state.timelinePlaced[i].name === correctOrder[i].name;
+        const isRight = state.timelinePlaced[i].coronationYear === correctOrder[i].coronationYear;
         slot.classList.add(isRight ? 'correct-slot' : 'wrong-slot');
         slot.innerHTML = `
             <span class="slot-num">${i + 1}.</span>
             <span class="slot-name">${state.timelinePlaced[i].name}</span>
             <span class="slot-year">${correctOrder[i].coronationYear}${
-                state.timelinePlaced[i].name !== correctOrder[i].name
-                    ? ' → ' + correctOrder[i].name : ''
+                !isRight ? ' → ' + correctOrder[i].name : ''
             }</span>
         `;
     });
@@ -1039,7 +1040,7 @@ function checkTimeline() {
     } else {
         state.wrong++;
         state.timelinePlaced.forEach((k, i) => {
-            if (k.name !== correctOrder[i].name) {
+            if (k.coronationYear !== correctOrder[i].coronationYear) {
                 k.streak = 0;
                 k.errorCount++;
                 wrongCount++;
@@ -1221,7 +1222,7 @@ function endGame() {
                 <div class="hardest-item">
                     <span class="hardest-rank">${i + 1}.</span>
                     <span class="hardest-name">${k.name}</span>
-                    <span class="hardest-tries">${k.errorCount + k.correctCount} prób</span>
+                    <span class="hardest-tries">${k.errorCount} ${k.errorCount === 1 ? 'błąd' : k.errorCount < 5 ? 'błędy' : 'błędów'}</span>
                 </div>
             `).join('');
         hardestEl.style.display = '';
