@@ -1037,7 +1037,7 @@ function checkTimeline() {
     document.getElementById('btn-timeline-undo').disabled = true;
     document.getElementById('btn-timeline-check').disabled = true;
 
-    const delay = allCorrect ? DELAY_CORRECT : 3000 + wrongCount * 1000;
+    const delay = allCorrect ? DELAY_CORRECT : 5000 + wrongCount * 5000;
     setTimeout(() => {
         state.locked = false;
         nextQuestion();
