@@ -23,13 +23,13 @@ Założenia:
 | 9 | Bolesław IV Kędzierzawy | książę | 1146 |
 | 10 | Mieszko III Stary | książę | 1173 |
 | 11 | Kazimierz II Sprawiedliwy | książę | 1177 |
-| 12 | Mieszko Plątonogi | książę | 1198 |
-| 13 | Leszek Biały | książę | 1194 |
+| 12 | Leszek Biały | książę | 1194 |
+| 13 | Mieszko Plątonogi | książę | 1198 |
 | 14 | Władysław III Laskonogi | książę | 1202 |
-| 15 | Henryk I Brodaty | książę | 1232 |
-| 16 | Henryk II Pobożny | książę | 1238 |
-| 17 | Bolesław II Rogatka | książę | 1241 |
-| 18 | Konrad I Mazowiecki | książę | 1229 |
+| 15 | Konrad I Mazowiecki | książę | 1229 |
+| 16 | Henryk I Brodaty | książę | 1232 |
+| 17 | Henryk II Pobożny | książę | 1238 |
+| 18 | Bolesław II Rogatka | książę | 1241 |
 | 19 | Bolesław V Wstydliwy | książę | 1243 |
 | 20 | Bolesław Pobożny | książę | 1279 |
 | 21 | Leszek II Czarny | książę | 1288 |
