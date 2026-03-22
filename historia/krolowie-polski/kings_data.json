@@ -63,7 +63,7 @@
       },
       {
         "type": "sequence",
-        "text": "Syn Mieszka I. Pierwszy władca w quizie."
+        "text": "Syn Mieszka I. Pierwszy koronowany król Polski."
       }
     ],
     "disambiguationCue": "Pierwszy koronowany król Polski",
@@ -1157,7 +1157,7 @@
   {
     "name": "Zygmunt I Stary",
     "coronationYear": 1506,
-    "coronationFull": "24 stycznia 1507",
+    "coronationFull": "1506 (elekcja; koronacja 24 I 1507)",
     "place": "Kraków",
     "dynasty": "Jagiellonowie",
     "eraLabel": "Korona i Litwa przed Unią Lubelską",
@@ -1192,7 +1192,7 @@
   {
     "name": "Zygmunt II August",
     "coronationYear": 1529,
-    "coronationFull": "20 lutego 1530",
+    "coronationFull": "1529 (vivente rege; koronacja 20 II 1530)",
     "place": "Kraków",
     "dynasty": "Jagiellonowie",
     "eraLabel": "Korona i Litwa przed Unią Lubelską",
@@ -1332,7 +1332,7 @@
   {
     "name": "Władysław IV Waza",
     "coronationYear": 1632,
-    "coronationFull": "6 lutego 1633",
+    "coronationFull": "1632 (elekcja; koronacja 6 II 1633)",
     "place": "Kraków",
     "dynasty": "Wazowie",
     "eraLabel": "Rzeczpospolita Obojga Narodów",
@@ -1367,7 +1367,7 @@
   {
     "name": "Jan II Kazimierz",
     "coronationYear": 1648,
-    "coronationFull": "17 stycznia 1649",
+    "coronationFull": "1648 (elekcja; koronacja 17 I 1649)",
     "place": "Kraków",
     "dynasty": "Wazowie",
     "eraLabel": "Rzeczpospolita Obojga Narodów",
@@ -1437,7 +1437,7 @@
   {
     "name": "Jan III Sobieski",
     "coronationYear": 1674,
-    "coronationFull": "2 lutego 1676",
+    "coronationFull": "1674 (elekcja; koronacja 2 II 1676)",
     "place": "Kraków",
     "dynasty": "— (Sobiescy)",
     "eraLabel": "Rzeczpospolita po stratach Potopu",
@@ -1507,7 +1507,7 @@
   {
     "name": "Stanisław Leszczyński",
     "coronationYear": 1704,
-    "coronationFull": "4 października 1705",
+    "coronationFull": "1704 (elekcja; koronacja 4 X 1705)",
     "place": "Warszawa",
     "dynasty": "— (Leszczyńscy)",
     "eraLabel": "Późna Rzeczpospolita",

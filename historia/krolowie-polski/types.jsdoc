@@ -12,8 +12,7 @@
  * @property {string} mnemonic
  * @property {string|null} predecessor
  * @property {string|null} successor
- * @property {string} [coRuler]
- * @property {string} [disambiguationCue]
+ * @property {string|null} disambiguationCue
  * @property {{text: string, type: string}[]} contextHints
  * @property {string} mapVariant
  * @property {"król"|"książę"} rulerType
