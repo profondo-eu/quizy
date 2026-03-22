@@ -58,14 +58,16 @@ function showKnowledgeCard(king, wasCorrect) {
     const resultIcon = wasCorrect ? '✓' : '✗';
     const resultText = wasCorrect ? 'Dobrze!' : 'Źle';
 
+    const rulerBadge = king.rulerType === 'książę' ? 'książę' : 'król';
     const predecessorLabel = king.coRuler ? 'Współwładca' : 'Poprzednik';
+    const coRulerVerb = king.rulerType === 'książę' ? 'objęli władzę wspólnie' : 'koronowani wspólnie';
     const predecessorValue = king.coRuler
-        ? `${king.coRuler} (koronowani wspólnie ${king.coronationFull})`
+        ? `${king.coRuler} (${coRulerVerb} ${king.coronationFull})`
         : (king.predecessor || '—');
 
     card.innerHTML = `
         <div class="card-result ${resultClass}">${resultIcon} ${resultText}</div>
-        <div class="card-king-name">${king.name} — <span class="card-year">${king.coronationYear}</span></div>
+        <div class="card-king-name">${king.name} <span class="ruler-type-badge">${rulerBadge}</span> — <span class="card-year">${king.coronationYear}</span></div>
 
         <div class="card-fields">
             <div class="card-field">

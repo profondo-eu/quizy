@@ -16,17 +16,18 @@ const DISTRACTOR_YEAR_RANGE_MEDIUM = 100;
 const DISTRACTOR_YEAR_RANGE_HARD = 80;
 
 const DYNASTY_GROUPS = [
-    { id: 'piastowie', label: 'Piastowie i Przemyślidzi', match: k => ['Piastowie', 'Przemyślidzi'].includes(k.dynasty) },
+    { id: 'piastowie-ksiazeta', label: 'Piastowie (książęta)', match: k => k.dynasty === 'Piastowie' && k.rulerType === 'książę' },
+    { id: 'piastowie-krolowie', label: 'Piastowie (królowie) i Przemyślidzi', match: k => (k.dynasty === 'Piastowie' && k.rulerType === 'król') || k.dynasty === 'Przemyślidzi' },
     { id: 'andegawenowie', label: 'Andegawenowie', match: k => k.dynasty === 'Andegawenowie' },
     { id: 'jagiellonowie', label: 'Jagiellonowie', match: k => k.dynasty === 'Jagiellonowie' },
     { id: 'elekcyjni', label: 'Władcy elekcyjni', match: k => !['Piastowie', 'Przemyślidzi', 'Andegawenowie', 'Jagiellonowie'].includes(k.dynasty) },
 ];
 
 const MODES = [
-    { id: 2, icon: '🎯', name: 'Rok → Król', desc: 'Wybierz króla z 4 opcji', badge: 'Start' },
+    { id: 2, icon: '🎯', name: 'Rok → Władca', desc: 'Wybierz władcę z 4 opcji', badge: 'Start' },
     { id: 3, icon: '📅', name: 'Oś czasu', desc: 'Ułóż w kolejności' },
-    { id: 1, icon: '✍️', name: 'Król → Rok', desc: 'Wpisz rok koronacji' },
-    { id: 4, icon: '🔍', name: 'Kontekst → Król', desc: 'Rozpoznaj po opisie' },
+    { id: 1, icon: '✍️', name: 'Władca → Rok', desc: 'Wpisz rok objęcia władzy' },
+    { id: 4, icon: '🔍', name: 'Kontekst → Władca', desc: 'Rozpoznaj po opisie' },
     { id: 'mix', icon: '🔀', name: 'Miks trybów', desc: 'Losowy tryb co pytanie', fullWidth: true },
 ];
 

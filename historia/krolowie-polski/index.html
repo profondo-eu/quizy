@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz: Królowie Polski</title>
+    <title>Quiz: Władcy Polski</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="card.css">
 </head>
@@ -13,8 +13,8 @@
 
 <div id="start-screen" class="screen">
     <div class="start-icon">👑</div>
-    <h1>Królowie Polski</h1>
-    <p class="subtitle">Koronacje, dynastie, kontekst.<br>Każdy król musi być poprawnie zaliczony <strong>3 razy z rzędu</strong>.</p>
+    <h1>Władcy Polski</h1>
+    <p class="subtitle">Początki rządów, dynastie, kontekst.<br>Każdy władca musi być poprawnie zaliczony <strong>3 razy z rzędu</strong>.</p>
 
     <div class="config-section">
         <h3>Zakres</h3>
@@ -58,7 +58,7 @@
     <div class="quiz-area">
         <!-- Mode 2: Year → King (4 options) -->
         <div id="mode-2" class="mode-panel">
-            <div class="mode-label">Rok → Król</div>
+            <div class="mode-label">Rok → Władca</div>
             <div class="prompt-text" id="m2-year"></div>
             <div class="prompt-sub" id="m2-cue"></div>
             <div class="streak-info">Seria: <span class="streak-dots" id="m2-streak"></span></div>
@@ -68,7 +68,7 @@
 
         <!-- Mode 1: King → Year (type) -->
         <div id="mode-1" class="mode-panel">
-            <div class="mode-label">Król → Rok</div>
+            <div class="mode-label">Władca → Rok</div>
             <div class="prompt-text" id="m1-king"></div>
             <div class="scaffolding-hint" id="m1-hint"></div>
             <div class="streak-info">Seria: <span class="streak-dots" id="m1-streak"></span></div>
@@ -85,7 +85,7 @@
         <!-- Mode 3: Timeline (click to order) -->
         <div id="mode-3" class="mode-panel">
             <div class="mode-label">Oś czasu</div>
-            <div class="timeline-prompt">Kliknij królów w kolejności koronacji<br>(od najwcześniejszego):</div>
+            <div class="timeline-prompt">Kliknij władców w kolejności objęcia władzy<br>(od najwcześniejszego):</div>
             <div class="timeline-available" id="m3-available"></div>
             <div class="timeline-placed" id="m3-placed"></div>
             <div class="timeline-actions">
@@ -97,7 +97,7 @@
 
         <!-- Mode 4: Context → King (4 options) -->
         <div id="mode-4" class="mode-panel">
-            <div class="mode-label">Kontekst → Król</div>
+            <div class="mode-label">Kontekst → Władca</div>
             <div class="context-hint" id="m4-hint"></div>
             <div class="streak-info">Seria: <span class="streak-dots" id="m4-streak"></span></div>
             <div class="options-grid" id="m4-options"></div>

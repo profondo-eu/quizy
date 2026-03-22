@@ -16,6 +16,7 @@
  * @property {string} [disambiguationCue]
  * @property {{text: string, type: string}[]} contextHints
  * @property {string} mapVariant
+ * @property {"król"|"książę"} rulerType
  */
 
 /**

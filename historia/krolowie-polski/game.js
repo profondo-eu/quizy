@@ -233,10 +233,10 @@ function endGame() {
 
     if (state.remaining === 0) {
         document.getElementById('end-title').textContent = 'Gratulacje!';
-        document.getElementById('end-subtitle').textContent = `Opanowałeś ${state.kings.length === ALL_KINGS.length ? 'wszystkich ' + ALL_KINGS.length : state.kings.length} królów!`;
+        document.getElementById('end-subtitle').textContent = `Opanowałeś ${state.kings.length === ALL_KINGS.length ? 'wszystkich ' + ALL_KINGS.length : state.kings.length} władców!`;
     } else {
         document.getElementById('end-title').textContent = 'Koniec gry';
-        document.getElementById('end-subtitle').textContent = `Pozostało ${state.remaining} królów do opanowania.`;
+        document.getElementById('end-subtitle').textContent = `Pozostało ${state.remaining} władców do opanowania.`;
     }
 
     const hardest = [...state.kings]

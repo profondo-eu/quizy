@@ -1,5 +1,40 @@
 [
   {
+    "name": "Mieszko I",
+    "coronationYear": 960,
+    "coronationFull": "ok. 960 (objęcie władzy)",
+    "place": "Gniezno",
+    "dynasty": "Piastowie",
+    "eraLabel": "Początki państwa polskiego",
+    "mapVariant": "piast-early",
+    "predecessor": null,
+    "successor": "Bolesław I Chrobry",
+    "keyAssociation": "Chrzest Polski 966 — otwarcie na świat łaciński",
+    "keyEvents": [
+      "Objęcie władzy nad Polanami (ok. 960)",
+      "Chrzest Polski (966) — otwarcie na chrześcijaństwo zachodnie",
+      "Dagome iudex (ok. 991) — oddanie państwa pod opiekę papieża"
+    ],
+    "funFact": "Jego imię pojawia się po raz pierwszy w źródle obcym — kronice Widukinda z Korbei. Do dziś nie ma pewności, jak dokładnie brzmiało oryginalne słowiańskie imię.",
+    "mnemonic": "Mieszko = pierwszy władca, chrzest 966",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Przyjął chrzest w 966 roku, otwierając Polskę na chrześcijaństwo zachodnie."
+      },
+      {
+        "type": "description",
+        "text": "Pierwszy historyczny władca państwa Polan. Zjednoczył plemiona i stworzył podwaliny państwowości."
+      },
+      {
+        "type": "sequence",
+        "text": "Ojciec Bolesława Chrobrego. Pierwszy władca w quizie."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
     "name": "Bolesław I Chrobry",
     "coronationYear": 1025,
     "coronationFull": "18 kwietnia 1025",
@@ -7,7 +42,7 @@
     "dynasty": "Piastowie",
     "eraLabel": "Państwo Piastów u szczytu",
     "mapVariant": "piast-peak",
-    "predecessor": null,
+    "predecessor": "Mieszko I",
     "successor": "Mieszko II Lambert",
     "keyAssociation": "Zjazd gnieźnieński (1000) — cesarz Otton III uznał niezależność Polski",
     "keyEvents": [
@@ -31,7 +66,8 @@
         "text": "Syn Mieszka I. Pierwszy władca w quizie."
       }
     ],
-    "disambiguationCue": "Pierwszy koronowany król Polski"
+    "disambiguationCue": "Pierwszy koronowany król Polski",
+    "rulerType": "król"
   },
   {
     "name": "Mieszko II Lambert",
@@ -42,7 +78,7 @@
     "eraLabel": "Państwo Piastów u szczytu",
     "mapVariant": "piast-peak",
     "predecessor": "Bolesław I Chrobry",
-    "successor": "Bolesław II Śmiały",
+    "successor": "Kazimierz I Odnowiciel",
     "keyAssociation": "Utrata terytoriów ojca — upadek mocarstwa Chrobrego",
     "keyEvents": [
       "Najazdy na Saksonię (1028–1030)",
@@ -65,7 +101,43 @@
         "text": "Koronowany jako król, ale zmuszony do powrotu w roli księcia."
       }
     ],
-    "disambiguationCue": "Syn Bolesława Chrobrego"
+    "disambiguationCue": "Syn Bolesława Chrobrego",
+    "rulerType": "król"
+  },
+  {
+    "name": "Kazimierz I Odnowiciel",
+    "coronationYear": 1039,
+    "coronationFull": "1039 (powrót do kraju)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Odbudowane państwo Piastów",
+    "mapVariant": "piast-rebuilt",
+    "predecessor": "Mieszko II Lambert",
+    "successor": "Bolesław II Śmiały",
+    "keyAssociation": "Odbudowa państwa po kryzysie lat 30. XI w.",
+    "keyEvents": [
+      "Powrót z wygnania i odbudowa państwa (1039)",
+      "Przeniesienie stolicy z Gniezna do Krakowa",
+      "Odzyskanie Śląska i Mazowsza z pomocą cesarza Henryka III"
+    ],
+    "funFact": "Wrócił do zniszczonego kraju z pomocą cesarza Henryka III. Przeniósł stolicę z Gniezna do Krakowa, bo Gniezno było zbyt zniszczone po reakcji pogańskiej.",
+    "mnemonic": "Odnowiciel = odnowił państwo po kryzysie, stolica → Kraków",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Odbudował państwo po buncie pogańskim i czeskiej inwazji w latach 30. XI w."
+      },
+      {
+        "type": "description",
+        "text": "Przeniósł główny ośrodek władzy z Gniezna do Krakowa. Przydomek «Odnowiciel» mówi o jego roli."
+      },
+      {
+        "type": "sequence",
+        "text": "Syn Mieszka II Lamberta. Ojciec Bolesława Śmiałego."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
   },
   {
     "name": "Bolesław II Śmiały",
@@ -75,8 +147,8 @@
     "dynasty": "Piastowie",
     "eraLabel": "Odbudowane państwo Piastów",
     "mapVariant": "piast-rebuilt",
-    "predecessor": "Mieszko II Lambert",
-    "successor": "Przemysł II",
+    "predecessor": "Kazimierz I Odnowiciel",
+    "successor": "Władysław I Herman",
     "keyAssociation": "Konflikt z biskupem Stanisławem (1079) — skazanie biskupa na śmierć",
     "keyEvents": [
       "Koronacja królewska (1076) — odnowienie tytułu po prawie 50 latach",
@@ -99,7 +171,603 @@
         "text": "Przydomek «Śmiały» — odważny król, ale stracił tron przez konflikt z Kościołem."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
+  },
+  {
+    "name": "Władysław I Herman",
+    "coronationYear": 1079,
+    "coronationFull": "1079 (objęcie władzy po wygnaniu brata)",
+    "place": "Płock",
+    "dynasty": "Piastowie",
+    "eraLabel": "Odbudowane państwo Piastów",
+    "mapVariant": "piast-rebuilt",
+    "predecessor": "Bolesław II Śmiały",
+    "successor": "Bolesław III Krzywousty",
+    "keyAssociation": "Rządy po wygnaniu Bolesława Śmiałego",
+    "keyEvents": [
+      "Objęcie władzy po wygnaniu brata Bolesława Śmiałego (1079)",
+      "Faktyczne rządy palatyna Sieciecha",
+      "Bunt synów Zbigniewa i Bolesława przeciw Sieciechowi"
+    ],
+    "funFact": "Był tak słabym władcą, że faktyczną władzę sprawował za niego palatyn Sieciech. Dopiero bunt synów Zbigniewa i Krzywoustego odsunął Sieciecha od władzy.",
+    "mnemonic": "Herman = słaby władca, palatyn Sieciech rządzi, ojciec Krzywoustego",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Objął władzę po wygnaniu brata Bolesława Śmiałego w 1079 roku."
+      },
+      {
+        "type": "description",
+        "text": "Władca o słabej pozycji; realną władzę sprawował palatyn Sieciech. Ojciec Zbigniewa i Bolesława Krzywoustego."
+      },
+      {
+        "type": "relation",
+        "text": "Brat Bolesława Śmiałego. Ojciec Bolesława III Krzywoustego."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Bolesław III Krzywousty",
+    "coronationYear": 1102,
+    "coronationFull": "1102 (samodzielne rządy od 1107)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Państwo Piastów u szczytu",
+    "mapVariant": "piast-peak",
+    "predecessor": "Władysław I Herman",
+    "successor": "Władysław II Wygnaniec",
+    "keyAssociation": "Obrona Głogowa (1109) i statut sukcesyjny (1138)",
+    "keyEvents": [
+      "Obrona Głogowa przed cesarzem Henrykiem V (1109)",
+      "Odzyskanie Pomorza Zachodniego (1119–1123)",
+      "Statut sukcesyjny (1138) — podział państwa między synów"
+    ],
+    "funFact": "Podczas oblężenia Głogowa w 1109 r. Niemcy mieli przywiązać polskich jeńców do machin oblężniczych. Obrońcy i tak strzelali — woleli poświęcić bliskich niż oddać miasto.",
+    "mnemonic": "Krzywousty = Głogów 1109, statut 1138 (rozbicie dzielnicowe)",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Obronił Głogów przed cesarzem Henrykiem V w 1109 r. Wydał statut sukcesyjny w 1138, dzieląc państwo między synów."
+      },
+      {
+        "type": "description",
+        "text": "Ostatni władca zjednoczonej Polski przed rozbiciem dzielnicowym. Od 1102 współrządził z ojcem, od 1107 samodzielnie."
+      },
+      {
+        "type": "sequence",
+        "text": "Syn Władysława Hermana. Po jego śmierci w 1138 zaczęło się rozbicie dzielnicowe."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Władysław II Wygnaniec",
+    "coronationYear": 1138,
+    "coronationFull": "1138 (objęcie senioratu)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Bolesław III Krzywousty",
+    "successor": "Bolesław IV Kędzierzawy",
+    "keyAssociation": "Pierwszy princeps po statucie 1138, wygnany przez braci",
+    "keyEvents": [
+      "Objęcie senioratu po śmierci ojca (1138)",
+      "Wygnanie przez młodszych braci (ok. 1146)",
+      "Schronienie u cesarza Konrada III — nigdy nie wrócił na tron"
+    ],
+    "funFact": "Po wygnaniu schronił się u cesarza Konrada III. Nigdy nie odzyskał tronu, ale jego potomkowie — Piastowie śląscy — rządzili na Śląsku przez wieki.",
+    "mnemonic": "Wygnaniec = pierwszy princeps, wygnany, protoplasta Piastów śląskich",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Jako najstarszy syn Krzywoustego objął seniorat w 1138. Został wygnany przez młodszych braci ok. 1146."
+      },
+      {
+        "type": "description",
+        "text": "Pierwszy princeps po statucie sukcesyjnym. Jego wygnanie zapoczątkowało rozbicie dzielnicowe w praktyce."
+      },
+      {
+        "type": "relation",
+        "text": "Najstarszy syn Bolesława Krzywoustego. Protoplasta Piastów śląskich."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Bolesław IV Kędzierzawy",
+    "coronationYear": 1146,
+    "coronationFull": "1146 (objęcie pryncypatu)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Władysław II Wygnaniec",
+    "successor": "Mieszko III Stary",
+    "keyAssociation": "Princeps po wygnaniu Władysława II",
+    "keyEvents": [
+      "Objęcie pryncypatu po wygnaniu Wygnańca (1146)",
+      "Hołd cesarzowi w Krzyszkowie (1157)",
+      "Ponad 25 lat rządów jako princeps"
+    ],
+    "funFact": "Musiał złożyć cesarzowi hołd w Krzyszkowie w 1157 r. jako pokutę za wygnanie starszego brata. Było to jedno z najbardziej upokarzających wydarzeń wczesnego rozbicia.",
+    "mnemonic": "Kędzierzawy = po Wygnańcu, hołd w Krzyszkowie 1157",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Objął pryncypat po wygnaniu Władysława II. W 1157 musiał złożyć hołd cesarzowi Fryderykowi Barbarossie."
+      },
+      {
+        "type": "description",
+        "text": "Symbol pierwszego etapu rozbicia dzielnicowego. Rządził jako princeps ponad 25 lat."
+      },
+      {
+        "type": "sequence",
+        "text": "Młodszy brat Władysława Wygnańca. Princeps od 1146 do 1173."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Mieszko III Stary",
+    "coronationYear": 1173,
+    "coronationFull": "1173 (pierwszy pryncypat)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Bolesław IV Kędzierzawy",
+    "successor": "Kazimierz II Sprawiedliwy",
+    "keyAssociation": "Wielokrotnie tracił i odzyskiwał Kraków",
+    "keyEvents": [
+      "Pierwszy pryncypat krakowski (1173)",
+      "Wielokrotne utraty i odzyskiwanie tronu (1173, 1191, 1198–1202)",
+      "Dożył ok. 80 lat — fenomen w XII/XIII w."
+    ],
+    "funFact": "Rządził z przerwami tak długo, że dożył ok. 80 lat — co w XII/XIII w. było fenomenem. Jego przydomek «Stary» nie jest przypadkowy.",
+    "mnemonic": "Stary = najdłużej żyjący Piast, wielokrotnie tracił i odzyskiwał tron",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Obejmował pryncypat wielokrotnie (1173, 1191, 1198–1202). Centralna postać walk o seniorat."
+      },
+      {
+        "type": "description",
+        "text": "Jeden z najdłużej żyjących Piastów. Jego przydomek «Stary» odzwierciedla podeszły wiek, w którym nadal walczył o władzę."
+      },
+      {
+        "type": "sequence",
+        "text": "Syn Bolesława Krzywoustego. Brat Kazimierza Sprawiedliwego."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Kazimierz II Sprawiedliwy",
+    "coronationYear": 1177,
+    "coronationFull": "1177 (powołanie na tron krakowski)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Mieszko III Stary",
+    "successor": "Leszek Biały",
+    "keyAssociation": "Princeps mimo pominięcia w statucie Krzywoustego",
+    "keyEvents": [
+      "Powołanie na tron przez możnych krakowskich (1177) — złamanie zasady senioratu",
+      "Uzyskanie poparcia Kościoła i rycerstwa",
+      "Stabilne rządy w Krakowie do śmierci w 1194"
+    ],
+    "funFact": "Według tradycji był tak lubiany przez możnych krakowskich, że złamali dla niego zasadę senioratu — stąd przydomek «Sprawiedliwy».",
+    "mnemonic": "Sprawiedliwy = nie miał dziedziczyć, a dostał Kraków",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "W 1177 możni krakowscy powołali go na tron, łamiąc zasadę senioratu ze statutu Krzywoustego."
+      },
+      {
+        "type": "description",
+        "text": "Najmłodszy syn Krzywoustego, początkowo pominięty w statucie sukcesyjnym. Przydomek «Sprawiedliwy» od przychylności możnych."
+      },
+      {
+        "type": "relation",
+        "text": "Najmłodszy syn Bolesława Krzywoustego. Ojciec Leszka Białego."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Leszek Biały",
+    "coronationYear": 1194,
+    "coronationFull": "1194 (objęcie tronu krakowskiego)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Kazimierz II Sprawiedliwy",
+    "successor": "Mieszko Plątonogi",
+    "keyAssociation": "Zamordowany podczas zjazdu w Gąsawie (1227)",
+    "keyEvents": [
+      "Objęcie tronu krakowskiego po ojcu (1194)",
+      "Rywalizacja z Mieszkiem Starym o pryncypat",
+      "Zamordowany na zjeździe w Gąsawie (1227)"
+    ],
+    "funFact": "Zjazd w Gąsawie miał być spotkaniem pokojowym. Leszek został zaatakowany podczas kąpieli — zginął nagi i bezbronny, co wstrząsnęło ówczesną Polską.",
+    "mnemonic": "Biały = Gąsawa 1227, zamordowany na zjeździe",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Został zamordowany podczas zjazdu w Gąsawie w 1227 r. — jedno z najgłośniejszych zabójstw politycznych średniowiecza w Polsce."
+      },
+      {
+        "type": "description",
+        "text": "Ważny książę krakowski, syn Kazimierza Sprawiedliwego. Jego przydomek «Biały» odnosi się prawdopodobnie do koloru włosów."
+      },
+      {
+        "type": "sequence",
+        "text": "Syn Kazimierza II Sprawiedliwego. Po jego śmierci walki o Kraków nasiliły się."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Mieszko Plątonogi",
+    "coronationYear": 1198,
+    "coronationFull": "ok. 1198 (krótki pryncypat)",
+    "place": "Racibórz",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Leszek Biały",
+    "successor": "Władysław III Laskonogi",
+    "keyAssociation": "Raciborski Piast, princeps w podeszłym wieku",
+    "keyEvents": [
+      "Długoletnie rządy w księstwie raciborskim",
+      "Krótki pryncypat krakowski (ok. 1198)",
+      "Rywalizacja z Mieszkiem III Starym o seniorat"
+    ],
+    "funFact": "Był już w podeszłym wieku, gdy sięgnął po Kraków. Jego przydomek «Plątonogi» należy do najbardziej charakterystycznych w całej dynastii Piastów — odnosi się prawdopodobnie do wady stóp.",
+    "mnemonic": "Plątonogi = raciborski książę, stary gdy sięgnął po Kraków",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Na krótko objął pryncypat krakowski pod koniec XII w., rywalizując z Mieszkiem Starym."
+      },
+      {
+        "type": "description",
+        "text": "Książę raciborski o charakterystycznym przydomku. Sięgnął po Kraków w podeszłym wieku."
+      },
+      {
+        "type": "relation",
+        "text": "Piast śląski z linii raciborskiej. Rywalizował z Mieszkiem III Starym o seniorat."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Władysław III Laskonogi",
+    "coronationYear": 1202,
+    "coronationFull": "1202 (objęcie pryncypatu krakowskiego)",
+    "place": "Poznań",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Mieszko Plątonogi",
+    "successor": "Konrad I Mazowiecki",
+    "keyAssociation": "Wielkopolski princeps o charakterystycznym przydomku",
+    "keyEvents": [
+      "Objęcie pryncypatu krakowskiego (1202)",
+      "Rządy głównie z Wielkopolski",
+      "Rywalizacja z innymi Piastami o wpływy"
+    ],
+    "funFact": "Jego przydomek «Laskonogi» odnosi się do szczupłych nóg — jeden z najbardziej obrazowych przydomków wśród Piastów. Rządził Wielkopolską i przez pewien czas sprawował pryncypat krakowski.",
+    "mnemonic": "Laskonogi = szczupłe nogi, wielkopolski Piast, princeps z Poznania",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Objął pryncypat krakowski w 1202 r. Rządził głównie z Wielkopolski, rywalizując z innymi Piastami o wpływy."
+      },
+      {
+        "type": "description",
+        "text": "Wielkopolski Piast. Jego przydomek «Laskonogi» odnosi się do szczupłej budowy ciała — jeden z najbardziej obrazowych w dynastii."
+      },
+      {
+        "type": "relation",
+        "text": "Syn Mieszka III Starego. Princeps krakowski i książę wielkopolski."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Konrad I Mazowiecki",
+    "coronationYear": 1229,
+    "coronationFull": "1229 (objęcie pryncypatu krakowskiego)",
+    "place": "Płock",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Władysław III Laskonogi",
+    "successor": "Henryk I Brodaty",
+    "keyAssociation": "Sprowadzenie Krzyżaków do walki z Prusami (1226)",
+    "keyEvents": [
+      "Nadanie ziemi chełmińskiej Krzyżakom (1226)",
+      "Wielokrotne próby zdobycia Krakowa",
+      "Rywalizacja z Henrykiem Brodatym o wpływy"
+    ],
+    "funFact": "Sprowadził zakon krzyżacki do walki z Prusami, co miało skutki dla Polski na całe stulecia. Krzyżacy stworzyli własne państwo, które stało się jednym z największych wrogów Polski.",
+    "mnemonic": "Konrad Mazowiecki = Krzyżacy 1226, wielowiekowe konsekwencje",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "W 1226 r. nadał zakonowi krzyżackiemu ziemię chełmińską w zamian za pomoc w walce z pogańskimi Prusami."
+      },
+      {
+        "type": "description",
+        "text": "Książę mazowiecki, który podejmował wielokrotne próby zdobycia Krakowa. Najbardziej znany z decyzji o sprowadzeniu Krzyżaków."
+      },
+      {
+        "type": "relation",
+        "text": "Syn Kazimierza Sprawiedliwego, brat Leszka Białego."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Henryk I Brodaty",
+    "coronationYear": 1232,
+    "coronationFull": "ok. 1232 (objęcie pryncypatu)",
+    "place": "Wrocław",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Konrad I Mazowiecki",
+    "successor": "Henryk II Pobożny",
+    "keyAssociation": "Śląski Piast bliski zjednoczenia ziem polskich",
+    "keyEvents": [
+      "Stopniowe jednoczenie ziem — kontrola Śląska, Małopolski i Wielkopolski",
+      "Budowanie silnej pozycji Piastów śląskich",
+      "Małżeństwo ze św. Jadwigą Śląską"
+    ],
+    "funFact": "Jego żona Jadwiga Śląska została kanonizowana — to jedna z najważniejszych świętych w historii Śląska. Brodaty był tak blisko zjednoczenia, że gdyby żył dłużej, historia mogłaby potoczyć się inaczej.",
+    "mnemonic": "Brodaty = mąż św. Jadwigi, blisko zjednoczenia, Śląsk",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Stopniowo jednoczył ziemie polskie pod swoją władzą — kontrolował Śląsk, Małopolskę i Wielkopolskę."
+      },
+      {
+        "type": "description",
+        "text": "Śląski Piast, mąż św. Jadwigi. Był najbliższy zjednoczenia ziem polskich od czasów Krzywoustego."
+      },
+      {
+        "type": "relation",
+        "text": "Ojciec Henryka II Pobożnego. Mąż św. Jadwigi Śląskiej."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Henryk II Pobożny",
+    "coronationYear": 1238,
+    "coronationFull": "1238 (objęcie władzy po ojcu)",
+    "place": "Wrocław",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Henryk I Brodaty",
+    "successor": "Bolesław II Rogatka",
+    "keyAssociation": "Bitwa pod Legnicą z Mongołami (1241)",
+    "keyEvents": [
+      "Kontynuacja polityki ojca — utrzymanie zjednoczonych ziem",
+      "Bitwa pod Legnicą z Mongołami (9 kwietnia 1241)",
+      "Śmierć na polu bitwy — koniec szans na szybkie zjednoczenie"
+    ],
+    "funFact": "Poległ w bitwie pod Legnicą 9 kwietnia 1241 r. Mongołowie obcięli mu głowę i zatknęli na włóczni. Mimo klęski, najazd mongolski nie zdołał trwale podbić Polski.",
+    "mnemonic": "Pobożny = Legnica 1241, Mongołowie, głowa na włóczni",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Poległ w bitwie pod Legnicą 9 kwietnia 1241 r., broniąc ziem polskich przed najazdem mongolskim."
+      },
+      {
+        "type": "description",
+        "text": "Syn Henryka Brodatego. Kontynuował dzieło ojca w jednoczeniu ziem, ale zginął walcząc z Mongołami."
+      },
+      {
+        "type": "sequence",
+        "text": "Syn Henryka I Brodatego. Po jego śmierci szanse na szybkie zjednoczenie ziem polskich przepadły."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Bolesław II Rogatka",
+    "coronationYear": 1241,
+    "coronationFull": "1241 (objęcie władzy po śmierci ojca)",
+    "place": "Legnica",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Henryk II Pobożny",
+    "successor": "Bolesław V Wstydliwy",
+    "keyAssociation": "Syn Pobożnego, awanturniczy Piast śląski",
+    "keyEvents": [
+      "Objęcie władzy po śmierci ojca pod Legnicą (1241)",
+      "Liczne wojny z braćmi i sąsiadami",
+      "Konflikt z biskupami i możnymi"
+    ],
+    "funFact": "Zasłynął z niezwykle konfliktowego charakteru — toczył spory z biskupami, braćmi i sąsiadami. W historiografii uchodzi za jednego z najbardziej awanturniczych Piastów.",
+    "mnemonic": "Rogatka = awanturnik, syn Pobożnego, konflikty z każdym",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Objął władzę po śmierci ojca pod Legnicą w 1241. Prowadził liczne wojny z własnymi braćmi i sąsiadami."
+      },
+      {
+        "type": "description",
+        "text": "Syn Henryka II Pobożnego. Znany z wyjątkowo konfliktowego charakteru i licznych sporów politycznych."
+      },
+      {
+        "type": "relation",
+        "text": "Syn Henryka Pobożnego. Piast śląski, który nie kontynuował polityki zjednoczenia ojca i dziada."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Bolesław V Wstydliwy",
+    "coronationYear": 1243,
+    "coronationFull": "1243 (objęcie tronu krakowskiego)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Bolesław II Rogatka",
+    "successor": "Bolesław Pobożny",
+    "keyAssociation": "Mąż św. Kingi, odbudowa po najazdach mongolskich",
+    "keyEvents": [
+      "Objęcie tronu krakowskiego (1243)",
+      "Odbudowa po najazdach mongolskich (1241, 1259)",
+      "Małżeństwo ze św. Kingą — patronką górników"
+    ],
+    "funFact": "Jego przydomek wiąże się z tradycją życia w czystości w małżeństwie ze św. Kingą — co czyni go jedną z najbardziej nietypowych postaci na liście. Kinga jest patronką górników solnych z Wieliczki i Bochni.",
+    "mnemonic": "Wstydliwy = mąż św. Kingi, czystość w małżeństwie, Wieliczka",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Rządził Krakowem w okresie odbudowy po najazdach mongolskich (1241, 1259)."
+      },
+      {
+        "type": "description",
+        "text": "Książę krakowski, mąż św. Kingi. Przydomek «Wstydliwy» wiąże się z tradycją życia w czystości małżeńskiej."
+      },
+      {
+        "type": "relation",
+        "text": "Mąż Kingi (późniejszej świętej), patronki górników."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Bolesław Pobożny",
+    "coronationYear": 1279,
+    "coronationFull": "ok. 1279 (objęcie władzy w Wielkopolsce)",
+    "place": "Kalisz",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Bolesław V Wstydliwy",
+    "successor": "Leszek II Czarny",
+    "keyAssociation": "Statut kaliski — przywilej dla Żydów (1264)",
+    "keyEvents": [
+      "Wydanie statutu kaliskiego (1264) — prawa Żydów",
+      "Rządy w Wielkopolsce",
+      "Poprzednik Przemysła II w Wielkopolsce"
+    ],
+    "funFact": "Wydał statut kaliski z 1264 roku, jeden z najważniejszych średniowiecznych aktów prawnych regulujących pozycję Żydów w Polsce. Dokument obowiązywał w różnych formach przez setki lat.",
+    "mnemonic": "Pobożny = statut kaliski 1264, prawa Żydów, Wielkopolska",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Wydał statut kaliski w 1264 r. — akt nadający prawa Żydom, jeden z najważniejszych dokumentów tolerancji w średniowieczu."
+      },
+      {
+        "type": "description",
+        "text": "Wielkopolski Piast, poprzednik Przemysła II. Przydomek «Pobożny» od religijności."
+      },
+      {
+        "type": "sequence",
+        "text": "Rządził w Wielkopolsce. Po nim władzę objął Przemysł II, który odzyskał koronę królewską."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Leszek II Czarny",
+    "coronationYear": 1288,
+    "coronationFull": "1279 (Kraków od 1279, princeps od 1288)",
+    "place": "Kraków",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Bolesław Pobożny",
+    "successor": "Henryk IV Probus",
+    "keyAssociation": "Odparcie najazdów litewskich i jaćwieskich",
+    "keyEvents": [
+      "Obrona Małopolski przed najazdami litewskimi i jaćwieskimi",
+      "Rządy w Krakowie w schyłkowej fazie rozbicia",
+      "Ciągłe walki o utrzymanie władzy i granic"
+    ],
+    "funFact": "Musiał równocześnie odpierać ambicje innych Piastów i najazdy litewskie oraz jaćwieskie, dlatego jego panowanie było niemal nieustanną walką o utrzymanie władzy i granic.",
+    "mnemonic": "Czarny = walki z Litwinami i Jaćwingami, niespokojne rządy",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Bronił Małopolski przed najazdami litewskimi i jaćwieskimi. Jego panowanie to okres ciągłych wojen obronnych."
+      },
+      {
+        "type": "description",
+        "text": "Książę krakowski w schyłkowej fazie rozbicia dzielnicowego. Przydomek «Czarny» od koloru włosów lub cery."
+      },
+      {
+        "type": "sequence",
+        "text": "Rządził Krakowem przed Henrykiem Probusem. Jeden z ostatnich książąt przed zjednoczeniem."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
+  },
+  {
+    "name": "Henryk IV Probus",
+    "coronationYear": 1289,
+    "coronationFull": "1289 (objęcie Krakowa)",
+    "place": "Wrocław",
+    "dynasty": "Piastowie",
+    "eraLabel": "Rozbicie dzielnicowe",
+    "mapVariant": "piast-fragmented",
+    "predecessor": "Leszek II Czarny",
+    "successor": "Przemysł II",
+    "keyAssociation": "Przygotowywał koronację, zmarł przed zjednoczeniem",
+    "keyEvents": [
+      "Objęcie Krakowa (1289)",
+      "Przygotowania do koronacji królewskiej",
+      "Nagła śmierć w 1290 — być może otruty; testament przekazujący prawa Przemysłowi II"
+    ],
+    "funFact": "Według części badaczy przygotowywał własną koronację królewską, ale zmarł nagle w 1290 r. — prawdopodobnie otruty. Jego testament przekazał prawa do Krakowa Przemysłowi II.",
+    "mnemonic": "Probus = prawie król, śmierć przed koronacją, testament → Przemysł II",
+    "contextHints": [
+      {
+        "type": "event",
+        "text": "Przygotowywał koronację królewską, ale zmarł nagle w 1290 r. — być może otruty."
+      },
+      {
+        "type": "description",
+        "text": "Śląski książę krakowski, jeden z najbliższych zjednoczeniu przed Przemysłem II. Przydomek «Probus» (Prawy) od łacińskiego tytułu."
+      },
+      {
+        "type": "sequence",
+        "text": "Jego testament przekazał prawa do Krakowa Przemysłowi II, torując drogę do odnowienia królestwa."
+      }
+    ],
+    "disambiguationCue": null,
+    "rulerType": "książę"
   },
   {
     "name": "Przemysł II",
@@ -109,8 +777,8 @@
     "dynasty": "Piastowie",
     "eraLabel": "Zjednoczona Wielkopolska i Małopolska",
     "mapVariant": "piast-reunited-early",
-    "predecessor": "Bolesław II Śmiały",
-    "successor": "Wacław II Czeski",
+    "predecessor": "Henryk IV Probus",
+    "successor": "Wacław II",
     "keyAssociation": "Pierwsza koronacja po ponad 200 latach rozbicia dzielnicowego",
     "keyEvents": [
       "Koronacja (1295) — pierwsza od 1076 roku, symboliczny koniec rozbicia",
@@ -133,10 +801,11 @@
         "text": "Wprowadził Orła Białego jako godło Królestwa Polskiego."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
-    "name": "Wacław II Czeski",
+    "name": "Wacław II",
     "coronationYear": 1300,
     "coronationFull": "sierpień 1300",
     "place": "Gniezno",
@@ -167,7 +836,8 @@
         "text": "Następca Przemysła II. Wyparł z kraju Władysława Łokietka."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Władysław I Łokietek",
@@ -177,7 +847,7 @@
     "dynasty": "Piastowie",
     "eraLabel": "Zjednoczone Królestwo",
     "mapVariant": "piast-reunited",
-    "predecessor": "Wacław II Czeski",
+    "predecessor": "Wacław II",
     "successor": "Kazimierz III Wielki",
     "keyAssociation": "Zjednoczenie Królestwa po rozbiciu dzielnicowym — koronacja w Krakowie 1320",
     "keyEvents": [
@@ -201,7 +871,8 @@
         "text": "Ojciec Kazimierza Wielkiego. Zjednoczył Polskę po rozbiciu dzielnicowym."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Kazimierz III Wielki",
@@ -235,7 +906,8 @@
         "text": "Syn Łokietka. «Zastał Polskę drewnianą, a zostawił murowaną» — panował 37 lat."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Ludwik Węgierski",
@@ -269,7 +941,8 @@
         "text": "Król Węgier i Polski. Rządził Polską przez regentów, sam przebywając na Węgrzech."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Jadwiga Andegaweńska",
@@ -303,7 +976,8 @@
         "text": "Córka Ludwika Węgierskiego. Następczyni ojca na polskim tronie."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Władysław II Jagiełło",
@@ -337,7 +1011,8 @@
         "text": "Koronowany po Jadwidze Andegaweńskiej. Założyciel dynastii Jagiellonów."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Władysław III Warneńczyk",
@@ -371,7 +1046,8 @@
         "text": "Syn Władysława Jagiełły. Brat Kazimierza IV Jagiellończyka."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Kazimierz IV Jagiellończyk",
@@ -405,7 +1081,8 @@
         "text": "Panował 45 lat. Wygrał wojnę trzynastoletnią z Krzyżakami."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Jan I Olbracht",
@@ -439,7 +1116,8 @@
         "text": "Koronowany w 1492 — tym samym roku, gdy Kolumb dotarł do Ameryki."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Aleksander Jagiellończyk",
@@ -473,11 +1151,12 @@
         "text": "Ostatni Wielki Książę Litewski znający język litewski."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Zygmunt I Stary",
-    "coronationYear": 1507,
+    "coronationYear": 1506,
     "coronationFull": "24 stycznia 1507",
     "place": "Kraków",
     "dynasty": "Jagiellonowie",
@@ -507,11 +1186,12 @@
         "text": "Ojciec Zygmunta Augusta. Brat Aleksandra Jagiellończyka i Jana Olbrachta."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Zygmunt II August",
-    "coronationYear": 1530,
+    "coronationYear": 1529,
     "coronationFull": "20 lutego 1530",
     "place": "Kraków",
     "dynasty": "Jagiellonowie",
@@ -541,7 +1221,8 @@
         "text": "Syn Zygmunta Starego i Bony Sforzy. Koronowany za życia ojca."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Henryk Walezy",
@@ -552,7 +1233,7 @@
     "eraLabel": "Rzeczpospolita Obojga Narodów",
     "mapVariant": "commonwealth",
     "predecessor": "Zygmunt II August",
-    "successor": "Anna Jagiellonka",
+    "successor": "Stefan Batory",
     "keyAssociation": "Artykuły henrykowskie — fundament ustroju Rzeczypospolitej szlacheckiej",
     "keyEvents": [
       "Pierwszy król elekcyjny — wybrany przez szlachtę (1573)",
@@ -575,42 +1256,8 @@
         "text": "Pierwszy władca wybrany w wolnej elekcji. Następca Zygmunta Augusta."
       }
     ],
-    "disambiguationCue": null
-  },
-  {
-    "name": "Anna Jagiellonka",
-    "coronationYear": 1576,
-    "coronationFull": "1 maja 1576",
-    "place": "Kraków",
-    "dynasty": "Jagiellonowie",
-    "eraLabel": "Rzeczpospolita Obojga Narodów",
-    "mapVariant": "commonwealth",
-    "predecessor": "Henryk Walezy",
-    "successor": "Zygmunt III Waza",
-    "coRuler": "Stefan Batory",
-    "keyAssociation": "Ostatnia z Jagiellonów — koronowana wspólnie ze Stefanem Batorym",
-    "keyEvents": [
-      "Koronacja wspólna ze Stefanem Batorym (1576)",
-      "Siostra ostatniego Jagiellona — Zygmunta Augusta",
-      "Fundacja kościoła św. Piotra i Pawła w Krakowie"
-    ],
-    "funFact": "Miała 53 lata w chwili koronacji — najstarsza osoba koronowana na władcę Polski. Szlachta wybrała ją, by zachować ciągłość dynastii Jagiellonów.",
-    "mnemonic": "Anna 1576 = ostatnia Jagiellonka, koronowana z Batorym",
-    "contextHints": [
-      {
-        "type": "relation",
-        "text": "Siostra Zygmunta Augusta. Ostatnia z rodu Jagiellonów na polskim tronie."
-      },
-      {
-        "type": "description",
-        "text": "Królowa z rodu Jagiellonów. Koronowana wspólnie z mężem Stefanem Batorym."
-      },
-      {
-        "type": "sequence",
-        "text": "Następczyni zbiegłego Henryka Walezego. Koronowana tego samego dnia co Stefan Batory."
-      }
-    ],
-    "disambiguationCue": "Królowa z rodu Jagiellonów"
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Stefan Batory",
@@ -622,7 +1269,6 @@
     "mapVariant": "commonwealth",
     "predecessor": "Henryk Walezy",
     "successor": "Zygmunt III Waza",
-    "coRuler": "Anna Jagiellonka",
     "keyAssociation": "Zwycięskie wojny z Moskwą — odzyskanie Inflant i Połocka",
     "keyEvents": [
       "Trzy kampanie inflanckie (1579–1581) — pokonanie Iwana Groźnego",
@@ -645,7 +1291,8 @@
         "text": "Mąż Anny Jagiellonki. Koronowany tego samego dnia co ona."
       }
     ],
-    "disambiguationCue": "Słynny wódz, zwycięzca w wojnach z Moskwą"
+    "disambiguationCue": "Słynny wódz, zwycięzca w wojnach z Moskwą",
+    "rulerType": "król"
   },
   {
     "name": "Zygmunt III Waza",
@@ -679,18 +1326,19 @@
         "text": "Był jednocześnie królem Szwecji (1592–1599). Stracił tron szwedzki przez katolicyzm."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Władysław IV Waza",
-    "coronationYear": 1633,
+    "coronationYear": 1632,
     "coronationFull": "6 lutego 1633",
     "place": "Kraków",
     "dynasty": "Wazowie",
     "eraLabel": "Rzeczpospolita Obojga Narodów",
     "mapVariant": "commonwealth",
     "predecessor": "Zygmunt III Waza",
-    "successor": "Jan II Kazimierz Waza",
+    "successor": "Jan II Kazimierz",
     "keyAssociation": "Mecenas sztuki i opery — najbardziej wykształcony z Wazów",
     "keyEvents": [
       "Zwycięstwo nad Moskwą pod Smoleńskiem (1634)",
@@ -713,11 +1361,12 @@
         "text": "Syn Zygmunta III Wazy. Starszy brat Jana Kazimierza."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
-    "name": "Jan II Kazimierz Waza",
-    "coronationYear": 1649,
+    "name": "Jan II Kazimierz",
+    "coronationYear": 1648,
     "coronationFull": "17 stycznia 1649",
     "place": "Kraków",
     "dynasty": "Wazowie",
@@ -747,7 +1396,8 @@
         "text": "Ostatni Waza na polskim tronie. Młodszy brat Władysława IV."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Michał Korybut Wiśniowiecki",
@@ -757,7 +1407,7 @@
     "dynasty": "— (Wiśniowieccy)",
     "eraLabel": "Rzeczpospolita po stratach Potopu",
     "mapVariant": "commonwealth-post-deluge",
-    "predecessor": "Jan II Kazimierz Waza",
+    "predecessor": "Jan II Kazimierz",
     "successor": "Jan III Sobieski",
     "keyAssociation": "Traktat w Buczaczu (1672) — upokarzający pokój z Turcją",
     "keyEvents": [
@@ -781,11 +1431,12 @@
         "text": "Następca abdykującego Jana Kazimierza. Poprzednik Jana III Sobieskiego."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Jan III Sobieski",
-    "coronationYear": 1676,
+    "coronationYear": 1674,
     "coronationFull": "2 lutego 1676",
     "place": "Kraków",
     "dynasty": "— (Sobiescy)",
@@ -815,7 +1466,8 @@
         "text": "Władca elekcyjny, nie dynastyczny. Poprowadził największą szarżę kawalerii w historii."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "August II Mocny",
@@ -826,7 +1478,7 @@
     "eraLabel": "Późna Rzeczpospolita",
     "mapVariant": "commonwealth-late",
     "predecessor": "Jan III Sobieski",
-    "successor": "Stanisław I Leszczyński",
+    "successor": "Stanisław Leszczyński",
     "keyAssociation": "Wojna północna (1700–1721) — utrata suwerenności na rzecz Rosji i Saksonii",
     "keyEvents": [
       "Przejście na katolicyzm, by móc kandydować na króla (1697)",
@@ -849,11 +1501,12 @@
         "text": "Pierwszy Wettyn na polskim tronie. Ojciec Augusta III Sasa."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
-    "name": "Stanisław I Leszczyński",
-    "coronationYear": 1705,
+    "name": "Stanisław Leszczyński",
+    "coronationYear": 1704,
     "coronationFull": "4 października 1705",
     "place": "Warszawa",
     "dynasty": "— (Leszczyńscy)",
@@ -883,7 +1536,8 @@
         "text": "Rywał Augusta II Mocnego. Teść króla Francji Ludwika XV."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "August III Sas",
@@ -893,7 +1547,7 @@
     "dynasty": "Wettynowie",
     "eraLabel": "Późna Rzeczpospolita",
     "mapVariant": "commonwealth-late",
-    "predecessor": "Stanisław I Leszczyński",
+    "predecessor": "Stanisław Leszczyński",
     "successor": "Stanisław August Poniatowski",
     "keyAssociation": "Paraliż sejmu przez liberum veto — era «złotej wolności» i bezrządu",
     "keyEvents": [
@@ -917,7 +1571,8 @@
         "text": "Syn Augusta II Mocnego. Drugi i ostatni Wettyn na polskim tronie."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   },
   {
     "name": "Stanisław August Poniatowski",
@@ -951,6 +1606,7 @@
         "text": "Ostatni władca w quizie. Po nim Polska zniknęła z mapy na 123 lata."
       }
     ],
-    "disambiguationCue": null
+    "disambiguationCue": null,
+    "rulerType": "król"
   }
 ]
