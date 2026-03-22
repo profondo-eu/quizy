@@ -74,3 +74,35 @@ Skrypt `/usr/local/bin/update-quizy.sh` w kontenerze wykonuje `git pull --ff-onl
 - **LXC 220** (`webserver`) — ten serwer quizów
 - **LXC 210** (`vault`) — Vault, `10.200.100.20`
 - **VM 200** (`igor`) — OpenClaw, `10.200.100.10`
+
+### Sieć PVE — reguły iptables (FORWARD)
+
+Założenie architektoniczne: jeśli PVE jest osiągalny z danej sieci, to kontenery na nim też mają być osiągalne. Routing klientów nie jest modyfikowany — PVE (`192.168.200.1`) jest bramą domyślną dla sieci WiFi AP (dnsmasq na `wlp5s0`).
+
+**Interfejsy na PVE:**
+
+| Interfejs | Sieć | Rola |
+|-----------|------|------|
+| `wlo1` | `192.168.1.0/24` | LAN (internet via `192.168.1.1`) |
+| `wlp5s0` | `192.168.200.0/24` | WiFi AP (klienci, DHCP) |
+| `vmbr1` | `10.200.0.0/16` | Bridge kontenerów/VM |
+
+**Reguły forwardowania (`iptables -L FORWARD`):**
+
+```
+# WiFi klienci ↔ internet
+ACCEPT  in:wlp5s0  out:wlo1
+ACCEPT  in:wlo1    out:wlp5s0  state RELATED,ESTABLISHED
+
+# Kontenery ↔ internet
+ACCEPT  in:vmbr1   out:wlo1
+ACCEPT  in:wlo1    out:vmbr1   state RELATED,ESTABLISHED
+
+# WiFi klienci → kontenery
+ACCEPT  in:wlp5s0  out:vmbr1   dst 10.200.0.0/16
+ACCEPT  in:vmbr1   out:wlp5s0  src 10.200.0.0/16  state RELATED,ESTABLISHED
+```
+
+**NAT (POSTROUTING):** MASQUERADE na `wlo1` dla ruchu z `192.168.200.0/24` i `10.200.0.0/16` do internetu. Ruch między `wlp5s0` a `vmbr1` nie jest NATowany.
+
+Reguły zapisane przez `netfilter-persistent save` (`iptables-persistent`). Uwaga: restart usługi `pve-firewall` może przebudować łańcuch FORWARD — wtedy reguły trzeba ponownie dodać.
