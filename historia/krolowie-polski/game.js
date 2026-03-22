@@ -106,18 +106,16 @@ function getDifficultyLevel() {
 function selectDistractors(correctKing, count) {
     const difficulty = getDifficultyLevel();
 
-    const forced = [];
-    if (correctKing.disambiguationCue) {
-        const rival = state.allKingsRef.find(k =>
-            k.name !== correctKing.name && k.coronationYear === correctKing.coronationYear
-        );
-        if (rival) forced.push(rival);
-    }
-    const remaining = count - forced.length;
+    const sameYearNames = new Set(
+        state.allKingsRef
+            .filter(k => k.name !== correctKing.name && k.coronationYear === correctKing.coronationYear)
+            .map(k => k.name)
+    );
 
-    const exclude = new Set([correctKing.name, ...forced.map(f => f.name)]);
+    const exclude = new Set([correctKing.name, ...sameYearNames]);
     const subset = state.kings.filter(k => !exclude.has(k.name));
     const allFallback = state.allKingsRef.filter(k => !exclude.has(k.name));
+    const remaining = count;
 
     let pool;
     const candidates = subset.length >= remaining ? subset : allFallback;
@@ -135,7 +133,7 @@ function selectDistractors(correctKing, count) {
     if (pool.length < remaining) pool = candidates.length >= remaining ? candidates : allFallback;
 
     const shuffled = shuffle(pool);
-    const result = [...forced, ...shuffled.slice(0, remaining)];
+    const result = shuffled.slice(0, remaining);
     if (result.length < count) {
         console.warn(`selectDistractors: only ${result.length}/${count} distractors available`);
     }
