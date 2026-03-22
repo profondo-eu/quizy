@@ -10,11 +10,11 @@
  * @property {string[]} keyEvents
  * @property {string} funFact
  * @property {string} mnemonic
- * @property {string} predecessor
- * @property {string} successor
+ * @property {string|null} predecessor
+ * @property {string|null} successor
  * @property {string} [coRuler]
  * @property {string} [disambiguationCue]
- * @property {{text: string}[]} contextHints
+ * @property {{text: string, type: string}[]} contextHints
  * @property {string} mapVariant
  */
 
@@ -39,7 +39,14 @@
  * @property {boolean} splitVerified
  * @property {string[]} legend
  * @property {string} [historicalNote]
- * @property {string[]} curationSources
+ * @property {CurationSource[]} curationSources
+ */
+
+/**
+ * @typedef {Object} CurationSource
+ * @property {string} source
+ * @property {string} date
+ * @property {string} [note]
  */
 
 /**
