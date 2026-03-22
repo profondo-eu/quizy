@@ -2,29 +2,61 @@
 
 ## Zakres
 
-Rozszerzenie quizu o 12 władców niekoronowanych (książąt / princepsów) od Mieszka I do Henryka II Pobożnego. Nowe pole `rulerType`, dostosowanie UI z "królowie" na "władcy", nowe warianty map, split grupy Piastów.
+Rozszerzenie quizu z "Królowie Polski" na "Władcy Polski" zgodnie z kanonem nauczyciela (`KANON_WLADCOW_POLSKI.md`). Docelowo 46 władców (27 królów + 19 książąt). Nowe pole `rulerType`, korekty dat i nazw istniejących wpisów, dostosowanie UI, nowe warianty map.
 
 ## Decyzje modelowe
 
-- **Rok objęcia władzy**: jedno pole `coronationYear` (number) — kanon quizowy. Przybliżoność lub kontrowersyjność daty dokumentowana w `coronationFull` (np. "ok. 960") i `contextHints`.
-- **Daty sporne**: dla Krzywoustego przyjmujemy 1102 (współrządy z Hermanem, potem samodzielne od 1107 — opisane w kontekście). Dla Mieszka III Starego liczymy pierwszy pryncypat (1173). Dla Leszka Białego — 1194. Dla Laskonogiego — 1202.
+- **Rok objęcia władzy**: jedno pole `coronationYear` (number) — kanon quizowy. Przybliżoność lub kontrowersyjność daty dokumentowana w `coronationFull` i `contextHints`.
+- **Źródło prawdy**: `KANON_WLADCOW_POLSKI.md` — daty i nazwy z kanonu nadpisują dotychczasowe wartości w `kings_data.json`.
 
-## Nowi władcy (12 princepsów)
+## Nowi władcy (19 książąt)
 
-| # | Imię | quizYear | Notka | Cue |
-|---|------|----------|-------|-----|
-| 1 | Mieszko I | 960 | Pierwszy historyczny władca; chrzest 966 | Chrzest Polski 966, twórca państwa |
-| 2 | Kazimierz I Odnowiciel | 1039 | Odbudowa po kryzysie lat 30. XI w.; przeniesienie ośrodka do Krakowa | Odbudował państwo po upadku lat 30. XI w. |
-| 3 | Władysław I Herman | 1079 | Objął władzę po wygnaniu Śmiałego; ojciec Zbigniewa i Krzywoustego | Ojciec Zbigniewa i Krzywoustego |
-| 4 | Bolesław III Krzywousty | 1102 | Współrządy po Hermanie (samodzielnie od 1107); obrona Głogowa i statut 1138 | Obrona Głogowa i statut 1138 |
-| 5 | Władysław II Wygnaniec | 1138 | Pierwszy princeps po statucie Krzywoustego; wypędzony przez braci | Pierwszy senior po 1138, wygnany przez braci |
-| 6 | Bolesław IV Kędzierzawy | 1146 | Princeps po wygnaniu Władysława II; symbol pierwszego etapu rozbicia | Princeps po wygnaniu Wygnańca |
-| 7 | Mieszko III Stary | 1173 | Wielokrotnie wracał do Krakowa; centralna postać walk o seniorat | Wielokrotnie wracał do Krakowa |
-| 8 | Kazimierz II Sprawiedliwy | 1177 | Najmłodszy syn Krzywoustego, pominięty w statucie, a został princepsem | Nie miał dostać dzielnicy, a został princepsem |
-| 9 | Leszek Biały | 1194 | Ważny książę krakowski; zginął podczas zjazdu w Gąsawie 1227 | Zginął w Gąsawie |
-| 10 | Władysław III Laskonogi | 1202 | Wielkopolski Piast; jeden z ostatnich princepsów przed Brodatym | Princeps z Wielkopolski przed Henrykiem Brodatym |
-| 11 | Henryk I Brodaty | 1232 | Śląski Piast bliski zjednoczenia ziem; mąż św. Jadwigi | Mąż św. Jadwigi, śląski książę bliski zjednoczenia |
-| 12 | Henryk II Pobożny | 1238 | Syn Brodatego; poległ pod Legnicą 1241 walcząc z Mongołami | Legnica 1241, walka z Mongołami |
+| # | Imię | quizYear | Cue |
+|---|------|----------|-----|
+| 1 | Mieszko I | 960 | Chrzest Polski 966, twórca państwa |
+| 2 | Kazimierz I Odnowiciel | 1039 | Odbudował państwo po upadku lat 30. XI w. |
+| 3 | Władysław I Herman | 1079 | Ojciec Zbigniewa i Krzywoustego |
+| 4 | Bolesław III Krzywousty | 1102 | Obrona Głogowa i statut 1138 |
+| 5 | Władysław II Wygnaniec | 1138 | Pierwszy senior po 1138, wygnany przez braci |
+| 6 | Bolesław IV Kędzierzawy | 1146 | Princeps po wygnaniu Wygnańca |
+| 7 | Mieszko III Stary | 1173 | Wielokrotnie wracał do Krakowa |
+| 8 | Kazimierz II Sprawiedliwy | 1177 | Nie miał dostać dzielnicy, a został princepsem |
+| 9 | Leszek Biały | 1194 | Zginął w Gąsawie |
+| 10 | Mieszko Plątonogi | 1198 | Stary Piast z Raciborza |
+| 11 | Władysław III Laskonogi | 1202 | Princeps z Wielkopolski przed Henrykiem Brodatym |
+| 12 | Konrad I Mazowiecki | 1229 | Sprowadził Krzyżaków na ziemie polskie |
+| 13 | Henryk I Brodaty | 1232 | Mąż św. Jadwigi, śląski książę bliski zjednoczenia |
+| 14 | Henryk II Pobożny | 1238 | Legnica 1241, walka z Mongołami |
+| 15 | Bolesław II Rogatka | 1241 | Syn poległego pod Legnicą Henryka Pobożnego |
+| 16 | Bolesław V Wstydliwy | 1243 | Mąż św. Kingi |
+| 17 | Bolesław Pobożny | 1279 | Kaliski przywilej dla Żydów |
+| 18 | Leszek II Czarny | 1288 | Princeps tuż przed Henrykiem Probusem |
+| 19 | Henryk IV Probus | 1289 | Bliski koronacji, zmarł przed zjednoczeniem |
+
+## Korekty istniejących wpisów
+
+### Usunięcie
+
+- **Anna Jagiellonka** — nie należy do kanonu nauczyciela
+
+### Korekty dat (coronationYear)
+
+| Władca | Było | Kanon |
+|--------|------|-------|
+| Zygmunt I Stary | 1507 | 1506 |
+| Zygmunt II August | 1530 | 1529 |
+| Władysław IV Waza | 1633 | 1632 |
+| Jan II Kazimierz | 1649 | 1648 |
+| Jan III Sobieski | 1676 | 1674 |
+| Stanisław Leszczyński | 1705 | 1704 |
+
+### Korekty nazw
+
+| Było | Kanon |
+|------|-------|
+| Wacław II Czeski | Wacław II |
+| Jan II Kazimierz Waza | Jan II Kazimierz |
+| Stanisław I Leszczyński | Stanisław Leszczyński |
 
 ## Zmiany per plik
 
@@ -34,10 +66,11 @@ Rozszerzenie quizu o 12 władców niekoronowanych (książąt / princepsów) od 
 
 ### 2. `kings_data.json` — dane
 
-- Dodać `"rulerType": "król"` do każdego z 28 istniejących wpisów
-- Utworzyć 12 nowych wpisów z `"rulerType": "książę"` i pełnym schematem
-- Zaktualizować `predecessor`/`successor` w istniejących wpisach (Chrobry.predecessor = "Mieszko I" itd.)
-- Dla dat spornych/przybliżonych: `coronationYear` = wartość kanoniczna, `coronationFull` = opis z kontekstem (np. "ok. 960", "1102 (samodzielnie od 1107)")
+- Dodać `"rulerType": "król"` do 28 istniejących wpisów
+- Usunąć wpis Anny Jagiellonki
+- Skorygować daty (6 wpisów) i nazwy (3 wpisy) wg kanonu
+- Utworzyć 19 nowych wpisów z `"rulerType": "książę"` i pełnym schematem
+- Zaktualizować `predecessor`/`successor` w całym łańcuchu
 
 ### 3. `maps_data.json` — nowe warianty
 
@@ -67,3 +100,4 @@ Rozszerzenie quizu o 12 władców niekoronowanych (książąt / princepsów) od 
 
 - "królów" → "władców" w komunikatach
 - Dodać `rulerType` do walidacji w `loadData()`
+- Hardcoded `ALL_KINGS.length` — już dynamiczne, bez zmian
