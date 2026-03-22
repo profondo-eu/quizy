@@ -1,5 +1,37 @@
 [
   {
+    "id": "piast-early",
+    "label": "Państwo Mieszka I",
+    "fromYear": 960,
+    "toYear": 992,
+    "paths": {
+      "crown": "M102.0 180.7L84.2 179.9L82.5 188.2L75.3 179.9L63.3 186.0L59.1 200.0L0.0 200.0L0.0 158.7L9.1 155.9L10.2 146.7L1.9 114.8L64.3 97.5L85.1 83.4L89.4 87.2L90.0 80.5L95.3 84.1L142.4 68.0L144.9 127.4L142.0 142.7L112.6 187.4L102.0 180.7Z"
+    },
+    "splitVerified": false,
+    "legend": [
+      "Państwo Polan"
+    ],
+    "historicalNote": "Przybliżony zasięg państwa Mieszka I — mniejszy niż za Chrobrego. Granice orientacyjne.",
+    "sourceRef": "aourednik/historical-basemaps world_1100 (jako przybliżenie)",
+    "curationSources": []
+  },
+  {
+    "id": "piast-fragmented",
+    "label": "Rozbicie dzielnicowe",
+    "fromYear": 1138,
+    "toYear": 1295,
+    "paths": {
+      "crown": "M41.9 165.2L36.1 169.1L33.3 161.0L13.6 150.6L16.3 136.8L27.4 120.4L24.6 110.7L28.7 107.1L33.8 86.9L30.9 82.3L37.2 78.6L39.3 88.4L37.6 74.0L52.5 64.2L51.2 57.9L59.9 56.9L66.6 61.6L60.7 59.9L65.6 68.6L59.9 91.1L64.3 97.5L85.1 83.4L89.4 87.2L90.0 80.5L95.3 84.1L104.5 79.5L103.0 117.9L108.5 124.5L107.6 135.9L103.9 137.5L108.5 155.5L108.8 181.4L84.2 179.9L82.5 188.2L75.3 179.9L66.0 185.3L62.6 176.5L41.9 165.2Z"
+    },
+    "splitVerified": false,
+    "legend": [
+      "Ziemie polskie (podzielone)"
+    ],
+    "historicalNote": "Okres rozbicia dzielnicowego — ziemie polskie podzielone między książąt Piastowskich. Mapa schematyczna, pokazuje przybliżony zasięg, nie poszczególne dzielnice.",
+    "sourceRef": "aourednik/historical-basemaps world_1279 (schematyczny konturu)",
+    "curationSources": []
+  },
+  {
     "id": "piast-peak",
     "label": "Państwo Piastów u szczytu",
     "fromYear": 1000,

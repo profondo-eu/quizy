@@ -77,9 +77,9 @@ function updateStartBtn() {
     if (kings.length === 0) {
         hint.innerHTML = 'Zaznacz co najmniej jedną grupę.';
     } else if (kings.length < minKings) {
-        hint.innerHTML = `Potrzebujesz min. ${minKings} królów. Zaznacz więcej grup.`;
+        hint.innerHTML = `Potrzebujesz min. ${minKings} władców. Zaznacz więcej grup.`;
     } else {
-        hint.innerHTML = `<strong>${kings.length}</strong> królów w grze. Powodzenia!`;
+        hint.innerHTML = `<strong>${kings.length}</strong> władców w grze. Powodzenia!`;
     }
 }
 
@@ -97,9 +97,9 @@ async function loadData() {
     if (!Array.isArray(ALL_KINGS) || ALL_KINGS.length === 0) {
         throw new Error('kings_data.json: pusty lub nieprawidłowy format');
     }
-    const missing = ALL_KINGS.find(k => !k.name || !k.coronationYear);
+    const missing = ALL_KINGS.find(k => !k.name || !k.coronationYear || !k.rulerType);
     if (missing) {
-        throw new Error(`Brak name/coronationYear w danych króla: ${JSON.stringify(missing).slice(0, 80)}`);
+        throw new Error(`Brak name/coronationYear/rulerType w danych władcy: ${JSON.stringify(missing).slice(0, 80)}`);
     }
 
     const mapsArr = await mapsRes.json();

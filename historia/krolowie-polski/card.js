@@ -58,14 +58,11 @@ function showKnowledgeCard(king, wasCorrect) {
     const resultIcon = wasCorrect ? '✓' : '✗';
     const resultText = wasCorrect ? 'Dobrze!' : 'Źle';
 
-    const predecessorLabel = king.coRuler ? 'Współwładca' : 'Poprzednik';
-    const predecessorValue = king.coRuler
-        ? `${king.coRuler} (koronowani wspólnie ${king.coronationFull})`
-        : (king.predecessor || '—');
+    const rulerBadge = king.rulerType === 'książę' ? 'książę' : 'król';
 
     card.innerHTML = `
         <div class="card-result ${resultClass}">${resultIcon} ${resultText}</div>
-        <div class="card-king-name">${king.name} — <span class="card-year">${king.coronationYear}</span></div>
+        <div class="card-king-name">${king.name} <span class="ruler-type-badge">${rulerBadge}</span> — <span class="card-year">${king.coronationYear}</span></div>
 
         <div class="card-fields">
             <div class="card-field">
@@ -89,13 +86,13 @@ function showKnowledgeCard(king, wasCorrect) {
                     <span class="card-field-value">${king.coronationFull}, ${king.place}</span>
                 </div>
                 <div class="card-field">
-                    <span class="card-field-label">${predecessorLabel}</span>
-                    <span class="card-field-value">${predecessorValue}</span>
+                    <span class="card-field-label">Poprzednik</span>
+                    <span class="card-field-value">${king.predecessor || '—'}</span>
                 </div>
-                ${!king.coRuler ? `<div class="card-field">
+                <div class="card-field">
                     <span class="card-field-label">Następca</span>
                     <span class="card-field-value">${king.successor || '—'}</span>
-                </div>` : ''}
+                </div>
             </div>
             ${renderMapSvg(king.mapVariant)}
             <ul class="card-events">

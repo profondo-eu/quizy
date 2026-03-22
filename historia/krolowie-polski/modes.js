@@ -3,7 +3,7 @@
 /* ── Mode 2: Year → King (4 choices) ── */
 
 function renderMode2(king) {
-    document.getElementById('m2-year').textContent = king.coronationYear + ' rok';
+    document.getElementById('m2-year').textContent = king.coronationYear + ' r.';
     document.getElementById('m2-cue').textContent = king.disambiguationCue || '';
     renderStreakDots('m2-streak', king.streak);
 
