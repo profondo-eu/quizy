@@ -79,6 +79,20 @@ Skrypt `/usr/local/bin/update-quizy.sh` w kontenerze wykonuje `git pull --ff-onl
 
 Założenie architektoniczne: jeśli PVE jest osiągalny z danej sieci, to kontenery na nim też mają być osiągalne. Routing klientów nie jest modyfikowany — PVE (`192.168.200.1`) jest bramą domyślną dla sieci WiFi AP (dnsmasq na `wlp5s0`).
 
+**Warunek wstępny — IP forwarding:**
+
+```bash
+# Sprawdzenie:
+sysctl net.ipv4.ip_forward
+# Powinno zwrócić: net.ipv4.ip_forward = 1
+
+# Włączenie (trwałe):
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.d/99-forwarding.conf
+sysctl -p /etc/sysctl.d/99-forwarding.conf
+```
+
+Bez `net.ipv4.ip_forward=1` reguły FORWARD i MASQUERADE nie zadziałają. PVE domyślnie włącza forwarding, ale na świeżej instalacji warto to zweryfikować.
+
 **Interfejsy na PVE:**
 
 | Interfejs | Sieć | Rola |
