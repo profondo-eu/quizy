@@ -94,6 +94,14 @@ async function loadData() {
     if (!mapsRes.ok) throw new Error(`maps_data.json: ${mapsRes.status}`);
 
     ALL_KINGS = await kingsRes.json();
+    if (!Array.isArray(ALL_KINGS) || ALL_KINGS.length === 0) {
+        throw new Error('kings_data.json: pusty lub nieprawidłowy format');
+    }
+    const missing = ALL_KINGS.find(k => !k.name || !k.coronationYear);
+    if (missing) {
+        throw new Error(`Brak name/coronationYear w danych króla: ${JSON.stringify(missing).slice(0, 80)}`);
+    }
+
     const mapsArr = await mapsRes.json();
     MAPS_DATA = Object.fromEntries(mapsArr.map(m => [m.id, m]));
     buildStartScreen();

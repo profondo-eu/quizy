@@ -8,7 +8,7 @@ function renderMode2(king) {
     renderStreakDots('m2-streak', king.streak);
 
     const distractors = selectDistractors(king, 3);
-    const options = [king, ...distractors].sort(() => Math.random() - 0.5);
+    const options = shuffle([king, ...distractors]);
 
     const grid = document.getElementById('m2-options');
     grid.innerHTML = '';
@@ -75,7 +75,7 @@ function renderMode4(king) {
     renderStreakDots('m4-streak', king.streak);
 
     const distractors = selectDistractors(king, 3);
-    const options = [king, ...distractors].sort(() => Math.random() - 0.5);
+    const options = shuffle([king, ...distractors]);
 
     const grid = document.getElementById('m4-options');
     grid.innerHTML = '';
@@ -108,7 +108,7 @@ function renderTimeline() {
         Math.max(TIMELINE_SIZE_MIN, Math.min(TIMELINE_SIZE_MAX, available.length)),
         available.length
     );
-    const shuffled = [...available].sort(() => Math.random() - 0.5).slice(0, size);
+    const shuffled = shuffle(available).slice(0, size);
     state.timelineKings = shuffled;
     state.timelinePlaced = [];
 
@@ -220,7 +220,7 @@ function checkTimeline() {
     document.getElementById('btn-timeline-undo').disabled = true;
     document.getElementById('btn-timeline-check').disabled = true;
 
-    const delay = allCorrect ? DELAY_CORRECT : 5000 + wrongCount * 5000;
+    const delay = allCorrect ? DELAY_CORRECT : Math.min(DELAY_TIMELINE_BASE + wrongCount * DELAY_TIMELINE_PER_WRONG, DELAY_TIMELINE_MAX);
     setTimeout(() => {
         state.locked = false;
         nextQuestion();

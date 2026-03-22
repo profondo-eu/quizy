@@ -98,8 +98,8 @@ function selectNextKing() {
 function getDifficultyLevel() {
     const mastered = state.kings.filter(k => k.mastered).length;
     const pct = mastered / state.kings.length;
-    if (pct < 0.3) return 'easy';
-    if (pct < 0.7) return 'medium';
+    if (pct < DIFFICULTY_THRESHOLD_MEDIUM) return 'easy';
+    if (pct < DIFFICULTY_THRESHOLD_HARD) return 'medium';
     return 'hard';
 }
 
@@ -126,16 +126,20 @@ function selectDistractors(correctKing, count) {
         pool = candidates.filter(k => k.dynasty !== correctKing.dynasty);
     } else if (difficulty === 'medium') {
         pool = candidates.filter(k =>
-            k.dynasty === correctKing.dynasty || Math.abs(k.coronationYear - correctKing.coronationYear) <= 100
+            k.dynasty === correctKing.dynasty || Math.abs(k.coronationYear - correctKing.coronationYear) <= DISTRACTOR_YEAR_RANGE_MEDIUM
         );
     } else {
-        pool = candidates.filter(k => Math.abs(k.coronationYear - correctKing.coronationYear) <= 80);
+        pool = candidates.filter(k => Math.abs(k.coronationYear - correctKing.coronationYear) <= DISTRACTOR_YEAR_RANGE_HARD);
     }
 
     if (pool.length < remaining) pool = candidates.length >= remaining ? candidates : allFallback;
 
-    const shuffled = [...pool].sort(() => Math.random() - 0.5);
-    return [...forced, ...shuffled.slice(0, remaining)];
+    const shuffled = shuffle(pool);
+    const result = [...forced, ...shuffled.slice(0, remaining)];
+    if (result.length < count) {
+        console.warn(`selectDistractors: only ${result.length}/${count} distractors available`);
+    }
+    return result;
 }
 
 /* ── Question routing ── */
@@ -229,7 +233,7 @@ function endGame() {
 
     if (state.remaining === 0) {
         document.getElementById('end-title').textContent = 'Gratulacje!';
-        document.getElementById('end-subtitle').textContent = `Opanowałeś ${state.kings.length === 28 ? 'wszystkich 28' : state.kings.length} królów!`;
+        document.getElementById('end-subtitle').textContent = `Opanowałeś ${state.kings.length === ALL_KINGS.length ? 'wszystkich ' + ALL_KINGS.length : state.kings.length} królów!`;
     } else {
         document.getElementById('end-title').textContent = 'Koniec gry';
         document.getElementById('end-subtitle').textContent = `Pozostało ${state.remaining} królów do opanowania.`;

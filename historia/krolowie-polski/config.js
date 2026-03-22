@@ -6,6 +6,14 @@ const DELAY_WRONG = 2000;
 const DELAY_MASTERED = 1200;
 const TIMELINE_SIZE_MIN = 3;
 const TIMELINE_SIZE_MAX = 5;
+const DELAY_TIMELINE_BASE = 5000;
+const DELAY_TIMELINE_PER_WRONG = 5000;
+const DELAY_TIMELINE_MAX = 20000;
+
+const DIFFICULTY_THRESHOLD_MEDIUM = 0.3;
+const DIFFICULTY_THRESHOLD_HARD = 0.7;
+const DISTRACTOR_YEAR_RANGE_MEDIUM = 100;
+const DISTRACTOR_YEAR_RANGE_HARD = 80;
 
 const DYNASTY_GROUPS = [
     { id: 'piastowie', label: 'Piastowie i Przemyślidzi', match: k => ['Piastowie', 'Przemyślidzi'].includes(k.dynasty) },
@@ -30,10 +38,19 @@ const MAP_COLORS = {
 };
 
 /** @type {KingData[]} */
-var ALL_KINGS = [];
+let ALL_KINGS = [];
 
 /** @type {Object<string, MapVariant>} */
-var MAPS_DATA = {};
+let MAPS_DATA = {};
 
 /** @type {GameState|null} */
-var state = null;
+let state = null;
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
