@@ -123,14 +123,14 @@ Rozszerzenie quizu z "Królowie Polski" na "Władcy Polski" zgodnie z kanonem na
 
 ### 11. Władysław III Laskonogi (1202)
 
-- **keyAssociation**: Wielkopolski princeps, walki o seniorat w schyłkowym okresie rozbicia
-- **cue**: Wielkopolski książę, ostatni princeps przed zjednoczeniem
-- **funFact**: Jego przydomek „Laskonogi" odnosi się do szczupłych nóg. Był jednym z ostatnich książąt, którzy próbowali utrzymać zasadę pryncypatu, zanim idea zjednoczenia zaczęła dominować.
-- **mnemonic**: Laskonogi = wielkopolski, szczupłe nogi, schyłek pryncypatu
+- **keyAssociation**: Wielkopolski princeps o charakterystycznym przydomku
+- **cue**: Wielkopolski książę o „szczupłych nogach"
+- **funFact**: Jego przydomek „Laskonogi" odnosi się do szczupłych nóg — jeden z najbardziej obrazowych przydomków wśród Piastów. Rządził Wielkopolską i przez pewien czas sprawował pryncypat krakowski.
+- **mnemonic**: Laskonogi = szczupłe nogi, wielkopolski Piast, princeps z Poznania
 - **contextHints**:
-  - (event) Objął pryncypat w 1202 r. Był jednym z ostatnich ważnych princepsów przed próbami zjednoczenia.
-  - (description) Wielkopolski Piast. Jego przydomek „Laskonogi" odnosi się do szczupłej budowy ciała.
-  - (sequence) Rządził w okresie schyłkowym pryncypatu, przed Henrykiem Brodatym.
+  - (event) Objął pryncypat krakowski w 1202 r. Rządził głównie z Wielkopolski, rywalizując z innymi Piastami o wpływy.
+  - (description) Wielkopolski Piast. Jego przydomek „Laskonogi" odnosi się do szczupłej budowy ciała — jeden z najbardziej obrazowych w dynastii.
+  - (relation) Syn Mieszka III Starego. Princeps krakowski i książę wielkopolski.
 
 ### 12. Konrad I Mazowiecki (1229)
 
