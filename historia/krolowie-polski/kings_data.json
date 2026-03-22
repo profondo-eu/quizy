@@ -702,7 +702,7 @@
   {
     "name": "Leszek II Czarny",
     "coronationYear": 1288,
-    "coronationFull": "1279 (Kraków od 1279, princeps od 1288)",
+    "coronationFull": "1288 (princeps; w Krakowie od 1279)",
     "place": "Kraków",
     "dynasty": "Piastowie",
     "eraLabel": "Rozbicie dzielnicowe",
@@ -1171,7 +1171,7 @@
       "Hołd pruski (1525) — Albrecht Hohenzollern złożył hołd lenny"
     ],
     "funFact": "Przydomek «Stary» otrzymał dlatego, że przez 18 lat panował równocześnie z koronowanym synem Zygmuntem Augustem — jedyny taki przypadek w historii Polski.",
-    "mnemonic": "Zygmunt Stary 1507 = hołd pruski 1525, Bona Sforza, renesans",
+    "mnemonic": "Zygmunt Stary 1506 = hołd pruski 1525, Bona Sforza, renesans",
     "contextHints": [
       {
         "type": "event",
@@ -1206,7 +1206,7 @@
       "Małżeństwo z Barbarą Radziwiłłówną — wbrew woli szlachty"
     ],
     "funFact": "Koronowany za życia ojca, mając zaledwie 10 lat. Był ostatnim męskim Jagiellonem — po jego bezpotomnej śmierci zaczęła się era wolnych elekcji.",
-    "mnemonic": "Zygmunt August 1530 = unia lubelska 1569, ostatni Jagiellon",
+    "mnemonic": "Zygmunt August 1529 = unia lubelska 1569, ostatni Jagiellon",
     "contextHints": [
       {
         "type": "event",
@@ -1346,7 +1346,7 @@
       "Sprowadzenie opery włoskiej do Polski"
     ],
     "funFact": "Korespondował z Galileuszem i był zapalonym kolekcjonerem sztuki. Polował z prototypem przyczepy kempingowej — maleńkim domkiem na kółkach ciągniętym przez konie.",
-    "mnemonic": "Władysław IV 1633 = kolekcjoner i mecenas, korespondent Galileusza",
+    "mnemonic": "Władysław IV 1632 = kolekcjoner i mecenas, korespondent Galileusza",
     "contextHints": [
       {
         "type": "description",
@@ -1381,7 +1381,7 @@
       "Abdykacja (1668) — jedyny polski król, który zrzekł się tronu"
     ],
     "funFact": "Zanim został królem, był jezuitą i kardynałem. Jako jedyny polski król dobrowolnie abdykował — wyjechał do Francji, gdzie zmarł.",
-    "mnemonic": "Jan Kazimierz 1649 = potop szwedzki, abdykacja",
+    "mnemonic": "Jan Kazimierz 1648 = potop szwedzki, abdykacja",
     "contextHints": [
       {
         "type": "event",
@@ -1451,7 +1451,7 @@
       "Bitwa pod Parkanami (1683) — drugie wielkie zwycięstwo nad Turkami"
     ],
     "funFact": "Napisał do żony Marysieńki słynny list po odsieczy wiedeńskiej: «Bóg i Pan nasz na wieki błogosławiony dał zwycięstwo i sławę narodowi naszemu, o jakiej wieki przeszłe nigdy nie słyszały».",
-    "mnemonic": "Sobieski 1676 = Wiedeń 1683, pogromca Turków",
+    "mnemonic": "Sobieski 1674 = Wiedeń 1683, pogromca Turków",
     "contextHints": [
       {
         "type": "event",
@@ -1521,7 +1521,7 @@
       "Druga elekcja (1733) — ponownie usunięty przez wojska rosyjskie i saskie"
     ],
     "funFact": "Po utracie tronu został księciem Lotaryngii we Francji — jego córka Maria wyszła za króla Francji Ludwika XV. Był więc teściem króla Francji.",
-    "mnemonic": "Leszczyński 1705 = dwukrotnie wybrany, dwukrotnie usunięty",
+    "mnemonic": "Leszczyński 1704 = dwukrotnie wybrany, dwukrotnie usunięty",
     "contextHints": [
       {
         "type": "description",
