@@ -44,9 +44,10 @@
 
 /**
  * @typedef {Object} CurationSource
- * @property {string} source
- * @property {string} date
- * @property {string} [note]
+ * @property {"primary"|"crosscheck"} role
+ * @property {string} name
+ * @property {string} url
+ * @property {boolean} verified
  */
 
 /**
