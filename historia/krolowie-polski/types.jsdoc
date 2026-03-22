@@ -1,0 +1,62 @@
+/**
+ * @typedef {Object} KingData
+ * @property {string} name
+ * @property {number} coronationYear
+ * @property {string} coronationFull
+ * @property {string} dynasty
+ * @property {string} eraLabel
+ * @property {string} place
+ * @property {string} keyAssociation
+ * @property {string[]} keyEvents
+ * @property {string} funFact
+ * @property {string} mnemonic
+ * @property {string} predecessor
+ * @property {string} successor
+ * @property {string} [coRuler]
+ * @property {string} [disambiguationCue]
+ * @property {{text: string}[]} contextHints
+ * @property {string} mapVariant
+ */
+
+/**
+ * @typedef {KingData & KingRuntime} KingState
+ * @typedef {Object} KingRuntime
+ * @property {number} idx
+ * @property {number} streak
+ * @property {boolean} mastered
+ * @property {number} errorCount
+ * @property {number} correctCount
+ * @property {number} lastAsked
+ */
+
+/**
+ * @typedef {Object} MapVariant
+ * @property {string} id
+ * @property {string} label
+ * @property {number} fromYear
+ * @property {number} toYear
+ * @property {{crown: string, lithuania?: string}} paths
+ * @property {boolean} splitVerified
+ * @property {string[]} legend
+ * @property {string} [historicalNote]
+ * @property {string[]} curationSources
+ */
+
+/**
+ * @typedef {Object} GameState
+ * @property {KingState[]} kings
+ * @property {KingData[]} allKingsRef
+ * @property {number|string} mode
+ * @property {number|null} currentSubMode
+ * @property {KingState|null} current
+ * @property {number} questionIndex
+ * @property {number} correct
+ * @property {number} wrong
+ * @property {number} remaining
+ * @property {number} elapsed
+ * @property {number} timerStart
+ * @property {number|null} timerInterval
+ * @property {boolean} locked
+ * @property {KingState[]} timelineKings
+ * @property {KingState[]} timelinePlaced
+ */
